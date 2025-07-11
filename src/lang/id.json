@@ -436,6 +436,20 @@
       "contact_dialog_description": "Kami siap bantu cari solusi dan harga yang paling pas untuk kebutuhan bisnismu.",
       "contact_dialog_title_right": "Dukungan Produk dan Akun",
       "contact_dialog_description_right": "Pusat bantuan kami penuh dengan info bermanfaat dan selalu siap bantu. Nggak nemu yang kamu cari? Tenang aja, langsung hubungi, kami siap bantu!"
+    },
+    "community_page": {
+      "onboarding": {
+        "next_button": "Selanjutnya",
+        "lets_go_button": "Ayo Mulai!",
+        "welcome_title": "Selamat datang di Profesea Community",
+        "welcome_content": "Anda belum bergabung dengan grup mana pun — tetapi itu akan segera berubah! Bergabunglah dengan grup untuk tetap terupdate, berbagi wawasan, dan terhubung dengan sesama profesional maritim.",
+        "join_groups_title": "Eksplor Minat Anda",
+        "join_groups_content": "Scroll melalui grup dan topik yang direkomendasikan. Klik “Join Group” untuk menjadi anggota dan langsung terlibat dalam diskusi.",
+        "create_group_title": "Buat Grup Anda Sendiri",
+        "create_group_content": "Mulailah grup untuk tim Anda, kelompok pelatihan, atau minat tertentu. Cukup klik “+ Create new group” dan tentukan topik serta aturan Anda sendiri.",
+        "access_joined_group_title": "Akses Semua Grup Anda Dengan Mudah",
+        "access_joined_group_content": "Semua yang Anda ikuti atau kelola muncul di sini. Gunakan sidebar ini untuk beralih antar grup dengan cepat dan tetap terorganisir."
+      }
     }
   }
 }
