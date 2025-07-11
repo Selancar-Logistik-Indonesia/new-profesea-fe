@@ -12,6 +12,7 @@ import BlankLayout from 'src/@core/layouts/BlankLayout'
 
 // ** Demo Imports
 import Image from 'next/image'
+import { useTranslation } from 'react-i18next'
 
 // ** Styled Components
 const BoxWrapper = styled(Box)<BoxProps>(({ theme }) => ({
@@ -21,6 +22,7 @@ const BoxWrapper = styled(Box)<BoxProps>(({ theme }) => ({
 }))
 
 const Error = ({ error }: { statusCode: number; error?: any }) => {
+  const { t } = useTranslation()
   if (error) {
     console.error('An error occurred:', error)
   }
@@ -33,13 +35,13 @@ const Error = ({ error }: { statusCode: number; error?: any }) => {
         <Image alt='error-illustration' src='/images/pages/maintenance.svg' width={350} height={350} />
         <BoxWrapper>
           <Typography variant='h5' sx={{ mb: 2.5, fontSize: '1.5rem !important' }}>
-            We're Docking for a Quick Fix
+            {t('default_error_page.title')}
           </Typography>
           <Typography variant='body2' sx={{ fontSize: '20px', fontWeight: 400 }}>
-            Our crew is working hard to keep Profesea sailing smoothly. We'll be back shortly!
+            {t('default_error_page.description_1')}
           </Typography>
           <Typography variant='body2' sx={{ fontSize: '20px', fontWeight: 400 }}>
-            Need urgent help? Contact our support crew at{' '}
+            {t('default_error_page.description_2') + ' '}
             <MuiLink href='mailto:hello@profesea.id' color='#32497A' underline='hover'>
               hello@profesea.id
             </MuiLink>

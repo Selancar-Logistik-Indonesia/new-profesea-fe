@@ -450,6 +450,11 @@
         "access_joined_group_title": "Akses Semua Grup Anda Dengan Mudah",
         "access_joined_group_content": "Semua yang Anda ikuti atau kelola muncul di sini. Gunakan sidebar ini untuk beralih antar grup dengan cepat dan tetap terorganisir."
       }
+    },
+    "default_error_page": {
+      "title": "Kami Sedang Berlabuh Sementara",
+      "description_1": "Kru kami sedang bekerja keras agar Profesea tetap berlayar dengan lancar. Kami akan segera kembali!",
+      "description_2": "Butuh bantuan? Hubungi support crew kami di"
     }
   }
 }
