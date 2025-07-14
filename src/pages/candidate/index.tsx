@@ -43,6 +43,7 @@ import { useAuth } from 'src/hooks/useAuth'
 // import ModalUnlockPlusCandidate from 'src/@core/components/subscription/ModalUnlockPlusCandidate'
 import BoostCandidateAlert from 'src/views/candidate/BoostCandidateAlert'
 import dynamic from 'next/dynamic'
+import HospitalityExperienceTab from 'src/views/candidate/hospitality/HospitalityExperience'
 
 const ModalUnlockPlusCandidate = dynamic(() => import('src/@core/components/subscription/ModalUnlockPlusCandidate'), {
   ssr: false
@@ -160,8 +161,7 @@ function CircularProgressWithLabel(props: CircularProgressProps & { value: numbe
 }
 
 const Candidate = () => {
-  const { abilities } = useAuth()
-  console.log(abilities)
+  const { abilities, settings } = useAuth()
   const Theme = useTheme()
   const isMobile = useMediaQuery(Theme.breakpoints.down('md'))
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
@@ -1014,7 +1014,7 @@ const Candidate = () => {
                       </TabPanel>
                       {selectedUser?.employee_type == 'onship' && (
                         <TabPanel value={tabsValue} index={3}>
-                          <SeaExperienceTab defaultValue={defaultValue} />
+                         {settings?.is_hospitality ? <HospitalityExperienceTab dataUser={selectedUser}/> : <SeaExperienceTab defaultValue={defaultValue} />}
                         </TabPanel>
                       )}
                       <TabPanel value={tabsValue} index={selectedUser?.employee_type == 'onship' ? 4 : 3}>

@@ -80,6 +80,7 @@ const LoginPage = () => {
   const searchParams = useSearchParams()
   const email = searchParams.get('email')
   const checked = searchParams.get('checked')
+  const hospitality = searchParams.get('hospitality')
 
   const [showPassword, setShowPassword] = useState<boolean>(false)
   const [showPassword2, setShowPassword2] = useState<boolean>(false)
@@ -128,6 +129,7 @@ const LoginPage = () => {
         setOnLoading(false)
       },
       error => {
+        console.log(error)
         setOnLoading(false)
         toast.error('Registrastion Failed ' + error.response.data.message)
       }
@@ -152,7 +154,8 @@ const LoginPage = () => {
       post({
         email: lowerCaseEmail,
         password: password,
-        password_confirmation: password2
+        password_confirmation: password2,
+        hospitality: hospitality
       })
     } catch (e) {
       alert(e)

@@ -1,4 +1,4 @@
-import { Box, Button, Grid, Typography } from '@mui/material'
+import { Box, Button, Grid, Link, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
 const HospitalityBanner = () => {
@@ -57,7 +57,7 @@ const HospitalityBanner = () => {
         sx={{ fontSize: 14, fontWeight: 400, color: '#404040', width:'75%' }}
         dangerouslySetInnerHTML={{ __html: t('hospitality_landing_page.description') }}
       />
-      <Button variant='contained' size='medium' sx={{ textTransform: 'none', width: 'fit-content' }}>
+      <Button component={Link} href='/register?hospitality=true' variant='contained' size='medium' sx={{ textTransform: 'none', width: 'fit-content' }}>
         {t('hospitality_landing_page.button')}
       </Button>
     </Grid>

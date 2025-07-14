@@ -17,6 +17,25 @@ interface FormDataSeafarer {
     maximum?: number
 }
 
+interface FormDataHospitality {
+    jobCategory?: number
+    jobTitle?: string
+    roleType?: number
+    sailRegion?: string
+    experience?: number
+    city?: number
+    contractDuration?: number
+    vessel?: number
+    dateOnBoard?: string
+    numberOfHires?: number
+    licenseCOC?: any[]
+    licenseCOP?: any[]
+    currency?: string
+    payment_periode?:string
+    minimum?: number
+    maximum?: number
+}
+
 interface FormDataProfessional {
     jobCategory?: number
     jobTitle?: string
@@ -33,4 +52,4 @@ interface FormDataProfessional {
     maximum?: number
 }
 
-export type { FormDataSeafarer, FormDataProfessional }
+export type { FormDataSeafarer, FormDataProfessional, FormDataHospitality }
