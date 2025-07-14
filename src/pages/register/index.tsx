@@ -238,7 +238,7 @@ const LoginPage = () => {
             >
               <Icon icon='mdi:arrow-left' fontSize={20} color='#404040' />
             </Box>
-            <Typography sx={{ color: '#404040', fontWeight: 500, fontSize: 16 }}>Back to home</Typography>
+            <Typography sx={{ color: '#404040', fontWeight: 500, fontSize: 14 }}>Back to home</Typography>
           </Box>
           <Box
             sx={{

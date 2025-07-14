@@ -11,9 +11,12 @@ import VerticalNavHeader from './VerticalNavHeader'
 import themeOptions from 'src/@core/theme/ThemeOptions'
 import NavItemType from 'src/contract/types/navItemType'
 import { IUser } from 'src/contract/models/user'
+import { Button, Divider } from '@mui/material'
+import { usePathname, useRouter } from 'next/navigation'
+import LanguageDropdown from '../../shared-components/LanguageDropdown'
 
 interface Props {
-  navWidth: number
+  navWidth: number | string
   navVisible: boolean
   collapsedNavWidth: number
   hidden: LayoutProps['hidden']
@@ -22,8 +25,8 @@ interface Props {
   settings: LayoutProps['settings']
   setNavVisible: (value: boolean) => void
   saveSettings: LayoutProps['saveSettings']
-  homeNavItems: { title: string, path: string }[],
-  navItems: NavItemType[],
+  homeNavItems: { title: string; path: string }[]
+  navItems: NavItemType[]
   navMenuBranding: LayoutProps['verticalLayoutProps']['navMenu']['branding']
   menuLockedIcon: LayoutProps['verticalLayoutProps']['navMenu']['lockedIcon']
   navMenuProps: LayoutProps['verticalLayoutProps']['navMenu']['componentProps']
@@ -34,7 +37,9 @@ interface Props {
 }
 
 const Navigation = (props: Props) => {
-  const { hidden, settings, beforeNavMenuContent } = props
+  const path = usePathname()
+  const router = useRouter()
+  const { hidden, settings, beforeNavMenuContent, saveSettings } = props
   const [navHover, setNavHover] = useState<boolean>(false)
   const [groupActive, setGroupActive] = useState<string[]>([])
   const [currentActiveGroup, setCurrentActiveGroup] = useState<string[]>([])
@@ -78,6 +83,11 @@ const Navigation = (props: Props) => {
     }
   }
 
+  const handleOnClickRegister = () => {
+    const targetPath = path === '/employer/' || path === '/employer/pricing/' ? '/register/employer' : '/register'
+    router.push(targetPath)
+  }
+
   const ScrollWrapper = hidden ? Box : PerfectScrollbar
 
   return (
@@ -89,14 +99,21 @@ const Navigation = (props: Props) => {
           <ScrollWrapper
             {...(hidden
               ? {
-                onScroll: (container: any) => scrollMenu(container),
-                sx: { height: '100%', overflowY: 'auto', overflowX: 'hidden' }
-              }
+                  onScroll: (container: any) => scrollMenu(container),
+                  sx: {
+                    height: '90vh',
+                    overflowY: 'auto',
+                    overflowX: 'hidden',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'space-between'
+                  }
+                }
               : {
-                options: { wheelPropagation: false },
-                onScrollY: (container: any) => scrollMenu(container),
-                containerRef: (ref: any) => handleInfiniteScroll(ref)
-              })}
+                  options: { wheelPropagation: false },
+                  onScrollY: (container: any) => scrollMenu(container),
+                  containerRef: (ref: any) => handleInfiniteScroll(ref)
+                })}
           >
             <List className='nav-items' sx={{ pt: 0, '& > :first-of-type': { mt: '0' } }}>
               <VerticalNavItems
@@ -107,7 +124,31 @@ const Navigation = (props: Props) => {
                 setCurrentActiveGroup={setCurrentActiveGroup}
                 {...props}
               />
+              <Box sx={{ mt: '12px !important', px: '28px' }}>
+                <Divider />
+                <Box sx={{ display: 'flex', mt: '24px' }}>
+                  <LanguageDropdown settings={settings} saveSettings={saveSettings} />
+                </Box>
+              </Box>
             </List>
+            <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', gap: '8px', px: '24px' }}>
+              <Button
+                size='medium'
+                variant='contained'
+                sx={{ textTransform: 'capitalize' }}
+                onClick={handleOnClickRegister}
+              >
+                Register
+              </Button>
+              <Button
+                size='medium'
+                variant='outlined'
+                sx={{ textTransform: 'capitalize' }}
+                onClick={() => router.push('/login')}
+              >
+                Sign In
+              </Button>
+            </Box>
           </ScrollWrapper>
         </Box>
       </Drawer>

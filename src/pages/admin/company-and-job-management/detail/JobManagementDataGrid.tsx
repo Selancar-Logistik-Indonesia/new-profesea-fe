@@ -24,6 +24,7 @@ interface RowItem {
   jobTitle: string
   roleLevel: string
   applicantApplied: string
+  created_at: string
   status: string
   actions: {
     onShowListApplicant: VoidFunction
@@ -103,15 +104,26 @@ const JobManagementDataGrid = (props: RoleGridProps) => {
       }
     },
     {
+      field: 'created_at',
+      headerName: 'Posted Date',
+      sortable: false,
+      minWidth: 150,
+      renderCell: (cell: any) => {
+        const { row } = cell
+        const myDate = row?.created_at.split('T')
+
+        return <div>{myDate ? myDate[0] + ' ' + myDate[1] : ''}</div>
+      }
+    },
+    {
       field: 'status',
       headerName: 'Status',
       sortable: false,
-      minWidth: 150, 
-      renderCell: (cell:any) => {
-        const { row } = cell 
+      minWidth: 150,
+      renderCell: (cell: any) => {
+        const { row } = cell
 
-        return (<div>{row.active == true ? row.status : "Non Active"} </div>)
-
+        return <div>{row.active == true ? row.status : 'Non Active'} </div>
       }
     },
     {

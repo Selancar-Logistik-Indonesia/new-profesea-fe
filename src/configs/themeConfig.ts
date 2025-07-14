@@ -31,7 +31,7 @@ type ThemeConfig = {
   navCollapsed: boolean
   routingLoader: boolean
   disableRipple: boolean
-  navigationSize: number
+  navigationSize: number | string
   navSubItemIcon: string
   menuTextTruncate: boolean
   contentWidth: ContentWidth

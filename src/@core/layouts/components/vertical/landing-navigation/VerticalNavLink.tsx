@@ -66,7 +66,6 @@ const VerticalNavLink = ({
   parent,
   navHover,
   settings,
-  navVisible,
   isSubToSub,
   collapsedNavWidth,
   toggleNavVisibility,
@@ -110,9 +109,7 @@ const VerticalNavLink = ({
             e.preventDefault()
             e.stopPropagation()
           }
-          if (navVisible) {
-            toggleNavVisibility()
-          }
+          toggleNavVisibility()
         }}
         sx={{
           py: 2.25,

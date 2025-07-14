@@ -441,6 +441,25 @@
       "title" : "Kerja Sambil Keliling Dunia? <br> <span style=\"background: linear-gradient(90deg, #6494FA 32%, #FF9600 90.84%); color: transparent; background-clip: text;\">Bisa Banget!</span>",
       "description": "Pindah haluan gabung di dunia hospitality kapal pesiar.<br> Gaji tinggi, pengalaman seru, dan jalan-jalan ke berbagai negara.",
       "button" : "Mulai Daftar Sekarang"
+    },
+    "default_error_page": {
+      "title": "Kami Sedang Berlabuh Sementara",
+      "description_1": "Kru kami sedang bekerja keras agar Profesea tetap berlayar dengan lancar. Kami akan segera kembali!",
+      "description_2": "Butuh bantuan? Hubungi support crew kami di"
+    },
+    "community_page": {
+      "onboarding": {
+        "next_button": "Selanjutnya",
+        "lets_go_button": "Ayo Mulai!",
+        "welcome_title": "Selamat datang di Profesea Community",
+        "welcome_content": "Anda belum bergabung dengan grup mana pun — tetapi itu akan segera berubah! Bergabunglah dengan grup untuk tetap terupdate, berbagi wawasan, dan terhubung dengan sesama profesional maritim.",
+        "join_groups_title": "Eksplor Minat Anda",
+        "join_groups_content": "Scroll melalui grup dan topik yang direkomendasikan. Klik “Join Group” untuk menjadi anggota dan langsung terlibat dalam diskusi.",
+        "create_group_title": "Buat Grup Anda Sendiri",
+        "create_group_content": "Mulailah grup untuk tim Anda, kelompok pelatihan, atau minat tertentu. Cukup klik “+ Create new group” dan tentukan topik serta aturan Anda sendiri.",
+        "access_joined_group_title": "Akses Semua Grup Anda Dengan Mudah",
+        "access_joined_group_content": "Semua yang Anda ikuti atau kelola muncul di sini. Gunakan sidebar ini untuk beralih antar grup dengan cepat dan tetap terorganisir."
+      }
     }
   }
 }
