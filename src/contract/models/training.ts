@@ -16,7 +16,7 @@ type countParticipantStatus = {
     on_hold: number,
     on_going: number,
     completed: number,
-    canceled: number
+    canceled: number,
 }
 
 interface Training {
