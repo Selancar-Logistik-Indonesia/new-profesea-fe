@@ -82,6 +82,7 @@ const CompanyAndJobManagementDetail = () => {
             row?.vesseltype_id && row?.vesseltype_id !== null ? row?.role_type?.name : row?.rolelevel?.levelName,
           status: new Date(row?.onboard_at) > new Date() ? 'Active' : 'Non Active',
           active: row?.is_active,
+          created_at: row?.created_at,
           applicantApplied: row?.count_applicant,
           actions: {
             onShowListApplicant: () => handleShowListApplicant(row),
