@@ -25,9 +25,6 @@ import TextField from '@mui/material/TextField'
 import { Grid } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import { HttpClient } from 'src/services'
-import secureLocalStorage from 'react-secure-storage'
-import localStorageKeys from 'src/configs/localstorage_keys'
-import { IUser } from 'src/contract/models/user'
 import { Icon } from '@iconify/react'
 import AllJobApplied from './applied'
 import JobCategory from 'src/contract/models/job_category'
@@ -49,6 +46,7 @@ import Image from 'next/image'
 import CustomPaginationItem from 'src/@core/components/pagination/item'
 import Link from 'next/link'
 import JobOffersSection from 'src/views/find-job/JobOffersSection'
+import { useAuth } from 'src/hooks/useAuth'
 
 interface TabPanelProps {
   children?: React.ReactNode
@@ -98,11 +96,9 @@ const SeafarerJobApp = () => {
   const tabs = params.get('tabs')
   const company = linkToTitleCase(params.get('company'))
 
-  const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
-  const jobOffers = secureLocalStorage.getItem(localStorageKeys.jobOffers) as any[]
-  console.log("ini",jobOffers)
+  const { user, jobOffers } = useAuth()
 
-  const isOnShip = user.employee_type === 'onship'
+  const isOnShip = user?.employee_type === 'onship'
   const theme = useTheme()
   const hidden = useMediaQuery(theme.breakpoints.down('md'))
 
@@ -662,7 +658,7 @@ const SeafarerJobApp = () => {
                       </Typography>
                     </Link>{' '}
                     dan{' '}
-                    <Link href={`/candidate/?tabs=${user.employee_type === 'onship' ? '3' : '2'}`}>
+                    <Link href={`/candidate/?tabs=${user?.employee_type === 'onship' ? '3' : '2'}`}>
                       <Typography variant='body2' sx={{ fontWeight: '700', color: '#32497A', display: 'inline-block' }}>
                         pengalaman
                       </Typography>

@@ -16,6 +16,7 @@ const defaultProvider: AuthValuesType = {
   abilities: null,
   loading: true,
   flaggings: null,
+  jobOffers: null,
   settings: null,
   setUser: () => null,
   setLoading: () => Boolean,
@@ -36,6 +37,7 @@ const AuthProvider = ({ children }: Props) => {
   const [user, setUser] = useState<IUser | null>(defaultProvider.user)
   const [abilities, setAbilities] = useState<IAbilities | null>(defaultProvider.abilities)
   const [flaggings, setFlaggings] = useState<IFlaggings | null>(defaultProvider.flaggings)
+  const [jobOffers, setJobOffers] = useState<any[] | null>(defaultProvider.jobOffers)
   const [settings, setSettings] = useState<IUserSettings | null>(defaultProvider.settings)
   const [loading, setLoading] = useState<boolean>(defaultProvider.loading)
   const router = useRouter()
@@ -50,10 +52,12 @@ const AuthProvider = ({ children }: Props) => {
           setUser({ ...response.data.user })
           setAbilities(response.data.abilities)
           setFlaggings(response.data.flaggings)
+          setJobOffers(response.data.job_offers)
           setSettings(response.data.settings)
           secureLocalStorage.setItem(localStorageKeys.userData, response.data.user)
           secureLocalStorage.setItem(localStorageKeys.abilities, response.data.abilities)
           secureLocalStorage.setItem(localStorageKeys.jobOffers, response.data.job_offers)
+          secureLocalStorage.setItem(localStorageKeys.flaggings, response.data.flaggings)
           secureLocalStorage.setItem(localStorageKeys.settings, response.data.settings)
 
           handleRedirection(response.data.user)
@@ -199,6 +203,7 @@ const AuthProvider = ({ children }: Props) => {
   const values = {
     user,
     abilities,
+    jobOffers,
     flaggings,
     settings,
     loading,
