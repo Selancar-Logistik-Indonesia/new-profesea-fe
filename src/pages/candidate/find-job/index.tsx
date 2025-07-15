@@ -100,6 +100,7 @@ const SeafarerJobApp = () => {
 
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
   const jobOffers = secureLocalStorage.getItem(localStorageKeys.jobOffers) as any[]
+  console.log("ini",jobOffers)
 
   const isOnShip = user.employee_type === 'onship'
   const theme = useTheme()
