@@ -5,7 +5,7 @@ import { ReactNode } from 'react'
 import { styled } from '@mui/material/styles'
 import Typography from '@mui/material/Typography'
 import Box, { BoxProps } from '@mui/material/Box'
-import { Link as MuiLink } from '@mui/material'
+import { Button, Link as MuiLink } from '@mui/material'
 
 // ** Layout Import
 import BlankLayout from 'src/@core/layouts/BlankLayout'
@@ -13,6 +13,7 @@ import BlankLayout from 'src/@core/layouts/BlankLayout'
 // ** Demo Imports
 import Image from 'next/image'
 import { useTranslation } from 'react-i18next'
+import Link from 'next/link'
 
 // ** Styled Components
 const BoxWrapper = styled(Box)<BoxProps>(({ theme }) => ({
@@ -46,6 +47,9 @@ const Error = ({ error }: { statusCode: number; error?: any }) => {
               hello@profesea.id
             </MuiLink>
           </Typography>
+          <Button href='/' component={Link} variant='contained' sx={{ px: 5.5, mt: 2.5 }}>
+            Back to Home
+          </Button>
         </BoxWrapper>
       </Box>
     </Box>
