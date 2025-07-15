@@ -15,6 +15,13 @@ const Professional: SxProps<Theme> = {
   backgroundPosition: 'center 10%'
 }
 
+const Hospitality: SxProps<Theme> = {
+  loading: 'lazy',
+  backgroundImage: 'url(/images/hospitality-platform-banner.png)',
+  backgroundSize: '110%',
+  backgroundPosition: 'center 10%'
+}
+
 const Recruiter: SxProps<Theme> = {
   loading: 'lazy',
   backgroundImage: 'url(/images/recruiter-platform-banner.webp)',
@@ -25,7 +32,8 @@ const Recruiter: SxProps<Theme> = {
 const landingPageStyle = {
   Seafarer,
   Professional,
-  Recruiter
+  Recruiter,
+  Hospitality
 }
 
 export default landingPageStyle

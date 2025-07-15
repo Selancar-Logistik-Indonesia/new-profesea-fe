@@ -4,8 +4,12 @@ import BlankLayout from 'src/@core/layouts/BlankLayout'
 import { SeafarerProfileCard } from 'src/views/onboarding/ProfileCard'
 import ProgressBar from 'src/views/onboarding/ProgressBar'
 import SeafarerExperience from 'src/layouts/components/onboarding/SeafarerExperience'
+import { useAuth } from 'src/hooks/useAuth'
+import HospitalityExperience from 'src/layouts/components/onboarding/HospitalityExperience'
 
 const Onboarding = () => {
+  const {settings} = useAuth()
+  
   return (
     <Grid container sx={{ height: '100vh', overflow: 'hidden' }}>
       <Grid
@@ -37,7 +41,7 @@ const Onboarding = () => {
                 menemukan peluang yang disesuaikan dengan keterampilan dan keinginan Anda.
               </Typography>
             </Box>
-            <SeafarerExperience beforeLink='/onboarding/seafarer/step-five' />
+            {settings?.is_hospitality ? (<HospitalityExperience beforeLink='/onboarding/seafarer/step-five'/>) : (<SeafarerExperience beforeLink='/onboarding/seafarer/step-five' />)}
           </Box>
         </Box>
       </Grid>

@@ -3,7 +3,8 @@ const localStorageKeys = {
   userData: 'userData',
   abilities: 'abilities',
   news: 'news',
-  jobOffers: 'jobOffers'
+  jobOffers: 'jobOffers',
+  settings: 'settings'
 }
 
 export default localStorageKeys
