@@ -33,7 +33,8 @@ import { v4 } from 'uuid'
 const pageItems = 6
 const tabsOption = [
   { value: 'onship', label: 'Seafarer' },
-  { value: 'offship', label: 'Professional' }
+  { value: 'offship', label: 'Professional' },
+  { value: 'hospitality', label: 'Cruise Hospitality'}
 ]
 const employmentType = [
   { value: 'Intern', label: 'Intern' },
@@ -102,12 +103,13 @@ const JobManagement = () => {
         search: search,
         page: page,
         take: pageItems,
-        employee_type: activeTab,
+        employee_type: activeTab === 'hospitality' ? 'onship' : activeTab,
         category_id: jobCategoryFilter?.id,
         vesseltype_id: vesselTypeFilter?.id,
         employment_type: employmentTypeFilter,
         sort: sort,
-        is_active: checkStatus(statusFilter)
+        is_active: checkStatus(statusFilter),
+        is_hospitality: activeTab === 'hospitality'
       })
       const data = response.data.jobs.data
       setJobs(data)
@@ -295,7 +297,7 @@ const JobManagement = () => {
             </Box>
             <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, gap: { xs: '24px', md: '70px' } }}>
               <Grid container spacing={6}>
-                <Grid item xs={4}>
+                <Grid item xs={4} sx={{display: activeTab === 'hospitality' ? 'none' : ''}}>
                   <Autocomplete
                     autoHighlight
                     options={jobCategory || []}
@@ -330,7 +332,7 @@ const JobManagement = () => {
                   </Select>
                 </Grid>
                 <Grid item xs={4}>
-                  {activeTab === 'onship' ? (
+                  {(activeTab === 'onship' || activeTab === 'hospitality') ? (
                     <Autocomplete
                       autoHighlight
                       options={vesselType || []}

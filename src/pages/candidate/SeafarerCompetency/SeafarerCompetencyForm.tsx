@@ -35,6 +35,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import moment from 'moment'
 import { useTheme } from '@mui/material/styles'
 import { useProfileCompletion } from 'src/hooks/useProfileCompletion'
+import { useAuth } from 'src/hooks/useAuth'
 
 const CompetencySchema = Yup.object().shape({
   user_id: Yup.number().required('User Data is required'),
@@ -58,6 +59,7 @@ const Transition = forwardRef(function Transition(
 })
 
 const SeafarerCompetencyForm = (props: ISeafarerCompetencyForm) => {
+  const {settings} = useAuth()
   const { refetch, setRefetch } = useProfileCompletion()
 
   const Theme = useTheme()
@@ -136,12 +138,19 @@ const SeafarerCompetencyForm = (props: ISeafarerCompetencyForm) => {
   const loadCertificateProficiencies = () => {
     HttpClient.get(AppConfig.baseUrl + '/licensi/all/')
       .then(response => {
-        const certificates = response.data.licensiescoc.map((item: any) => {
+        let certificates = response.data.licensiescoc.map((item: any) => {
           return {
             id: item.id,
-            title: item.title
+            title: item.title,
+            doctype: item.doctype
           }
         })
+
+        if(settings?.is_hospitality) {
+          certificates = certificates.filter((item: any) => {
+            return item.doctype === 'RATING'
+          }) 
+        }
 
         setCompetencies(certificates)
       })

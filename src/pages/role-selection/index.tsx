@@ -68,6 +68,14 @@ const RoleSelection = () => {
                       description='Untuk profesional non-pelaut atau bekerja di industri maritim dan logistik. Temukan peluang pekerjaan yang sesuai dengan keahlian Anda'
                     />
                   </Box>
+                  <Box onClick={() => handleChangeType('hospitality')} sx={{ cursor: 'pointer' }}>
+                    <OptionBox
+                      icon='ph:briefcase'
+                      value='hospitality'
+                      active={employeeType === 'hospitality'}
+                      description='Temukan kecocokan Anda dalam perhotelan kapal pesiar—peluang di bidang kebersihan, layanan kuliner, dan pengalaman pelanggan menanti.'
+                    />
+                  </Box>
                 </Box>
               </Box>
             </Box>
@@ -86,7 +94,7 @@ const RoleSelection = () => {
           <Grid item md={6} direction='column' sx={{ height: '100%' }}>
             <Box
               sx={{
-                height: employeeType === 'pelaut' ? '55%' : employeeType === '' ? '50%' : '45%',
+                height: employeeType === 'pelaut' ? '40%' : employeeType === '' ? '33.5%' : '30%',
                 ...landingPageStyle.Seafarer,
                 display: 'flex',
                 alignItems: 'center',
@@ -112,7 +120,7 @@ const RoleSelection = () => {
             </Box>
             <Box
               sx={{
-                height: employeeType === 'profesional' ? '55%' : employeeType === '' ? '50%' : '45%',
+                height: employeeType === 'profesional' ? '40%' : employeeType === '' ? '33.5%' : '30%',
                 ...landingPageStyle.Professional,
                 display: 'flex',
                 alignItems: 'center',
@@ -134,6 +142,33 @@ const RoleSelection = () => {
                 }}
               >
                 Profesional
+              </Typography>
+            </Box>
+
+            <Box
+              sx={{
+                height: employeeType === 'hospitality' ? '40%' : employeeType === '' ? '33%' : '30%',
+                ...landingPageStyle.Hospitality,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                transition: 'height 0.3s ease-in-out',
+                position: 'relative',
+                overflow: 'hidden'
+              }}
+            >
+              <Shader employeeType={employeeType} value='hospitality' />
+              <Typography
+                sx={{
+                  zIndex: employeeType === 'hospitality' ? 3 : 1,
+                  position: 'relative',
+                  color: 'white',
+                  textAlign: 'center',
+                  fontSize: 40,
+                  fontWeight: 700
+                }}
+              >
+                Perhotelan Kapal Pesiar
               </Typography>
             </Box>
           </Grid>
