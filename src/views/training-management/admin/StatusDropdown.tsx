@@ -26,7 +26,7 @@ export const statusStyles = {
   onhold: { label: 'Onhold', bgColor: '#FFED94', fontColor: '#404040', dotColor: '#FFCF40' },
   ongoing: { label: 'Ongoing', bgColor: '#F9CBF3', fontColor: '#404040', dotColor: '#F07EE9' },
   complete: { label: 'Completed', bgColor: '#6EEEA1', fontColor: '#404040', dotColor: '#20CC78' },
-  canceled: { label: null, bgColor: null, fontColor: null, dotColor: null }
+  canceled: { label: 'Canceled', bgColor: 'red', fontColor: '#404040', dotColor: 'red' }
 }
 
 export interface StatusDropdownProps {
@@ -131,7 +131,7 @@ const StatusDropdown = ({ candidate, applicantStatus, changeParams, disabled = f
             }}
           >
             {Object.entries(statusStyles).map(([status, style]) => {
-              if (status === 'canceled' || !style.label || status === applicantStatus) return null
+              //if (status === 'canceled' || !style.label || status === applicantStatus) return null
 
               return (
                 <Box
