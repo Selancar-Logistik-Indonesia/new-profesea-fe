@@ -4,6 +4,7 @@ import {
   Box,
   Button,
   CircularProgress,
+  createFilterOptions,
   FormControl,
   MenuItem,
   TextField,
@@ -24,16 +25,25 @@ import { toast } from 'react-hot-toast'
 type FormData = {
   jobCategory: number
   roleType: number
-  position:number
+  position: number
 }
 
-const schema = yup.object().shape({
-  jobCategory: yup.number().required().moreThan(0, 'Please select a valid Job Category'),
-  roleType: yup.number().required().moreThan(0, 'Please select a valid Job Rank'),
-  position: yup.number().required().moreThan(0, 'Please select a valid Job Position')
-})
+const schema = (isHospitality: boolean) =>
+  yup.object().shape({
+    jobCategory: yup.number().required().moreThan(0, 'Please select a valid Job Category'),
+    roleType: yup
+      .number()
+      .required()
+      .test('valid-role', 'Please select a valid Job Rank', value => value > 0 || value === -1),
+    position: isHospitality
+      ? yup.number().required().moreThan(0, 'Please select a valid Job Position')
+      : yup.number().notRequired()
+  })
 
 const JobPreference = ({ beforeLink, nextLink }: { beforeLink: string; nextLink: string }) => {
+  const router = useRouter()
+  const { user, refreshSession, settings } = useAuth()
+
   const {
     control,
     watch,
@@ -47,11 +57,10 @@ const JobPreference = ({ beforeLink, nextLink }: { beforeLink: string; nextLink:
       jobCategory: 0,
       roleType: 0
     },
-    resolver: yupResolver(schema)
+    resolver: yupResolver(schema(settings?.is_hospitality || false))
   })
 
-  const router = useRouter()
-  const { user, refreshSession, settings } = useAuth()
+  const [newRoleTypeName, setNewRoleTypeName] = useState<string>('')
   const [onLoading, setOnLoading] = useState(false)
   const [jobCategory, setJobCategory] = useState<JobCategory[] | null>(null)
   const [roleType, setRoleType] = useState<RoleType[] | null>(null)
@@ -68,21 +77,19 @@ const JobPreference = ({ beforeLink, nextLink }: { beforeLink: string; nextLink:
     }).then(async response => {
       const data: JobCategory[] = await response.data.categories.data
 
-      if(settings?.is_hospitality) {
+      if (settings?.is_hospitality) {
         data?.forEach(cat => {
-          if(cat.name == 'Cruise Hospitality') setValue('jobCategory', cat.id)
+          if (cat.name == 'Cruise Hospitality') setValue('jobCategory', cat.id)
         })
       }
 
       setJobCategory(data)
     })
 
-    
-
     if (user && user.field_preference && user.field_preference.job_category) {
       setValue('jobCategory', user.field_preference.job_category.id)
     }
-    
+
     if (user && user.field_preference && user.field_preference.role_type) {
       setValue('roleType', user.field_preference.role_type.id)
     }
@@ -101,10 +108,10 @@ const JobPreference = ({ beforeLink, nextLink }: { beforeLink: string; nextLink:
   }
 
   const getPositions = () => {
-    if(getValues('roleType') !== null && getValues('roleType') !== 0) {
+    if (getValues('roleType') !== null && getValues('roleType') !== 0) {
       HttpClient.get(AppConfig.baseUrl + '/public/data/positions', {
-        page:1,
-        take:100,
+        page: 1,
+        take: 100,
         role_type_id: getValues('roleType')
       }).then(res => {
         const data = res.data.positions.data
@@ -123,17 +130,22 @@ const JobPreference = ({ beforeLink, nextLink }: { beforeLink: string; nextLink:
   }, [selectJobCategory])
 
   useEffect(() => {
-    getPositions()
+    if (selectedRoleType && settings?.is_hospitality) {
+      getPositions()
+    }
   }, [selectedRoleType])
 
   const onSubmit = (data: FormData) => {
     setOnLoading(true)
-    HttpClient.patch(AppConfig.baseUrl + '/onboarding/preference-job', {
-      roletype_id: data.roleType,
+
+    const submitData = {
+      roletype_id: data.roleType === -1 ? newRoleTypeName : data.roleType,
       category_id: data.jobCategory,
-      job_position_id:data.position,
+      job_position_id: data.position,
       next_step: 'step-four'
-    })
+    }
+
+    HttpClient.patch(AppConfig.baseUrl + '/onboarding/preference-job', submitData)
       .then(
         async () => {
           toast.success('Successfully save profile')
@@ -171,7 +183,7 @@ const JobPreference = ({ beforeLink, nextLink }: { beforeLink: string; nextLink:
             control={control}
             render={({ field }) => (
               <Autocomplete
-              disabled={settings?.is_hospitality}
+                disabled={settings?.is_hospitality}
                 {...field}
                 autoHighlight
                 options={jobCategory || []}
@@ -218,11 +230,46 @@ const JobPreference = ({ beforeLink, nextLink }: { beforeLink: string; nextLink:
             render={({ field }) => (
               <Autocomplete
                 {...field}
+                sx={{ display: 'block' }}
                 autoHighlight
+                id='combo-box-job-title'
                 options={roleType || []}
-                getOptionLabel={option => option.name || ''}
-                value={roleType?.find(roleType => roleType.id === field.value) || null}
-                isOptionEqualToValue={(option, value) => option.id === value.id}
+                value={
+                  field.value === -1
+                    ? {
+                        id: -1,
+                        name: newRoleTypeName,
+                        category_id: selectJobCategory || 0,
+                        category: jobCategory?.find(jobCategory => jobCategory.id === selectJobCategory) as any,
+                        user: user,
+                        created_at: String(new Date()),
+                        updated_at: String(new Date())
+                      }
+                    : roleType?.find(roleType => roleType.id === field.value) || null
+                }
+                onChange={(event, newValue) => {
+                  if (newValue) {
+                    if (newValue.id === 0) {
+                      // This is for new option
+                      field.onChange(-1) // Use -1 to indicate new option
+                      setNewRoleTypeName(newValue.name) // Store the name
+                    } else {
+                      field.onChange(newValue.id)
+                      setNewRoleTypeName('') // Clear new name
+                    }
+                  } else {
+                    field.onChange(null)
+                    setNewRoleTypeName('')
+                  }
+                }}
+                isOptionEqualToValue={(option, value) => {
+                  // Handle comparison for new options
+                  if (option.id === -1 && value.id === -1) {
+                    return option.name === value.name
+                  }
+
+                  return option.id === value.id
+                }}
                 renderInput={params => (
                   <TextField
                     {...params}
@@ -232,17 +279,38 @@ const JobPreference = ({ beforeLink, nextLink }: { beforeLink: string; nextLink:
                     helperText={errors.roleType?.message}
                   />
                 )}
-                renderOption={(props, option) => (
-                  <MenuItem {...props} key={option.id} value={option.id}>
-                    {option.name}
-                  </MenuItem>
-                )}
-                noOptionsText='Hasil pencaian tidak ditemukan. Coba gunakan kata kunci lain atau periksa kembali pencarian Anda'
+                getOptionLabel={(option: RoleType) => {
+                  if (typeof option === 'string') {
+                    return option
+                  }
+
+                  return option.name || ''
+                }}
+                filterOptions={(options, params) => {
+                  const filtered = createFilterOptions<RoleType>()(options, params)
+
+                  const { inputValue } = params
+
+                  const isExisting = options.some(option => inputValue === option.name)
+                  if (inputValue !== '' && !isExisting && selectJobCategory) {
+                    filtered.push({
+                      id: 0, // Keep as 0 for identification
+                      name: inputValue,
+                      category_id: selectJobCategory,
+                      category: jobCategory?.find(jobCategory => jobCategory.id === selectJobCategory) as any,
+                      user: user,
+                      created_at: String(new Date()),
+                      updated_at: String(new Date())
+                    })
+                  }
+
+                  return filtered
+                }}
               />
             )}
           />
         </FormControl>
-        <FormControl fullWidth error={!!errors.roleType} sx={{display: settings?.is_hospitality ? '' : 'none'}}>
+        <FormControl fullWidth error={!!errors.roleType} sx={{ display: settings?.is_hospitality ? '' : 'none' }}>
           <Typography sx={{ mb: '12px', color: '#525252', fontSize: 12, fontWeight: 700 }}>
             Posisi
             <span style={{ color: '#F22' }}>*</span>
