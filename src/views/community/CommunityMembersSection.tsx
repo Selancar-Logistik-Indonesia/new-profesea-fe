@@ -1,5 +1,16 @@
 import React, { useEffect, useState } from 'react'
-import { Box, Typography, Stack, Avatar, Button, CircularProgress, Pagination } from '@mui/material'
+import {
+  Box,
+  Typography,
+  Stack,
+  Avatar,
+  Button,
+  CircularProgress,
+  Pagination,
+  TextField,
+  InputAdornment,
+  Link
+} from '@mui/material'
 import { useAuth } from 'src/hooks/useAuth'
 
 import { IDetailCommunityData } from './CommunityDetail'
@@ -7,6 +18,8 @@ import { HttpClient } from 'src/services'
 import CustomPaginationItem from 'src/@core/components/pagination/item'
 import AnimatedTabs from 'src/@core/components/animated-tabs'
 import toast from 'react-hot-toast'
+import { Icon } from '@iconify/react'
+import { v4 } from 'uuid'
 
 interface ICommunityMembersSectionProps {
   community: IDetailCommunityData | null
@@ -29,15 +42,35 @@ const CommunityMembersSection: React.FC<ICommunityMembersSectionProps> = ({ comm
   const [totalMembers, setTotalMembers] = useState(0)
   const [adminMember, setAdminMember] = useState<any>(null)
   const [loading, setLoading] = useState(true)
+  const [loadingSearch, setLoadingSearch] = useState(false)
   const [page, setPage] = useState(1)
+  const [fetch, refetch] = useState(v4())
+  const [inputValue, setInputValue] = useState<string>('')
+  const [search, setSearch] = useState<string>('')
 
   const handleFetchMembers = async () => {
-    setLoading(true)
+    setLoadingSearch(true)
     try {
       // Simulate fetching members from backend
       const response = await HttpClient.get(
-        `/community/members?community_id=${community?.id}&take=${pageItems}&page=${page}`
+        `/community/members?community_id=${community?.id}&take=${pageItems}&page=${page}&search=${search}`
       )
+      const membersWithoutAdmin = (response.data?.data || []).filter((m: any) => m.user_id !== community?.created_by.id)
+      setMembers(membersWithoutAdmin)
+    } catch (error) {
+      console.error('Error fetching members:', error)
+    } finally {
+      setLoadingSearch(false)
+    }
+  }
+
+  const firstLoad = async () => {
+    try {
+      // Simulate fetching members from backend
+      const response = await HttpClient.get(
+        `/community/members?community_id=${community?.id}&take=${pageItems}&page=${page}&search=${search}`
+      )
+      console.log(response.data)
       setTotalMembers(response.data?.total - 1 || 0)
       const membersWithoutAdmin = (response.data?.data || []).filter((m: any) => m.user_id !== community?.created_by.id)
       setMembers(membersWithoutAdmin)
@@ -46,6 +79,7 @@ const CommunityMembersSection: React.FC<ICommunityMembersSectionProps> = ({ comm
       console.error('Error fetching members:', error)
     } finally {
       setLoading(false)
+      setLoadingSearch(false)
     }
   }
 
@@ -105,13 +139,39 @@ const CommunityMembersSection: React.FC<ICommunityMembersSectionProps> = ({ comm
   //       setIsLoading(false)
   // }
 
+  const handleRemove = (id: number) => {
+    setLoading(true)
+    HttpClient.del(`/community/members?community_id=${community?.id}&user_id=${id}`)
+      .then(() => {
+        toast.success('Successfully remove the member.')
+        setTimeout(() => {
+          refetch(v4())
+        }, 500)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+      .finally(() => {
+        setLoading(false)
+      })
+  }
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setSearch(inputValue)
+    }, 500)
+
+    return () => clearTimeout(timeout)
+  }, [inputValue])
+
   useEffect(() => {
     handleFetchRequests()
+    firstLoad()
   }, [community])
 
   useEffect(() => {
     handleFetchMembers()
-  }, [community, tab, page])
+  }, [community, tab, page, fetch, search])
 
   if (loading) {
     return (
@@ -121,7 +181,7 @@ const CommunityMembersSection: React.FC<ICommunityMembersSectionProps> = ({ comm
     )
   }
 
-  if (user?.id !== community?.created_by.id) {
+  if (user?.id !== community?.created_by.id && user?.role !== 'admin') {
     return (
       <Stack direction={'column'}>
         <Box sx={{ padding: '24px', mb: '24px', borderBottom: '1px solid #e0e0e0' }}>
@@ -155,31 +215,82 @@ const CommunityMembersSection: React.FC<ICommunityMembersSectionProps> = ({ comm
               </Typography>
             </Box>
           </Stack>
-          <Typography fontWeight={600} fontSize={16} mt={2}>
-            Members • {totalMembers}
-          </Typography>
-          {members.map((member, idx) => (
+          <Stack spacing={2}>
+            <Typography fontWeight={600} fontSize={16} mt={2}>
+              Members • {totalMembers}
+            </Typography>
+            <TextField
+              sx={{ flexGrow: 1 }}
+              value={inputValue}
+              onChange={e => setInputValue(e.target.value)}
+              variant='outlined'
+              placeholder='Search'
+              size='small'
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position='start' sx={{ marginRight: '8px' }}>
+                    <Icon icon='ph:magnifying-glass' fontSize={16} />
+                  </InputAdornment>
+                )
+              }}
+            />
+          </Stack>
+
+          {loadingSearch ? (
             <Stack
-              key={member.user_id || idx}
-              direction='row'
-              alignItems='flex-start'
+              direction={'column'}
+              justifyContent={'center'}
+              alignItems={'center'}
               spacing={2}
-              sx={{ borderBottom: '1px solid #e0e0e0', py: '24px' }}
+              sx={{ padding: '24px' }}
             >
-              <Avatar src={member.user?.photo} alt={member.user?.name} sx={{ width: 70, height: 70 }} />
-              <Box flex={1} sx={{ display: 'flex', flexDirection: 'column', gap: 0.5, justifyContent: 'center' }}>
-                <Typography fontWeight={600} fontSize={14} color={'rgba(50, 73, 122, 1)'}>
-                  {member.user?.name}
-                </Typography>
-                <Typography fontSize={13}>
-                  {member.user?.job_title} • {member.user?.job_category}
-                </Typography>
-                <Typography fontSize={12} color='text.secondary'>
-                  {member.user?.address}, {member.user?.country}
-                </Typography>
-              </Box>
+              <CircularProgress />
             </Stack>
-          ))}
+          ) : (
+            members.map((member, idx) => (
+              <Stack
+                key={member.user_id || idx}
+                direction='row'
+                alignItems='flex-start'
+                spacing={2}
+                sx={{ borderBottom: '1px solid #e0e0e0', py: '24px' }}
+              >
+                <Avatar
+                  component={Link}
+                  href={
+                    member?.user?.team_id === 3
+                      ? `/company/${member?.user?.username}`
+                      : `/profile/${member?.user?.username}`
+                  }
+                  src={member.user?.photo}
+                  alt={member.user?.name}
+                  sx={{ width: 70, height: 70, textDecoration: 'none' }}
+                />
+                <Box flex={1} sx={{ display: 'flex', flexDirection: 'column', gap: 0.5, justifyContent: 'center' }}>
+                  <Typography
+                    component={Link}
+                    href={
+                      member?.user?.team_id === 3
+                        ? `/company/${member?.user?.username}`
+                        : `/profile/${member?.user?.username}`
+                    }
+                    fontWeight={600}
+                    fontSize={14}
+                    color={'rgba(50, 73, 122, 1)'}
+                    sx={{ textDecoration: 'none' }}
+                  >
+                    {member.user?.name}
+                  </Typography>
+                  <Typography fontSize={13}>
+                    {member.user?.job_title} • {member.user?.job_category}
+                  </Typography>
+                  <Typography fontSize={12} color='text.secondary'>
+                    {member.user?.address}, {member.user?.country}
+                  </Typography>
+                </Box>
+              </Stack>
+            ))
+          )}
           <Pagination
             page={page}
             count={Math.ceil(totalMembers / pageItems)}
@@ -210,7 +321,7 @@ const CommunityMembersSection: React.FC<ICommunityMembersSectionProps> = ({ comm
               Manage and Review New Member Requests with Ease
             </Typography>
           </Stack>
-
+          
           {requests.map((r, idx) => (
             <Box
               key={r.user_id || idx}
@@ -292,31 +403,76 @@ const CommunityMembersSection: React.FC<ICommunityMembersSectionProps> = ({ comm
                 </Typography>
               </Box>
             </Stack>
-            <Typography fontWeight={600} fontSize={16} mt={2}>
-              Members • {totalMembers}
-            </Typography>
-            {members.map((member, idx) => (
+            <Stack spacing={2}>
+              <Typography fontWeight={600} fontSize={16} mt={2}>
+                Members • {totalMembers}
+              </Typography>
+              <TextField
+                sx={{ flexGrow: 1 }}
+                value={inputValue}
+                onChange={e => setInputValue(e.target.value)}
+                variant='outlined'
+                placeholder='Search'
+                size='small'
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position='start' sx={{ marginRight: '8px' }}>
+                      <Icon icon='ph:magnifying-glass' fontSize={16} />
+                    </InputAdornment>
+                  )
+                }}
+              />
+            </Stack>
+            {loadingSearch ? (
               <Stack
-                key={member.user_id || idx}
-                direction='row'
-                alignItems='flex-start'
+                direction={'column'}
+                justifyContent={'center'}
+                alignItems={'center'}
                 spacing={2}
-                sx={{ borderBottom: '1px solid #e0e0e0', py: '24px' }}
+                sx={{ padding: '24px' }}
               >
-                <Avatar src={member.user?.photo} alt={member.user?.name} sx={{ width: 70, height: 70 }} />
-                <Box flex={1} sx={{ display: 'flex', flexDirection: 'column', gap: 0.5, justifyContent: 'center' }}>
-                  <Typography fontWeight={600} fontSize={14} color={'rgba(50, 73, 122, 1)'}>
-                    {member.user?.name}
-                  </Typography>
-                  <Typography fontSize={13}>
-                    {member.user?.job_title} • {member.user?.job_category}
-                  </Typography>
-                  <Typography fontSize={12} color='text.secondary'>
-                    {member.user?.address}, {member.user?.country}
-                  </Typography>
-                </Box>
+                <CircularProgress />
               </Stack>
-            ))}
+            ) : (
+              members.map((member, idx) => (
+                <Stack
+                  key={member.user_id || idx}
+                  direction='row'
+                  alignItems='flex-start'
+                  spacing={2}
+                  sx={{ borderBottom: '1px solid #e0e0e0', py: '24px' }}
+                >
+                  <Avatar src={member.user?.photo} alt={member.user?.name} sx={{ width: 70, height: 70 }} />
+                  <Box flex={1} sx={{ display: 'flex', flexDirection: 'column', gap: 0.5, justifyContent: 'center' }}>
+                    <Typography fontWeight={600} fontSize={14} color={'rgba(50, 73, 122, 1)'}>
+                      {member.user?.name}
+                    </Typography>
+                    <Typography fontSize={13}>
+                      {member.user?.job_title} • {member.user?.job_category}
+                    </Typography>
+                    <Typography fontSize={12} color='text.secondary'>
+                      {member.user?.address}, {member.user?.country}
+                    </Typography>
+                  </Box>
+                  <Button
+                    startIcon={<Icon icon='tabler:trash' fontSize={20} />}
+                    variant='text'
+                    color='error'
+                    size='small'
+                    sx={{
+                      borderRadius: 2,
+                      textTransform: 'capitalize',
+                      whiteSpace: 'nowrap',
+                      display: adminMember?.id === user?.id || user?.role === 'admin' ? '' : 'none',
+                      alignSelf: 'center'
+                    }}
+                    onClick={() => handleRemove(member?.user?.id)}
+                  >
+                    Remove Member
+                  </Button>
+                </Stack>
+              ))
+            )}
             <Pagination
               page={page}
               count={Math.ceil(totalMembers / pageItems)}

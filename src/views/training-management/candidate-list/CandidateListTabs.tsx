@@ -33,7 +33,8 @@ const tabItemsAdmin = (training: Training) => {
     { label: 'Registered', value: 'registered', count: training.count_participant_status.registered },
     { label: 'Onhold', value: 'onhold', count: training.count_participant_status.on_hold },
     { label: 'Ongoing', value: 'ongoing', count: training.count_participant_status.on_going },
-    { label: 'Completed', value: 'complete', count: training.count_participant_status.completed }
+    { label: 'Completed', value: 'complete', count: training.count_participant_status.completed },
+    { label: 'Canceled', value: 'canceled', count: training.count_participant_status.canceled }
   ]
 }
 

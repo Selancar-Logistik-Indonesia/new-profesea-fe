@@ -1,14 +1,15 @@
 import { useEffect, useState } from 'react'
-import { Avatar, Box, CardMedia, Divider, Grid, Typography, Button } from '@mui/material'
+import { Avatar, Box, Divider, Grid, Typography, Button } from '@mui/material'
 import { Icon } from '@iconify/react'
 import Link from 'next/link'
 import moment from 'moment'
 import ISocialFeed from 'src/contract/models/social_feed'
 import FetchFeedPayload from 'src/contract/params/fetch_feed_payload'
-import { AppConfig } from 'src/configs/api'
 import { HttpClient } from 'src/services'
 import { getUserAvatar, toLinkCase, toTitleCase } from 'src/utils/helpers'
 import { IUser } from 'src/contract/models/user'
+import ImageListFeed from '../social-feed/ImageListFeed'
+import FeedCard from '../social-feed/FeedCard'
 
 const Activity = ({ dataUser, status }: { dataUser: IUser; status: boolean }) => {
   const [feeds, setFeeds] = useState<ISocialFeed[]>([])
@@ -105,31 +106,14 @@ const Activity = ({ dataUser, status }: { dataUser: IUser; status: boolean }) =>
                       </Box>
                     </Grid>
                     <Grid item xs={12} sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                      <Typography
-                        sx={{
-                          whiteSpace: 'pre-line',
-                          color: 'rgba(68, 75, 78, 1)',
-                          fontSize: 16,
-                          fontWeight: 300
-                        }}
-                      >
+                      <Typography sx={{ fontSize: 14, fontWeight: 400, textAlign: 'justify', whiteSpace: 'pre-line' }}>
                         {item.content}
                       </Typography>
-                      {item.content_type == 'videos' && (
-                        <CardMedia
-                          sx={{ width: '100%', my: 2 }}
-                          component='video'
-                          controls
-                          src={`${AppConfig.baseUrl}/public/data/streaming?video=${item.attachments![0]}`}
-                        />
-                      )}
-                      {item.content_type == 'images' && (
-                        <img
-                          src={item.attachments ? item.attachments![0] : '/images/no-image'}
-                          alt={item.content}
-                          loading='lazy'
-                          style={{ objectFit: 'contain', width: '100%' }}
-                        />
+                      {item.content_type !== 'text' && <ImageListFeed item={item} />}
+                      {item.feed_repost && (
+                        <Box sx={{ px: '24px' }}>
+                          <FeedCard item={item.feed_repost} withBottomArea={false} user={dataUser} type='repost' />
+                        </Box>
                       )}
                     </Grid>
                     <Grid item xs={12} sx={{ display: 'flex', gap: '16px' }}>

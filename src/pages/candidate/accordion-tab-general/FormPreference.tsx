@@ -22,18 +22,17 @@ import React, { useEffect, useState } from 'react'
 import { AppConfig } from 'src/configs/api'
 import JobCategory from 'src/contract/models/job_category'
 import RegionTravel from 'src/contract/models/regional_travel'
-import { RoleTypeAutocomplete } from 'src/contract/models/role_type'
+import { IJobPositions, RoleTypeAutocomplete } from 'src/contract/models/role_type'
 
 import { IUser } from 'src/contract/models/user'
 import VesselType from 'src/contract/models/vessel_type'
 import { HttpClient } from 'src/services'
 import { Theme, useTheme } from '@mui/material/styles'
-import secureLocalStorage from 'react-secure-storage'
-import localStorageKeys from 'src/configs/localstorage_keys'
 import toast from 'react-hot-toast'
 import { refreshsession } from 'src/utils/helpers'
 import Province from 'src/contract/models/province'
 import { useProfileCompletion } from 'src/hooks/useProfileCompletion'
+import { useAuth } from 'src/hooks/useAuth'
 
 interface IFormPreference {
   dataUser: IUser | null
@@ -64,10 +63,9 @@ function getStyles(name: string, personName: readonly string[], theme: Theme) {
 
 const FormPreference: React.FC<IFormPreference> = ({ dataUser }) => {
   const { refetch, setRefetch } = useProfileCompletion()
-
+  const {settings, user} = useAuth()
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
-  const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
   if (dataUser?.field_preference?.open_to_opp == 0) {
     opp = { id: '0', label: 'Not Available' }
   } else {
@@ -77,6 +75,7 @@ const FormPreference: React.FC<IFormPreference> = ({ dataUser }) => {
   // combo
   const [comboOPP, getOpp] = useState<any>([])
   const [comboroleType, getComborolType] = useState<any>([])
+  const [comboPositions, setComboPosition] = useState<any>([])
   const [comboRegion, getComboroRegion] = useState<any>([])
   const [comboVessel, getComborVessel] = useState<any>([])
   const [comboProvince, getComboProvince] = useState<any>([])
@@ -87,6 +86,7 @@ const FormPreference: React.FC<IFormPreference> = ({ dataUser }) => {
   const [availableDate, setAvailableDate] = useState<any>(dataUser?.field_preference?.available_date)
   const [JobCategory, getJobCategory] = useState<any[]>([])
   const [idcomborolType, setComboRolType] = useState<any>(dataUser?.field_preference?.role_type?.id)
+  const [position, setPosition] = useState<any>(dataUser?.field_preference?.job_position_id)
   const [idcomboRegion, setComboRegion] = useState<any>(dataUser?.field_preference?.region_travel?.id)
   const [idcomboVessel, setComboVessel] = useState<any>(dataUser?.field_preference?.vessel_type?.id)
   const [spokenLangs, setSpokenLangs] = React.useState<string[]>(
@@ -110,6 +110,7 @@ const FormPreference: React.FC<IFormPreference> = ({ dataUser }) => {
           throw response.data.message ?? 'Something went wrong!'
         }
         getJobCategory(response.data.categories.data)
+
         const x = user?.employee_type
         let z = ''
         if (JC != 0) {
@@ -147,6 +148,15 @@ const FormPreference: React.FC<IFormPreference> = ({ dataUser }) => {
     })
   }
 
+  const getPosition = () => {
+    if(idcomborolType) {
+      HttpClient.get(`/public/data/positions?role_type_id=${idcomborolType}&take=100&page=1`).then((res => {
+        const data = res.data.positions.data
+        setComboPosition(data)
+      }))
+    }
+  }
+
   const displayopp = (type: any) => {
     setOpp(type?.id)
   }
@@ -168,6 +178,7 @@ const FormPreference: React.FC<IFormPreference> = ({ dataUser }) => {
       if (dataUser?.employee_type == 'onship') {
         data = {
           roletype_id: idcomborolType.id == 0 ? idcomborolType?.inputValue : idcomborolType?.id || idcomborolType,
+          job_position_id: settings?.is_hospitality ? position : null,
           vesseltype_id: idcomboVessel,
           regiontravel_id: idcomboRegion,
           category_id: JC,
@@ -221,6 +232,10 @@ const FormPreference: React.FC<IFormPreference> = ({ dataUser }) => {
   useEffect(() => {
     comboBox()
   }, [JC])
+
+  useEffect(() => {
+    getPosition()
+  }, [idcomborolType])
 
   if (dataUser?.employee_type == 'offship') {
     return (
@@ -499,6 +514,7 @@ const FormPreference: React.FC<IFormPreference> = ({ dataUser }) => {
           Job Category
         </InputLabel>
         <Autocomplete
+          disabled={settings?.is_hospitality}
           sx={{ marginBottom: 2 }}
           disablePortal
           id='combo-box-level'
@@ -532,7 +548,7 @@ const FormPreference: React.FC<IFormPreference> = ({ dataUser }) => {
           defaultValue={dataUser?.field_preference?.role_type}
           renderInput={params => <TextField {...params} variant='outlined' />}
           onChange={(event: any, newValue: any) =>
-            newValue ? setComboRolType(newValue) : setComboRolType(dataUser?.field_preference?.role_type?.id)
+            newValue ? setComboRolType(settings?.is_hospitality ? newValue.id : newValue) : setComboRolType(dataUser?.field_preference?.role_type?.id)
           }
           getOptionLabel={(option: RoleTypeAutocomplete) => {
             // Value selected with enter, right from the input
@@ -569,6 +585,65 @@ const FormPreference: React.FC<IFormPreference> = ({ dataUser }) => {
 
             return filtered
           }}
+        />
+      </Grid>
+      <Grid item xs={12} md={6} sx={{display:settings?.is_hospitality ? '' : 'none'}}>
+        <InputLabel
+          required
+          sx={{
+            fontFamily: 'Figtree',
+            fontSize: '12px',
+            fontWeight: 700,
+            mb: '12px',
+            '& .MuiFormLabel-asterisk': {
+              color: 'red'
+            }
+          }}
+        >
+          Job Title
+        </InputLabel>
+        <Autocomplete
+          sx={{ display: 'block' }}
+          disablePortal
+          id='combo-box-job-title'
+          options={comboPositions}
+          defaultValue={dataUser?.field_preference?.job_position}
+          renderInput={params => <TextField {...params} variant='outlined' />}
+          onChange={(event: any, newValue: any) =>
+            newValue ? setPosition(newValue.id) : setPosition(dataUser?.field_preference?.role_type?.id)
+          }
+          getOptionLabel={(option: IJobPositions) => {
+            // Value selected with enter, right from the input
+            if (typeof option === 'string') {
+              return option
+            }
+
+            // Regular option
+            return option.position
+          }}
+
+          // filterOptions={(options, params) => {
+          //   const filtered = filter(options, params)
+
+          //   const { inputValue } = params
+
+          //   // Suggest the creation of a new value
+          //   const isExisting = options.some(option => inputValue === option.position)
+          //   if (inputValue !== '' && !isExisting) {
+          //     filtered.push({
+          //       inputValue: inputValue,
+          //       id: 0,
+          //       category_id: 0,
+          //       name: inputValue,
+          //       category: JC,
+          //       user: dataUser,
+          //       created_at: String(new Date()),
+          //       updated_at: String(new Date())
+          //     })
+          //   }
+
+          //   return filtered
+          // }}
         />
       </Grid>
       <Grid item xs={12} md={6}>

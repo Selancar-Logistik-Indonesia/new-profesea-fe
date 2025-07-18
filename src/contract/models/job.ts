@@ -70,6 +70,8 @@ interface Job {
   job_save?: null | IJobSave
   isOffering?: boolean
   job_offer_detail?: any
+
+  number_of_hires?: number
 }
 
 export default Job

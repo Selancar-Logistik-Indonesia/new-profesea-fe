@@ -13,6 +13,7 @@ type Community = {
   is_joined: boolean
   total_members: number
   total_feeds: number
+  requested:boolean
   created_by: {
     id: number
     name: string
@@ -33,7 +34,7 @@ type CommunitiesContextType = {
   isFetchingMore: boolean
   page: number
   hasNextPage: boolean
-  fetchCommunities: (payload?: { take?: number; mPage?: number; isJoined?: boolean; userId?: any }) => Promise<void>
+  fetchCommunities: (payload?: { take?: number; mPage?: number; isJoined?: boolean; userId?: any, search?:string }) => Promise<void>
   setPage: Dispatch<SetStateAction<number>>
   setHasNextPage: Dispatch<SetStateAction<boolean>>
 }
@@ -60,16 +61,17 @@ const CommunitiesProvider = ({ children }: Props) => {
   const [page, setPage] = useState(1)
   const [totalCommunities, setTotalCommunities] = useState(0)
 
-  const fetchCommunities = async (payload?: { take?: number; mPage?: number; isJoined?: boolean; userId?: any }) => {
+  const fetchCommunities = async (payload?: { take?: number; mPage?: number; isJoined?: boolean; userId?: any, search?:string }) => {
     const requestedPage = payload?.mPage ?? page
     const perPage = payload?.take ?? 6
 
     // const currentFilters = payload?.isJoined ? { isJoined: payload.isJoined, userId: payload.userId } : filters
-    const currentFilters = { isJoined: payload?.isJoined, userId: payload?.userId }
+    const currentFilters = { isJoined: payload?.isJoined, userId: payload?.userId, search: payload?.search }
 
     const params: any = {
       page: requestedPage,
-      take: perPage
+      take: perPage,
+      search: payload?.search
     }
 
     if (currentFilters?.isJoined) {

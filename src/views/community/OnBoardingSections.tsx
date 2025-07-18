@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import Joyride, { type CallBackProps, type Step, STATUS } from 'react-joyride'
 import BannerOnboarding from './BannerOnboarding'
-import { Box, Skeleton, Typography } from '@mui/material'
+import { Box, Button, Skeleton, Typography } from '@mui/material'
 import CardGroupCommunity, { ICardGroupProps } from './CardGroupCommunity'
 import Icon from 'src/@core/components/icon'
 import { HttpClient } from 'src/services'
+import { useRouter } from 'next/router'
+import { useTranslation } from 'react-i18next'
 
-const OnBoardingSections = () => {
-  const [runTour, setRunTour] = useState(false)
+const OnBoardingSections = ({ setSelectedIndex }: { setSelectedIndex: any }) => {
+  const { t } = useTranslation()
+  const router = useRouter()
+  const [runTour, setRunTour] = useState(true)
   const [steps, setSteps] = useState<Step[]>([])
   const [groups, setGroups] = useState<ICardGroupProps[]>([])
   const [loading, setLoading] = useState(false)
@@ -17,34 +21,44 @@ const OnBoardingSections = () => {
     const tourSteps: Step[] = [
       {
         target: '.banner-section',
-        title: ' Welcome to the Profesea Community',
-        content:
-          "You haven't joined any groups yet — but that's about to change! Join groups to stay updated, share insights, and connect with fellow maritime professionals.",
+        title: t('community_page.onboarding.welcome_title'),
+        content: t('community_page.onboarding.welcome_content'),
         placement: 'bottom',
         disableBeacon: true,
         spotlightClicks: false
       },
       {
         target: '.groups-section',
-        title: 'Discover and Join Groups',
-        content:
-          'Scroll through recommended groups and topics. Click “Join group” to become a member and dive into discussions right away.',
+        title: t('community_page.onboarding.join_groups_title'),
+        content: t('community_page.onboarding.join_groups_content'),
         placement: 'top'
       },
       {
-        target: '.join-group-btn',
-        content: (
-          <Box sx={{ p: 1 }}>
-            <Typography variant='h6' sx={{ fontWeight: 'bold', mb: 1 }}>
-              Join Groups
-            </Typography>
-            <Typography variant='body1' sx={{ mb: 2 }}>
-              Click here to join a group and start engaging with the community.
-            </Typography>
-          </Box>
-        ),
-        placement: 'top'
+        target: '.groups-navigation',
+        title: t('community_page.onboarding.create_group_title'),
+        content: t('community_page.onboarding.create_group_content'),
+        placement: 'right'
+      },
+      {
+        target: '.groups-joined-list',
+        title: t('community_page.onboarding.access_joined_group_title'),
+        content: t('community_page.onboarding.access_joined_group_content'),
+        placement: 'right'
       }
+      // {
+      //   target: '.join-group-btn',
+      //   content: (
+      //     <Box sx={{ p: 1 }}>
+      //       <Typography variant='h6' sx={{ fontWeight: 'bold', mb: 1 }}>
+      //         Join Groups
+      //       </Typography>
+      //       <Typography variant='body1' sx={{ mb: 2 }}>
+      //         Click here to join a group and start engaging with the community.
+      //       </Typography>
+      //     </Box>
+      //   ),
+      //   placement: 'top'
+      // }
     ]
 
     setSteps(tourSteps)
@@ -77,11 +91,16 @@ const OnBoardingSections = () => {
     fetchGroups()
   }, [])
 
-  const handleJoyrideCallback = (data: CallBackProps) => {
+  const handleJoyrideCallback = async (data: CallBackProps) => {
     const { status } = data
 
     if (status === STATUS.FINISHED || status === STATUS.SKIPPED) {
       setRunTour(false)
+      try {
+        await HttpClient.post('/user/flag/community-onboarding')
+      } catch (error) {
+        console.error('Failed to flag community onboarding:', error)
+      }
     }
   }
 
@@ -96,36 +115,47 @@ const OnBoardingSections = () => {
         callback={handleJoyrideCallback}
         spotlightClicks={false}
         disableOverlayClose={true}
-        tooltipComponent={({ step, primaryProps }) => (
-          <Box
-            sx={{
-              py: '24px',
-              px: '32px',
-              backgroundColor: '#fff',
-              borderRadius: '12px',
-              boxShadow: 3,
-              width: 350,
-              maxWidth: 400
-            }}
-          >
-            <Typography sx={{ fontSize: '16px', fontWeight: 'bold', mb: 1, color: '#170F49' }}>{step.title}</Typography>
-            <Typography sx={{ fontSize: '14px', fontWeight: 400, color: '#5E5E5E', mb: 2 }}>{step.content}</Typography>
-            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'start' }}>
-              <button
-                {...primaryProps}
-                style={{
-                  backgroundColor: '#32497A',
-                  color: '#fff',
-                  borderRadius: '4px',
-                  border: 'none',
-                  padding: '8px 16px'
-                }}
-              >
-                Next
-              </button>
+        tooltipComponent={({ step, primaryProps, index, size }) => {
+          const isLastStep = index === size - 1
+
+          return (
+            <Box
+              sx={{
+                py: '24px',
+                px: '32px',
+                backgroundColor: '#fff',
+                borderRadius: '12px',
+                boxShadow: 3,
+                width: 350,
+                maxWidth: 400
+              }}
+            >
+              <Typography sx={{ fontSize: '16px', fontWeight: 'bold', mb: 1, color: '#170F49' }}>
+                {step.title}
+              </Typography>
+              <Typography sx={{ fontSize: '14px', fontWeight: 400, color: '#5E5E5E', mb: 2 }}>
+                {step.content}
+              </Typography>
+              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'start' }}>
+                <Button
+                  {...primaryProps}
+                  style={{
+                    backgroundColor: '#32497A',
+                    color: '#fff',
+                    borderRadius: '4px',
+                    border: 'none',
+                    padding: '8px 16px',
+                    textTransform: 'none'
+                  }}
+                >
+                  {isLastStep
+                    ? t('community_page.onboarding.lets_go_button')
+                    : t('community_page.onboarding.next_button')}
+                </Button>
+              </Box>
             </Box>
-          </Box>
-        )}
+          )
+        }}
         styles={{
           options: {
             primaryColor: '#2662EC',
@@ -162,7 +192,7 @@ const OnBoardingSections = () => {
         <Typography sx={{ fontSize: '18px', fontWeight: 700, color: '#1F1F1F' }}>
           Groups you might be intersted in...
         </Typography>
-        <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, alignItems: 'center', gap: '15px' }}>
+        <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, alignItems: 'center', gap: '12px' }}>
           {loading ? (
             Array.from({ length: 3 }).map((_, i) => (
               <Box
@@ -191,6 +221,8 @@ const OnBoardingSections = () => {
                 discussions_count={group.discussions_count}
                 members_count={group.members_count}
                 is_joined={group.is_joined}
+                onViewGroup={() => router.push('/community/' + group.id)}
+                isOnBoarding={true}
               />
             ))
           ) : (
@@ -199,6 +231,7 @@ const OnBoardingSections = () => {
 
           {groups.length > 0 && (
             <Box
+              onClick={() => setSelectedIndex(1)}
               sx={{
                 display: 'flex',
                 flexDirection: 'column',

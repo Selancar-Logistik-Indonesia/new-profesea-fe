@@ -12,7 +12,10 @@ enum NotificationType {
   applicantViewed = 'App\\Notifications\\ApplicantViewed',
   applicantRejected = 'App\\Notifications\\ApplicantRejected',
   applicantApproved = 'App\\Notifications\\ApplicantApproved',
-  jobOffer = 'App\\Notifications\\JobOfferNotification'
+  jobOffer = 'App\\Notifications\\JobOfferNotification',
+  communityJoinRequest = 'App\\Notifications\\CommunityJoinRequestNotification',
+  communityApproveRequest = 'App\\Notifications\\CommunityJoinApprovedNotification',
+  communityRejectRequest = 'App\\Notifications\\CommunityJoinRejectedNotification',
 }
 
 export default NotificationType

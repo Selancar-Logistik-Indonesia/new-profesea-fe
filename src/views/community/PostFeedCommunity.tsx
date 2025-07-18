@@ -6,7 +6,7 @@ import { getCleanErrorMessage, getUserAvatar } from 'src/utils/helpers'
 import PostFeedDialog from '../social-feed/PostFeedDialog'
 import { useSocialFeed } from 'src/hooks/useSocialFeed'
 
-const PostFeedCommunity = ({communityId} : {communityId?: number}) => {
+const PostFeedCommunity = ({ communityId }: { communityId?: number }) => {
   const { user } = useAuth()
   const { updateStatus } = useSocialFeed()
   const [contentType, setContentType] = useState('text')
@@ -38,11 +38,15 @@ const PostFeedCommunity = ({communityId} : {communityId?: number}) => {
         community_id: communityId || community_id,
         is_anon: is_anon
       })
+
+      return true
     } catch (error) {
       alert(getCleanErrorMessage(error))
-    }
 
-    setIsLoading(false)
+      return false
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -54,7 +58,7 @@ const PostFeedCommunity = ({communityId} : {communityId?: number}) => {
         onClose={handleOnCloseDialogPostFeed}
         user={user}
         handleUpdateStatus={handlePostFeed}
-        isCommunity={!communityId}
+        isCommunity={communityId ? true : false}
       />
       <Card
         sx={{

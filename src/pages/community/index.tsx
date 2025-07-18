@@ -10,12 +10,16 @@ import {
   ListItemText,
   ListItemButton,
   styled,
-  Skeleton
+  Skeleton,
+  Link,
+  Breadcrumbs,
+  TextField,
+  InputAdornment
 } from '@mui/material'
 
 import { ThreadProvider } from 'src/context/ThreadContext'
 
-import { MdAdd } from 'react-icons/md'
+import { MdAdd, MdNavigateNext } from 'react-icons/md'
 import OnBoardingSections from 'src/views/community/OnBoardingSections'
 import PostFeedCommunity from 'src/views/community/PostFeedCommunity'
 import { SocialFeedProvider } from 'src/context/SocialFeedContext'
@@ -28,7 +32,7 @@ import { useAuth } from 'src/hooks/useAuth'
 import DiscoverAndYourGroupsCommunity from 'src/views/community/DiscoverAndYourGroupsCommunity'
 import { CommunitiesProvider } from 'src/context/CommunitiesContext'
 import { useRouter, useSearchParams } from 'next/navigation'
-import CommunityDetail from 'src/views/community/CommunityDetail'
+import { Icon } from '@iconify/react'
 
 const Community = () => {
   return (
@@ -61,24 +65,19 @@ const CommunityApp = () => {
   const { user, flaggings } = useAuth()
 
   const [communities, setCommunities] = React.useState<any[]>([])
-  const [selectedIndex, setSelectedIndex] = useState(0)
+  const [selectedIndex, setSelectedIndex] = useState<number>(0)
   const [openDialogCreateGroup, setOpenDialogCreateGroup] = useState(false)
   const [loadingYourGroups, setLoadingYourGroups] = useState(false)
-  const [isJoined, setIsJoined] = useState(false)
-  const [selectedCommunityId, setSelectedCommunityId] = useState(
-    searchParams.get('communityId') ? searchParams.get('communityId') : null
+  const [selectedTab, setSelectedTab] = useState(searchParams.get('tab') ? searchParams.get('tab') : null)
+  const [search, setSearch] = useState<string>('')
+  const [isOnBoardingCommunity, setIsOnBoardingCommunity] = useState<boolean>(
+    flaggings !== null ? flaggings?.community_onboarding : false
   )
-  const isOnBoardingCommunity = flaggings !== null ? flaggings?.community_onboarding : false // This can be replaced with actual logic to determine if onboarding is needed
 
   const handleListItemClick = (index: number) => {
-    if (index === 2) {
-      setIsJoined(true)
-    } else {
-      setIsJoined(false)
-    }
-
     setSelectedIndex(index)
-    setSelectedCommunityId(null)
+    // setSelectedCommunityId(null)
+    setIsOnBoardingCommunity(true)
     router.replace('/community/')
   }
 
@@ -88,14 +87,13 @@ const CommunityApp = () => {
 
   const handleOpenDetailGroup = (id: any) => {
     setSelectedIndex(0)
-    router.push(`/community/?communityId=${id}`)
-    setSelectedCommunityId(id)
+    router.push(`/community/${id}`)
   }
 
   const fetchCommunities = async () => {
     setLoadingYourGroups(true)
     try {
-      const response = await HttpClient.get(`/community?take=3&page=1&user_id=${user?.id}`)
+      const response = await HttpClient.get(`/community?take=3&page=1&user_id=${user?.id}&search=${search}`)
 
       setCommunities(
         response.data?.data.map((d: any) => {
@@ -117,7 +115,9 @@ const CommunityApp = () => {
   }
 
   useEffect(() => {
+    setSelectedTab(searchParams.get('tab') ? searchParams.get('tab') : null)
     fetchCommunities()
+    if (selectedTab) setSelectedIndex(Number(selectedTab))
   }, [])
 
   return (
@@ -125,11 +125,53 @@ const CommunityApp = () => {
       <CommunitiesProvider>
         <CreateGroupDialog open={openDialogCreateGroup} onClose={handleOpenCreateGroupDialog} />
         <Box sx={{ minHeight: '100vh' }}>
+          <Breadcrumbs
+            separator={<MdNavigateNext fontSize={'17px'} color='black' />}
+            aria-label='breadcrumb'
+            sx={{ ml: 4, mb: 2 }}
+          >
+            <Link key='1' href='/' sx={{ textDecoration: 'none' }}>
+              <Typography
+                sx={{
+                  color: '#32497A',
+                  fontSize: '14px',
+                  fontWeight: 400
+                }}
+              >
+                Home
+              </Typography>
+            </Link>
+            <Link key='2' href={'/community/'} sx={{ textDecoration: 'none' }}>
+              {/* nanti ganti pake logic trainer/admin */}
+              <Typography
+                sx={{
+                  color: '#32497A',
+                  fontSize: '14px',
+                  fontWeight: 400
+                }}
+              >
+                Community
+              </Typography>
+            </Link>
+            <Typography
+              key='3'
+              sx={{
+                color: '#949EA2',
+                fontSize: '14px',
+                fontWeight: 400,
+                cursor: 'pointer'
+              }}
+            >
+              {selectedIndex === 1 ? 'Discover' : selectedIndex === 2 ? 'Your Groups' : 'Group Feed'}
+            </Typography>
+          </Breadcrumbs>
+
           <Container maxWidth='xl' sx={{ py: 2 }}>
             <Grid container spacing={4}>
-              {/* Left */}
+              {/* Left not admin */}
               <Grid item xs={12} md={3} sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                 <Paper
+                  className='groups-navigation'
                   sx={{
                     padding: '16px',
                     borderRadius: '12px !important',
@@ -141,7 +183,23 @@ const CommunityApp = () => {
                     Groups
                   </Typography>
 
-                  <List dense sx={{ my: '24px' }}>
+                  <TextField
+                    sx={{ flexGrow: 1, display: selectedIndex === 1 || selectedIndex === 2 ? '' : 'none' }}
+                    value={search}
+                    onChange={e => setSearch(e.target.value)}
+                    variant='outlined'
+                    placeholder='Search'
+                    size='small'
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position='start' sx={{ marginRight: '8px' }}>
+                          <Icon icon='ph:magnifying-glass' fontSize={16} />
+                        </InputAdornment>
+                      )
+                    }}
+                  />
+
+                  <List dense sx={{ my: '4px' }}>
                     <CustomListItemButton selected={selectedIndex === 0} onClick={() => handleListItemClick(0)}>
                       <ListItemText
                         primary='Group feed'
@@ -194,6 +252,7 @@ const CommunityApp = () => {
                       }}
                     >
                       <ListItemText
+                        className='groups-joined-list'
                         primary='Your groups'
                         primaryTypographyProps={
                           selectedIndex === 2
@@ -224,7 +283,7 @@ const CommunityApp = () => {
                   </Button>
                 </Paper>
 
-                {!isOnBoardingCommunity && selectedIndex !== 2 && communities.length > 0 && (
+                {isOnBoardingCommunity && selectedIndex !== 2 && communities.length > 0 && (
                   <Paper
                     sx={{
                       padding: '16px',
@@ -306,10 +365,11 @@ const CommunityApp = () => {
                   </Paper>
                 )}
               </Grid>
-              {isOnBoardingCommunity ? (
+
+              {!isOnBoardingCommunity ? (
                 <>
                   <Grid item xs={12} md={9}>
-                    <OnBoardingSections />
+                    <OnBoardingSections setSelectedIndex={setSelectedIndex} />
                   </Grid>
                 </>
               ) : (
@@ -318,7 +378,7 @@ const CommunityApp = () => {
                   <Grid item xs={12} md={selectedIndex !== 0 ? 9 : 6}>
                     {selectedIndex === 0 && (
                       <>
-                        {selectedIndex === 0 && selectedCommunityId === null && (
+                        {selectedIndex === 0 && (
                           <>
                             <Box sx={{ width: '100%', mb: '16px' }}>
                               <PostFeedCommunity />
@@ -326,18 +386,17 @@ const CommunityApp = () => {
                             <ListSocialFeedCommunity />
                           </>
                         )}
-                        {selectedCommunityId !== null && <CommunityDetail communityId={selectedCommunityId} />}
                       </>
                     )}
                     {selectedIndex === 1 && (
                       <>
                         <DiscoverAndYourGroupsCommunity
-                          key={isJoined ? 'joined' : 'discover'}
-                          isJoined={isJoined}
+                          key={'discover'}
+                          isJoined={false}
                           setSelectedIndex={(id: any) => {
-                            setSelectedIndex(0)
-                            setSelectedCommunityId(id)
+                            router.replace('/community/' + id)
                           }}
+                          search={search}
                         />
                       </>
                     )}
@@ -345,12 +404,13 @@ const CommunityApp = () => {
                     {selectedIndex === 2 && (
                       <>
                         <DiscoverAndYourGroupsCommunity
-                          key={isJoined ? 'joined' : 'discover'}
-                          isJoined={isJoined}
+                          key={'joined'}
+                          isJoined={true}
+                          setIndex={setSelectedIndex}
                           setSelectedIndex={(id: any) => {
-                            setSelectedIndex(0)
-                            setSelectedCommunityId(id)
+                            router.replace('/community/' + id)
                           }}
+                          search={search}
                         />
                       </>
                     )}
@@ -360,12 +420,10 @@ const CommunityApp = () => {
                     <Grid item xs={12} md={3}>
                       <JoinGroupCard
                         setSelectedIndex={(id: any) => {
-                          setSelectedIndex(0)
-                          setSelectedCommunityId(id)
+                          router.replace('/community/' + id)
                         }}
                         showMore={() => {
-                          setSelectedIndex(2)
-                          setSelectedCommunityId(null)
+                          setSelectedIndex(1)
                           router.replace('/community/')
                         }}
                       />

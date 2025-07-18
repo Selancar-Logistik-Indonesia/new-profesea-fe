@@ -8,9 +8,10 @@ import { Community } from 'src/contract/models/community'
 
 interface ICommunitySelect {
   handleSetCommunityId: (communityId: any) => void
+  communityWarning?: boolean
 }
 
-const CommunitySelect: React.FC<ICommunitySelect> = ({ handleSetCommunityId }) => {
+const CommunitySelect: React.FC<ICommunitySelect> = ({ handleSetCommunityId, communityWarning }) => {
   const { user } = useAuth()
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const [selectedCommunity, setSelectedCommunity] = useState<Community | null>(null)
@@ -48,16 +49,17 @@ const CommunitySelect: React.FC<ICommunitySelect> = ({ handleSetCommunityId }) =
   }
 
   return (
-    <>
+    <Box>
       <Box
         sx={{
           backgroundColor: '#F8F8F7',
           padding: '16px 24px',
-          borderRadius: '4px',
+          borderRadius: '8px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          cursor: 'pointer'
+          cursor: 'pointer',
+          border: communityWarning ? '1px solid red' : ''
         }}
         onClick={handleClick}
       >
@@ -71,7 +73,7 @@ const CommunitySelect: React.FC<ICommunitySelect> = ({ handleSetCommunityId }) =
             textOverflow: 'ellipsis'
           }}
         >
-          {selectedCommunity?.name || 'Select a community or alumni group to post to'}
+          {selectedCommunity?.name || 'Select a group to post to'}
         </Typography>
         <IconButton size='small' edge='end'>
           <ExpandMoreIcon />
@@ -116,7 +118,8 @@ const CommunitySelect: React.FC<ICommunitySelect> = ({ handleSetCommunityId }) =
           ))
         )}
       </Menu>
-    </>
+      {communityWarning && <Typography sx={{color:'red'}}>*Please select a group before posting your feed</Typography>}
+    </Box>
   )
 }
 

@@ -25,6 +25,8 @@ interface FieldPreference {
   open_to_opp: any
   category_id: any
   job_category?: JobCategory
+  job_position:any
+  job_position_id: number
 }
 
 export default FieldPreference;

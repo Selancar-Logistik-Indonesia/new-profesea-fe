@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Box from '@mui/material/Box'
 import { CircularProgress, Grid } from '@mui/material'
-import localStorageKeys from 'src/configs/localstorage_keys'
-import secureLocalStorage from 'react-secure-storage'
 import { HttpClient } from 'src/services'
 import { AppConfig } from 'src/configs/api'
 import { IUser } from 'src/contract/models/user'
@@ -10,7 +8,7 @@ import { toast } from 'react-hot-toast'
 import WorkeExperience from '../Workexperience'
 import { SocialFeedProvider } from 'src/context/SocialFeedContext'
 import { useSearchParams } from 'next/navigation'
-import { getCleanErrorMessage, linkToTitleCase, toLinkCase } from 'src/utils/helpers'
+import { linkToTitleCase, toLinkCase } from 'src/utils/helpers'
 import Ceritificate from '../Certificate'
 import AboutMe from 'src/views/profile/aboutMe'
 import { useRouter } from 'next/router'
@@ -26,6 +24,8 @@ import FriendSuggestionCard from 'src/layouts/components/FriendSuggestionCard'
 import UsernameChange from 'src/layouts/components/UsernameChange'
 import SideAdProfile from 'src/views/banner-ad/sideAdProfile'
 import CompleteOnboarding from 'src/views/onboarding/CompleteOnboarding'
+import { useAuth } from 'src/hooks/useAuth'
+import HospitalityExperienceSection from 'src/views/profile/HospitalityExperienceSection'
 
 const ProfileCompany = () => {
   return (
@@ -38,9 +38,10 @@ const ProfileCompany = () => {
 const UserFeedApp = () => {
   const params = useSearchParams()
   const router = useRouter()
-  const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
-  const iduser: any = user?.id
+  const { user, settings } = useAuth()
+
   const onboarding = params.get('onboarding')
+  const username = params.get('username')
 
   const [selectedUser, setSelectedUser] = useState<IUser | null>(null)
   const [arrVacany, setArrVacancy] = useState<any>([])
@@ -53,67 +54,58 @@ const UserFeedApp = () => {
     }
   }, [onboarding])
 
-  const firstload = async (usernameURL: string) => {
-    const url = 'public/data/user/?username=' + usernameURL
-    const filter = ''
+  const firstLoad = async (username: string) => {
+    const usnParam = linkToTitleCase(username)
+    await HttpClient.get('public/data/user/?username=' + usnParam).then(
+      async response => {
+        const userData = response.data.user
 
-    try {
-      const response = await HttpClient.get(url)
-      if (response.data.user.length == 0) {
-        toast.error(`Opps data tidak ditemukan`)
+        if (!userData) {
+          toast.error('User not found')
 
-        return
+          return
+        }
+
+        if (userData.role === 'Company' || userData.role === 'Trainer') {
+          router.push(`/company/${toLinkCase(userData.username)}`)
+        }
+        setSelectedUser(userData)
+
+        if (user && userData.id === user.id) {
+          await HttpClient.get(AppConfig.baseUrl + '/user/experience?page=1&take=100').then(response => {
+            const itemData = response.data.experiences
+            setArrVacancy(itemData)
+          })
+          await HttpClient.get(AppConfig.baseUrl + '/user/education?page=1&take=100').then(response => {
+            const itemData = response.data.educations
+            setArrVacancy2(itemData)
+          })
+        } else {
+          HttpClient.get(
+            AppConfig.baseUrl + `/public/data/user/work-experiences?user_id=${userData.id}&take=10&page=1`
+          ).then(response => {
+            const itemData = response.data.experiences
+            setArrVacancy(itemData)
+          })
+          HttpClient.get(AppConfig.baseUrl + `/public/data/user/educations?user_id=${userData.id}&take=10&page=1`).then(
+            response => {
+              const itemData = response.data.educations
+              setArrVacancy2(itemData)
+            }
+          )
+        }
+      },
+      error => {
+        toast.error('failed to get user data:' + error)
       }
-
-      const user = response.data.user as IUser
-
-      if (user.role === 'Company' || user.role === 'Trainer') {
-        router.push(`/company/${toLinkCase(user.username)}`)
-      }
-      setSelectedUser(user)
-
-      if (iduser === user?.id) {
-        HttpClient.get(AppConfig.baseUrl + '/user/experience?page=1&take=100' + filter).then(response => {
-          const itemData = response.data.experiences
-          setArrVacancy(itemData)
-        })
-        HttpClient.get(AppConfig.baseUrl + '/user/education?page=1&take=100' + filter).then(response => {
-          const itemData = response.data.educations
-          setArrVacancy2(itemData)
-        })
-      } else {
-        HttpClient.get(
-          AppConfig.baseUrl +
-            `/public/data/user/work-experiences?user_id=${usernameURL ? user.id : iduser}&take=10&page=1` +
-            filter
-        ).then(response => {
-          const itemData = response.data.experiences
-          setArrVacancy(itemData)
-        })
-        HttpClient.get(
-          AppConfig.baseUrl +
-            `/public/data/user/educations?user_id=${usernameURL ? user.id : iduser}&take=10&page=1` +
-            filter
-        ).then(response => {
-          const itemData = response.data.educations
-          setArrVacancy2(itemData)
-        })
-      }
-    } catch (error: any) {
-      if (error.response.status == 401) {
-        return
-      }
-      toast.error(`Opps ${getCleanErrorMessage(error)}`)
-    }
+    )
   }
 
   useEffect(() => {
-    if (router.isReady) {
-      const usernameURL = linkToTitleCase(router.query.username as string) as string
-
-      firstload(usernameURL)
+    if (username) {
+      firstLoad(username)
     }
-  }, [router.isReady, router.query.username])
+  }, [username, user])
 
   if (!selectedUser) {
     return (
@@ -138,7 +130,7 @@ const UserFeedApp = () => {
 
           {/* seafarer experience */}
           {selectedUser?.employee_type == 'onship' && (
-            <SeafarerExperience userId={selectedUser?.id} userName={selectedUser?.name} />
+            settings?.is_hospitality ? <HospitalityExperienceSection userId={selectedUser?.id} userName={selectedUser?.name} /> : <SeafarerExperience userId={selectedUser?.id} userName={selectedUser?.name} />
           )}
 
           {/* seafarer cop */}

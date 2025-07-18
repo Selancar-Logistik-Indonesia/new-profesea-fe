@@ -80,6 +80,7 @@ const LoginPage = () => {
   const searchParams = useSearchParams()
   const email = searchParams.get('email')
   const checked = searchParams.get('checked')
+  const hospitality = searchParams.get('hospitality')
 
   const [showPassword, setShowPassword] = useState<boolean>(false)
   const [showPassword2, setShowPassword2] = useState<boolean>(false)
@@ -128,6 +129,7 @@ const LoginPage = () => {
         setOnLoading(false)
       },
       error => {
+        console.log(error)
         setOnLoading(false)
         toast.error('Registrastion Failed ' + error.response.data.message)
       }
@@ -152,7 +154,8 @@ const LoginPage = () => {
       post({
         email: lowerCaseEmail,
         password: password,
-        password_confirmation: password2
+        password_confirmation: password2,
+        hospitality: hospitality
       })
     } catch (e) {
       alert(e)
@@ -199,13 +202,44 @@ const LoginPage = () => {
           item
           md={6}
           sx={{
-            backgroundImage: `url(/images/bg-login.jpg)`,
+            backgroundImage: `url(/images/bg-login.webp)`,
             backgroundRepeat: 'no-repeat',
             backgroundSize: '100% auto',
             backgroundPosition: '20% 45%'
           }}
         />
-        <Grid item xs={12} md={6} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <Grid
+          item
+          xs={12}
+          md={6}
+          sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}
+        >
+          <Box
+            sx={{
+              width: '100%',
+              mb: '20px',
+              display: 'flex',
+              gap: '8px',
+              alignItems: 'center',
+              px: '32px',
+              cursor: 'pointer'
+            }}
+            onClick={() => router.push('/')}
+          >
+            <Box
+              sx={{
+                padding: '8px',
+                background: 'rgba(231, 231, 231, 1)',
+                borderRadius: '50%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}
+            >
+              <Icon icon='mdi:arrow-left' fontSize={20} color='#404040' />
+            </Box>
+            <Typography sx={{ color: '#404040', fontWeight: 500, fontSize: 14 }}>Back to home</Typography>
+          </Box>
           <Box
             sx={{
               display: 'flex',

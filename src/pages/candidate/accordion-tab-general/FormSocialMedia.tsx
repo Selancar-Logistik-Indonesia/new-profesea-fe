@@ -4,12 +4,17 @@ import React, { useEffect, useState } from 'react'
 import { AppConfig } from 'src/configs/api'
 import { HttpClient } from 'src/services'
 import { useTheme } from '@mui/material/styles'
+import { IUser } from 'src/contract/models/user'
 import toast from 'react-hot-toast'
 import { useProfileCompletion } from 'src/hooks/useProfileCompletion'
+import secureLocalStorage from 'react-secure-storage'
+import localStorageKeys from 'src/configs/localstorage_keys'
 
 const FormSocialMedia = () => {
   const { refetch, setRefetch } = useProfileCompletion()
 
+  const userLocalStorage = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
+  const userId = userLocalStorage.id
   const Theme = useTheme()
   const isMobile = useMediaQuery(Theme.breakpoints.down('md'))
   const [instagram, setInstagram] = useState('')
@@ -20,26 +25,29 @@ const FormSocialMedia = () => {
   const [disabledLinkedin, setDisabledLinkedin] = useState(false)
   const [disabledFacebook, setDisabledFacebook] = useState(false)
 
-  let statusfb: any = ''
-  let statusig: any = ''
-  let statuslinkedin: any = ''
+  // let statusfb: any = ''
+  // let statusig: any = ''
+  // let statuslinkedin: any = ''
+  const [statusfb, setStatusfb] = useState('')
+  const [statusig, setStatusig] = useState('')
+  const [statuslinkedin, setStatusLinkedin] = useState('')
 
   const fetchUserSocialMedia = () => {
-    HttpClient.get(AppConfig.baseUrl + '/user/sosmed?page=1&take=100').then(response => {
+    HttpClient.get(AppConfig.baseUrl + `/user/sosmed?page=1&take=100&user_id=${userId}`).then(response => {
       const code = response.data.sosmeds.data
       for (let x = 0; x < code.length; x++) {
         const element = code[x]
         if (element.sosmed_type == 'Facebook') {
           setFacebook(element.username)
-          statusfb = element.id
+          setStatusfb(element.id)
         }
         if (element.sosmed_type == 'Instagram') {
           setInstagram(element.username)
-          statusig = element.id
+          setStatusig(element.id)
         }
         if (element.sosmed_type == 'LinkedIn') {
           setLinkedin(element.username)
-          statuslinkedin = element.id
+          setStatusLinkedin(element.id)
         }
       }
     })
@@ -72,7 +80,7 @@ const FormSocialMedia = () => {
       HttpClient.post(AppConfig.baseUrl + '/user/sosmed', json).then(
         ({ data }) => {
           console.log('Success add social media (instagram):', data)
-          statusig = data.sosmed.id
+          setStatusig(data.sosmed.id)
           setDisabledInstagram(true)
           setRefetch(!refetch)
         },
@@ -110,7 +118,7 @@ const FormSocialMedia = () => {
       HttpClient.post(AppConfig.baseUrl + '/user/sosmed', json).then(
         ({ data }) => {
           console.log('Success add social media (linkedIn):', data)
-          statuslinkedin = data.sosmed.id
+          setStatusLinkedin(data.sosmed.id)
           setDisabledLinkedin(true)
           setRefetch(!refetch)
         },
@@ -148,7 +156,7 @@ const FormSocialMedia = () => {
     if (statusfb == '') {
       HttpClient.post(AppConfig.baseUrl + '/user/sosmed', json).then(
         ({ data }) => {
-          statusfb = data.sosmed.id
+          setStatusfb(data.sosmed.id)
           setDisabledFacebook(true)
           setRefetch(!refetch)
         },

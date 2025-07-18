@@ -2,7 +2,7 @@ import Card from '@mui/material/Card'
 import CardHeader from '@mui/material/CardHeader'
 import CardContent from '@mui/material/CardContent'
 import Grid from '@mui/material/Grid'
-import { Box, Button, InputAdornment, MenuItem, Select, TextField, Typography } from '@mui/material'
+import { Box, Breadcrumbs, Button, InputAdornment, Link, MenuItem, Select, TextField, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
 import AnimatedTabs from 'src/@core/components/animated-tabs'
 import { Icon } from '@iconify/react'
@@ -12,6 +12,7 @@ import CommunityTab from 'src/views/admin/community-management/CommunityTab'
 import CreateGroupDialog from 'src/views/community/CreateGroupDialog'
 import toast from 'react-hot-toast'
 import { v4 } from 'uuid'
+import { MdNavigateNext } from 'react-icons/md'
 
 const tabsOption = [
   { value: 'community', label: 'Community Management' },
@@ -67,6 +68,14 @@ const CommunityManagement = () => {
 
   }
 
+/*************  ✨ Windsurf Command ⭐  *************/
+  /**
+   * Handle delete a community
+   * @param {number} id - The community id to be deleted
+   * @returns {void}
+   */
+
+/*******  048bef00-8024-4a22-a94b-1b0d1de8e2b2  *******/
   const handleDelete = (id: number) => {
     setLoading(true)
     HttpClient.del(`/community/${id}`).then(res => {
@@ -108,6 +117,35 @@ const CommunityManagement = () => {
     <>
       <CreateGroupDialog open={openCreate} onClose={closeCreateDialog} />
       <Grid container spacing={6} className='match-height'>
+        <Grid item xs={12}>
+        <Breadcrumbs
+            separator={<MdNavigateNext fontSize={'17px'} color='black' />}
+            aria-label='breadcrumb'
+            sx={{ ml: 4, mb: 2 }}
+          >
+            <Link key='1' href='/' sx={{ textDecoration: 'none' }}>
+              <Typography
+                sx={{
+                  color: '#32497A',
+                  fontSize: '14px',
+                  fontWeight: 400
+                }}
+              >
+                Home
+              </Typography>
+            </Link>
+              {/* nanti ganti pake logic trainer/admin */}n
+              <Typography
+                sx={{
+                  color: '#949EA2',
+                  fontSize: '14px',
+                  fontWeight: 400
+                }}
+              >
+               { activeTab == 'reported' ? 'Reported Content Management' : 'Community Management'}
+              </Typography>
+          </Breadcrumbs>
+        </Grid>
         <Grid item xs={12} sm={6} md={12}>
           <Card sx={{ border: 0, boxShadow: 0, color: 'common.white', backgroundColor: '#FFFFFF' }}>
             <CardHeader

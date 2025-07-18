@@ -218,6 +218,49 @@ const JobDetail = () => {
                 )}
               </Grid>
             </Box>
+
+            {/* Certificate */}
+            {job?.category?.employee_type == 'onship' && (
+              <Box sx={{ ml: '8px', py: '24px', display: job?.license.length === 0 ? 'none' : ''  }}>
+                <Typography
+                  sx={{
+                    fontSize: '16px',
+                    fontWeight: 700,
+                    color: '#32497A',
+                    marginBottom: '16px'
+                  }}
+                >
+                  Mandatory Certificate
+                </Typography>
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                  <Box sx={{display: filterCertificates(job?.license)[0].length === 0 ? 'none' : ''}}>
+                    <Typography sx={{ fontSize: '14px', fontWeight: 700, color: '#303030' }}>
+                      Certificate of Competency
+                    </Typography>
+                    <ol style={{ paddingInlineStart: '20px' }}>
+                      {filterCertificates(job?.license)[0].map((l, index) => (
+                        <li key={index} style={{ fontSize: '14px', fontWeight: 400 }}>
+                          {l.title}
+                        </li>
+                      ))}
+                    </ol>
+                  </Box>
+                  <Box sx={{display: filterCertificates(job?.license)[1].length === 0 ? 'none' : ''}}>
+                    <Typography sx={{ fontSize: '14px', fontWeight: 700, color: '#303030' }}>
+                      Certificate of Proficiency
+                    </Typography>
+                    <ol style={{ paddingInlineStart: '20px' }}>
+                      {filterCertificates(job?.license)[1].map((l, index) => (
+                        <li key={index} style={{ fontSize: '14px', fontWeight: 400 }}>
+                          {l.title}
+                        </li>
+                      ))}
+                    </ol>
+                  </Box>
+                </Box>
+              </Box>
+            )}
+
             {/* Description */}
             <Box sx={{ ml: '8px', py: '24px', borderBottom: '1px solid #EDEDED' }}>
               <Typography
@@ -235,48 +278,6 @@ const JobDetail = () => {
                 </Typography>
               </Box>
             </Box>
-
-            {/* Certificate */}
-            {job?.category?.employee_type == 'onship' && (
-              <Box sx={{ ml: '8px', py: '24px' }}>
-                <Typography
-                  sx={{
-                    fontSize: '16px',
-                    fontWeight: 700,
-                    color: '#32497A',
-                    marginBottom: '16px'
-                  }}
-                >
-                  Mandatory Certificate
-                </Typography>
-                <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                  <Box>
-                    <Typography sx={{ fontSize: '14px', fontWeight: 700, color: '#303030' }}>
-                      Certificate of Competency
-                    </Typography>
-                    <ol style={{ paddingInlineStart: '20px' }}>
-                      {filterCertificates(job?.license)[0].map((l, index) => (
-                        <li key={index} style={{ fontSize: '14px', fontWeight: 400 }}>
-                          {l.title}
-                        </li>
-                      ))}
-                    </ol>
-                  </Box>
-                  <Box>
-                    <Typography sx={{ fontSize: '14px', fontWeight: 700, color: '#303030' }}>
-                      Certificate of Proficiency
-                    </Typography>
-                    <ol style={{ paddingInlineStart: '20px' }}>
-                      {filterCertificates(job?.license)[1].map((l, index) => (
-                        <li key={index} style={{ fontSize: '14px', fontWeight: 400 }}>
-                          {l.title}
-                        </li>
-                      ))}
-                    </ol>
-                  </Box>
-                </Box>
-              </Box>
-            )}
           </CardContent>
         </Grid>
       </Grid>

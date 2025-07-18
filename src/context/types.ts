@@ -1,6 +1,7 @@
 import IAbilities from "src/contract/models/abilities"
 import IFlaggings from "src/contract/models/flaggings"
 import { IUser } from "src/contract/models/user"
+import { IUserSettings } from "src/contract/models/userSettings"
 
 export type ErrCallbackType = (err: { [key: string]: string }) => void
 
@@ -32,6 +33,8 @@ export type AuthValuesType = {
     user: IUser | null
     abilities: IAbilities | null
     flaggings: IFlaggings | null
+    jobOffers: any[] | null
+    settings: IUserSettings | null
     setLoading: (value: boolean) => void
     setUser: (value: IUser | null) => void
     socialLogin: (params: { accessToken: string, namaevent: any }, errorCallback?: ErrCallbackType) => void

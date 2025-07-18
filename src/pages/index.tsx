@@ -18,6 +18,7 @@ import OurFeatureView from 'src/views/landing-page/ourFeatureView'
 import OurPartnerView from 'src/views/landing-page/ourPartnerView'
 import SeafarerPlatformView from 'src/views/landing-page/seafarerPlatformView'
 import ProfessionalPlatformView from 'src/views/landing-page/professionalPlatformView'
+import HospitalityBanner from 'src/views/landing-page/HospitalityBanner'
 
 const Main = () => {
   const { t } = useTranslation()
@@ -60,6 +61,7 @@ const Main = () => {
           }}
         >
           <OurPartnerView />
+          <HospitalityBanner/>
           <OurFeatureView />
           <SeafarerPlatformView />
           <ProfessionalPlatformView />
