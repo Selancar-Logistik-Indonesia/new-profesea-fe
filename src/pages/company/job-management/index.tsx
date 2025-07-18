@@ -262,6 +262,13 @@ const JobManagement = () => {
                 sx={{ flexGrow: 1 }}
                 value={search}
                 onChange={e => setSearch(e.target.value)}
+                title="Search - please click SEARCH button or press 'Enter' to search"
+                onKeyDown={e => {
+                  if (e.key === 'Enter') {
+                    getJobs()
+                    // getTotalJobPosted()
+                  }
+                }}
                 variant='outlined'
                 placeholder='Search'
                 size='small'
@@ -270,6 +277,20 @@ const JobManagement = () => {
                     <InputAdornment position='start' sx={{ marginRight: '8px' }}>
                       <Icon icon='ph:magnifying-glass' fontSize={16} />
                     </InputAdornment>
+                  ),
+                  endAdornment: (
+                    <Button
+                      variant='contained'
+                      size='small'
+                      sx={{ margin: '5px', marginRight: '-10px', padding: '5px 25px' }}
+                      onClick={() => {
+                        getJobs()
+                        // getTotalJobPosted()
+                      }}
+                      startIcon={<Icon icon={'iconamoon:search-thin'} fontSize={16} style={{ color: 'white' }} />}
+                    >
+                      Search
+                    </Button>
                   )
                 }}
               />
