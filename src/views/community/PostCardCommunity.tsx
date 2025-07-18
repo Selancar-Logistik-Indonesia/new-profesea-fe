@@ -23,6 +23,7 @@ import CommentAreaView from '../social-feed/CommentAreaView'
 import { useAuth } from 'src/hooks/useAuth'
 import CommunityFeedAction from './CommunityFeedAction'
 import ButtonShare from '../social-feed/ButtonShare'
+import { useSearchParams } from 'next/navigation'
 
 interface IPostCardCommunityProps {
   feed: ISocialFeed
@@ -41,6 +42,8 @@ const PostCardCommunity: React.FC<IPostCardCommunityProps> = ({ feed, isPage }) 
   const theme = useTheme()
   const isXs = useMediaQuery(theme.breakpoints.down('md'))
   const [isLike, setIsLike] = useState(Boolean(feed.liked_at))
+  const params = useSearchParams()
+  const insideDetail = params.get('id')
 
   const [abilities, setAbilities] = useState<IActionAbilities>({
     canDelete: feed?.user?.id === user?.id || user?.role === 'admin' || user?.id === feed?.community?.user_id,
@@ -70,46 +73,78 @@ const PostCardCommunity: React.FC<IPostCardCommunityProps> = ({ feed, isPage }) 
         padding: '0px 0px 8px 0px'
       }}
     >
-      <Box sx={{ display: feed?.settings?.is_pinned ? 'flex' : 'none', alignItems: 'center', gap: '4px', ml: 3, padding:'8px' }}>
+      <Box
+        sx={{
+          display: feed?.settings?.is_pinned ? 'flex' : 'none',
+          alignItems: 'center',
+          gap: '4px',
+          ml: 3,
+          padding: '8px'
+        }}
+      >
         <Icon icon='ph:push-pin-simple-fill' fontSize={18} />
         <Typography>Pinned Post</Typography>
       </Box>
       <CardHeader
-        sx={{ padding: feed?.settings?.is_pinned ?  '0px 16px 0px 16px !important' : '' }}
+        sx={{ padding: feed?.settings?.is_pinned ? '0px 16px 0px 16px !important' : '' }}
         avatar={<Avatar alt='profile-picture' src={getUserAvatar(feed.user)} sx={{ width: 36, height: 36 }} />}
         action={<CommunityFeedAction row={feed} abilities={abilities} />}
         title={
-          <Typography
-          component={Link}
-          href={`/community/${feed?.community?.id}`}
-            sx={{
-              fontSize: '16px',
-              fontWeight: 'bold',
-              color: '#2D3436',
-              cursor: 'pointer',
-              textDecoration: 'none'
-            }}
-            fontWeight='bold'
-          >
-            {feed?.community?.name}
-          </Typography>
-        }
-        subheader={
-          <Stack direction='row' spacing={1} alignItems='center'>
+          insideDetail ? (
             <Typography
               component={Link}
-              href={feed?.user?.team_id != 2  ? `/company/${feed?.user?.username}` : `/profile/${feed?.user?.username}`}
+              href={feed?.user?.team_id != 2 ? `/company/${feed?.user?.username}` : `/profile/${feed?.user?.username}`}
               sx={{
-                fontSize: '12px',
-                fontWeight: '400',
-                color: '#5E5E5E',
+                fontSize: '16px',
+                fontWeight: '700',
+                color: '#2D3436',
                 cursor: 'pointer',
                 textDecoration: 'none'
               }}
             >
               {toTitleCase(feed.user.name)}
             </Typography>
-            <span>•</span>
+          ) : (
+            <Typography
+              component={Link}
+              href={`/community/${feed?.community?.id}`}
+              sx={{
+                fontSize: '16px',
+                fontWeight: 'bold',
+                color: '#2D3436',
+                cursor: 'pointer',
+                textDecoration: 'none'
+              }}
+              fontWeight='bold'
+            >
+              {feed?.community?.name}
+            </Typography>
+          )
+        }
+        subheader={
+          <Stack direction='row' spacing={1} alignItems='center'>
+            {insideDetail ? (
+              ''
+            ) : (
+              <>
+                <Typography
+                  component={Link}
+                  href={
+                    feed?.user?.team_id != 2 ? `/company/${feed?.user?.username}` : `/profile/${feed?.user?.username}`
+                  }
+                  sx={{
+                    fontSize: '12px',
+                    fontWeight: '400',
+                    color: '#5E5E5E',
+                    cursor: 'pointer',
+                    textDecoration: 'none'
+                  }}
+                >
+                  {toTitleCase(feed.user.name)}
+                </Typography>
+                <span>•</span>
+              </>
+            )}
             <Typography
               sx={{
                 fontSize: '12px',
@@ -206,9 +241,9 @@ const PostCardCommunity: React.FC<IPostCardCommunityProps> = ({ feed, isPage }) 
       </Box>
 
       {/* comment area */}
-        <Box px={'24px'} py={'16px'}>
-          <CommentAreaView item={feed} />
-        </Box>
+      <Box px={'24px'} py={'16px'}>
+        <CommentAreaView item={feed} />
+      </Box>
     </Card>
   )
 }
