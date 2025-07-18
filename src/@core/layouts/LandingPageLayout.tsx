@@ -53,7 +53,7 @@ const LandingPageLayout = (props: LandingPageLayoutProps) => {
             minHeight: theme => `calc(100vh - ${theme.spacing((theme.mixins.toolbar.minHeight as number) / 4)})`,
             padding:
               pathname?.startsWith('/profile/') || pathname?.startsWith('/company/') || pathname?.startsWith('/job/')
-                ? {xs: '' ,sm:'24px 120px'}
+                ? { xs: '', sm: '24px 120px' }
                 : ''
           }}
         >
