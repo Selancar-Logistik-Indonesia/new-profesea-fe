@@ -747,25 +747,27 @@ const CertificateTab: React.FC<ICertificateTabProps> = ({ defaultValue = 0 }) =>
                     <Typography sx={{ color: '#868686', fontWeight: 400, fontSize: '14px', lineHeight: '21px' }}>
                       {e?.issue_at ? 'Issued date ' + format(new Date(e?.issue_at), 'LLL yyyy') : 'Issued date -'}
                     </Typography>
-                    <Button
-                      sx={{
-                        width: { sm: '100%', md: '160px' },
-                        height: '37px',
-                        borderColor: 'rgba(50, 73, 122, 1) !important',
-                        textTransform: 'capitalize',
-                        fontWeight: 400,
-                        fontSize: { sm: '14px', md: '14px' },
-                        lineHeight: '21px',
-                        color: 'rgba(50, 73, 122, 1) !important'
-                      }}
-                      variant='outlined'
-                      color='primary'
-                      size='medium'
-                      href={process.env.NEXT_PUBLIC_BASE_URL + '/storage/' + e?.path}
-                      target='_blank'
-                    >
-                      Show Credential
-                    </Button>
+                    {e?.path && (
+                      <Button
+                        sx={{
+                          width: { sm: '100%', md: '160px' },
+                          height: '37px',
+                          borderColor: 'rgba(50, 73, 122, 1) !important',
+                          textTransform: 'capitalize',
+                          fontWeight: 400,
+                          fontSize: { sm: '14px', md: '14px' },
+                          lineHeight: '21px',
+                          color: 'rgba(50, 73, 122, 1) !important'
+                        }}
+                        variant='outlined'
+                        color='primary'
+                        size='medium'
+                        href={process.env.NEXT_PUBLIC_BASE_URL + '/storage/' + e?.path}
+                        target='_blank'
+                      >
+                        Show Credential
+                      </Button>
+                    )}
                   </Box>
                   <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: '24px' }}>
                     <Box sx={{ display: 'flex', justifyContent: 'end' }}>
