@@ -34,7 +34,7 @@ const pageItems = 6
 const tabsOption = [
   { value: 'onship', label: 'Seafarer' },
   { value: 'offship', label: 'Professional' },
-  { value: 'hospitality', label: 'Cruise Hospitality'}
+  { value: 'hospitality', label: 'Cruise Hospitality' }
 ]
 const employmentType = [
   { value: 'Intern', label: 'Intern' },
@@ -191,7 +191,6 @@ const JobManagement = () => {
   }, [
     refetch,
     activeTab,
-    search,
     page,
     jobCategoryFilter,
     statusFilter,
@@ -268,7 +267,6 @@ const JobManagement = () => {
                 onKeyDown={e => {
                   if (e.key === 'Enter') {
                     getJobs()
-                    // getTotalJobPosted()
                   }
                 }}
                 variant='outlined'
@@ -287,7 +285,6 @@ const JobManagement = () => {
                       sx={{ margin: '5px', marginRight: '-10px', padding: '5px 25px' }}
                       onClick={() => {
                         getJobs()
-                        // getTotalJobPosted()
                       }}
                       startIcon={<Icon icon={'iconamoon:search-thin'} fontSize={16} style={{ color: 'white' }} />}
                     >
@@ -318,7 +315,7 @@ const JobManagement = () => {
             </Box>
             <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, gap: { xs: '24px', md: '70px' } }}>
               <Grid container spacing={6}>
-                <Grid item xs={4} sx={{display: activeTab === 'hospitality' ? 'none' : ''}}>
+                <Grid item xs={4} sx={{ display: activeTab === 'hospitality' ? 'none' : '' }}>
                   <Autocomplete
                     autoHighlight
                     options={jobCategory || []}
@@ -353,7 +350,7 @@ const JobManagement = () => {
                   </Select>
                 </Grid>
                 <Grid item xs={4}>
-                  {(activeTab === 'onship' || activeTab === 'hospitality') ? (
+                  {activeTab === 'onship' || activeTab === 'hospitality' ? (
                     <Autocomplete
                       autoHighlight
                       options={vesselType || []}
