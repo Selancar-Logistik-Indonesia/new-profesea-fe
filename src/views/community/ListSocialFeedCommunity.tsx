@@ -60,7 +60,7 @@ const ListSocialFeedCommunity = ({communityId} : {communityId?: number}) => {
             >
               <Stack direction={'column'} gap={'16px'} sx={{width: '100%'}}>
                 {feeds.map((feed, index) => (
-                  <PostCardCommunity key={index} feed={feed} />
+                  <PostCardCommunity key={index} feed={feed} isPage={true} />
                 ))}
               </Stack>
             </InfiniteScroll>
