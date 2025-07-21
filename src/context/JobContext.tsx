@@ -45,6 +45,7 @@ const JobProvider = (props: Props) => {
     username?: any
     work_arrangement?: any
     sort?: any
+    is_hospitality?: boolean
   }) => {
     // only trigger in page 1
 
@@ -64,20 +65,8 @@ const JobProvider = (props: Props) => {
         const { jobs } = response.data as { jobs: { data: Job[]; next_page_url?: string; total: number } }
 
         if (jobs.data.length && jobs.data.length > 0) {
-          // setJobs(old => (page === 1 ? jobs.data : [...old, ...jobs.data]))
           setJobs(jobs.data)
-          // setJobs(old => {
-          //   const existingJobId = new Set(old.map(job => job.id))
-          //   const newJobs = jobs.data.filter(job => !existingJobId.has(job.id))
-          //   const newItems = [...old, ...newJobs]
-
-          //   return newItems
-          // })
           setTotalJob(jobs.total)
-
-          // if (jobs.total > 9) {
-          //   setPage(page => page + 1)
-          // }
         }
         setHasNextPage(jobs.next_page_url != null)
       }
@@ -124,7 +113,6 @@ const JobProvider = (props: Props) => {
         )
       }
     } catch (error) {
-      console.log(error)
       toast.error('Error save job')
     }
   }
@@ -138,7 +126,6 @@ const JobProvider = (props: Props) => {
         toast.success('Success unsaved job')
       }
     } catch (error) {
-      console.log(error)
       toast.error('Error unsaved job')
     }
   }

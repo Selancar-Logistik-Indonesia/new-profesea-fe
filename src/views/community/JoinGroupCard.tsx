@@ -6,6 +6,8 @@ import Icon from 'src/@core/components/icon'
 import { HttpClient } from 'src/services'
 import JoinGroupCardSkeleton from './JoinGroupCardSkeleton'
 import toast from 'react-hot-toast'
+import { useAuth } from 'src/hooks/useAuth'
+import { usePublicData } from 'src/hooks/usePublicData'
 
 interface Group {
   id: string
@@ -27,11 +29,13 @@ const JoinGroupCard: React.FC<JoinGroupCardProps> = ({ setSelectedIndex, showMor
   const router = useRouter()
   const [loading, setLoading] = React.useState(false)
   const [communities, setCommunities] = React.useState<Group[]>([])
+  const { user } = useAuth()
+  const { unauthenticatedUserAction } = usePublicData()
 
   const fetchCommunities = async () => {
     setLoading(true)
     try {
-      const response = await HttpClient.get(`/community?take=3&page=1`)
+      const response = await HttpClient.get(user ? `/community?take=3&page=1` : `/public/data/community?take=3&page=1`)
 
       setCommunities(
         response.data?.data.map((d: any) => {
@@ -108,17 +112,17 @@ const JoinGroupCard: React.FC<JoinGroupCardProps> = ({ setSelectedIndex, showMor
           fontSize: '18px',
           fontWeight: 700,
           textAlign: 'center',
-          mb: 2
+          mb: 6
         }}
       >
         Join group
       </Typography>
 
       {communities.map((group, index) => (
-        <Box key={group.id + index} sx={{ mb: 2 }}>
+        <Box key={`${index}-${group.id}`} sx={{ mb: 2 }}>
           <Stack spacing={1} alignItems='center' gap={'12px'}>
             <Avatar src={group.image} sx={{ width: 60, height: 60 }} />
-            <Typography fontSize={'16px'} fontWeight={700} color={'#2D3436'}>
+            <Typography fontSize={'16px'} fontWeight={700} color={'#2D3436'} textAlign={'center'}>
               {group.name}
             </Typography>
 
@@ -138,7 +142,7 @@ const JoinGroupCard: React.FC<JoinGroupCardProps> = ({ setSelectedIndex, showMor
                 variant='outlined'
                 size='small'
                 sx={{ textTransform: 'none', flex: 1 }}
-                onClick={() => handleViewGroup(group.id)}
+                onClick={user ? () => handleViewGroup(group.id) : unauthenticatedUserAction}
               >
                 View group
               </Button>
@@ -147,8 +151,8 @@ const JoinGroupCard: React.FC<JoinGroupCardProps> = ({ setSelectedIndex, showMor
                   variant='contained'
                   size='small'
                   sx={{ textTransform: 'none', flex: 1 }}
-                  onClick={() => handleJoinGroup(group.id)}
-                  disabled={group?.requested}
+                  onClick={user ? () => handleJoinGroup(group.id) : unauthenticatedUserAction}
+                  disabled={Boolean(group?.requested)}
                 >
                   {group?.requested ? ' Requested' : 'Join group'}
                 </Button>
@@ -160,7 +164,12 @@ const JoinGroupCard: React.FC<JoinGroupCardProps> = ({ setSelectedIndex, showMor
       ))}
 
       <Box display='flex' justifyContent='center' mt={1}>
-        <Button size='small' endIcon={<ArrowForwardIcon />} sx={{ textTransform: 'none' }} onClick={() => showMore()}>
+        <Button
+          size='small'
+          endIcon={<ArrowForwardIcon />}
+          sx={{ textTransform: 'none' }}
+          onClick={user ? () => showMore() : unauthenticatedUserAction}
+        >
           Show all
         </Button>
       </Box>

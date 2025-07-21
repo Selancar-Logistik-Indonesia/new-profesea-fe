@@ -71,7 +71,7 @@ const UserFeedApp = () => {
         }
         setSelectedUser(userData)
 
-        if (userData.id === user?.id) {
+        if (user && userData.id === user.id) {
           await HttpClient.get(AppConfig.baseUrl + '/user/experience?page=1&take=100').then(response => {
             const itemData = response.data.experiences
             setArrVacancy(itemData)
@@ -102,7 +102,7 @@ const UserFeedApp = () => {
   }
 
   useEffect(() => {
-    if (username && user) {
+    if (username) {
       firstLoad(username)
     }
   }, [username, user])

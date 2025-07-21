@@ -109,7 +109,7 @@ const CommunitySelect: React.FC<ICommunitySelect> = ({ handleSetCommunityId, com
             >
               <Box sx={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
                 <Box>
-                  <Avatar src={community?.banner_url} alt='profile-picture' sx={{ height: 50, width: 50 }} />
+                  <Avatar src={community?.banner} alt='profile-picture' sx={{ height: 50, width: 50 }} />
                 </Box>
 
                 {community.name}
@@ -118,7 +118,9 @@ const CommunitySelect: React.FC<ICommunitySelect> = ({ handleSetCommunityId, com
           ))
         )}
       </Menu>
-      {communityWarning && <Typography sx={{color:'red'}}>*Please select a group before posting your feed</Typography>}
+      {communityWarning && (
+        <Typography sx={{ color: 'red' }}>*Please select a group before posting your feed</Typography>
+      )}
     </Box>
   )
 }

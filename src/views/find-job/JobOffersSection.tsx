@@ -4,7 +4,7 @@ import { Icon } from '@iconify/react'
 import { useRouter } from 'next/router'
 
 interface IJobOfferSectionProps {
-  jobOffers: any[]
+  jobOffers: any[] | null
   user: any
 }
 

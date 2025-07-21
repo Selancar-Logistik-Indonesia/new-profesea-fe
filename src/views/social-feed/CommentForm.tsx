@@ -5,7 +5,7 @@ import { getUserAvatar } from 'src/utils/helpers'
 import { Icon } from '@iconify/react'
 import { useSocialFeed } from 'src/hooks/useSocialFeed'
 
-const CommentForm = (props: { feedId: number; replyable_type: 'feed' | 'comment', main_feed_id: number }) => {
+const CommentForm = (props: { feedId: number; replyable_type: 'feed' | 'comment'; main_feed_id: number }) => {
   const [content, setContent] = useState('')
   const [onLoading, setOnLoading] = useState(false)
   const { user } = useAuth()

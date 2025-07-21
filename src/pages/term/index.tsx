@@ -9,7 +9,7 @@ import path from 'path'
 import LandingPageLayout from 'src/@core/layouts/LandingPageLayout'
 
 export async function getServerSideProps() {
-  const filePath = path.join(process.cwd(), 'assets/tos/en.html')
+  const filePath = path.join(process.cwd(), 'public/assets/tos/en.html')
   const data = await fsPromises.readFile(filePath)
 
   return {
