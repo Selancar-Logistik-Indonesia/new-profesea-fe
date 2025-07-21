@@ -38,6 +38,24 @@ export interface IActionAbilities {
   canEdit: boolean
 }
 
+const CustomLoginCardHeader = (feed: ISocialFeed | null) => (
+  <Box
+    sx={{
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 6,
+      alignItems: 'center',
+      justifyContent: 'center',
+      textAlign: 'center'
+    }}
+  >
+    <Avatar src={feed?.community.banner || '/images/logoprofesea.png'} sx={{ width: 120, height: 120 }} />
+    <Typography sx={{ fontWeight: 'bold', fontSize: 16 }}>
+      Sign in to Profesea to Join {feed?.community.name}
+    </Typography>
+  </Box>
+)
+
 const PostCardCommunity: React.FC<IPostCardCommunityProps> = ({ feed, isPage }) => {
   const { user } = useAuth()
   const theme = useTheme()
@@ -54,7 +72,7 @@ const PostCardCommunity: React.FC<IPostCardCommunityProps> = ({ feed, isPage }) 
     canEdit: feed?.user?.id === user?.id
   })
 
-  const { unauthenticatedUserAction } = usePublicData()
+  const { unauthenticatedUserAction, setCustomLoginCardHeader } = usePublicData()
 
   useEffect(() => {
     setAbilities({
@@ -63,6 +81,8 @@ const PostCardCommunity: React.FC<IPostCardCommunityProps> = ({ feed, isPage }) 
       canPin: user?.role === 'admin' || user?.id === feed?.community?.user_id,
       canEdit: feed?.user?.id === user?.id
     })
+
+    setCustomLoginCardHeader(CustomLoginCardHeader(feed))
   }, [])
 
   useEffect(() => {
@@ -239,6 +259,7 @@ const PostCardCommunity: React.FC<IPostCardCommunityProps> = ({ feed, isPage }) 
             startIcon={<Icon icon={'majesticons:chat-line'} fontSize={16} />}
             size='small'
             sx={{ fontSize: '14px', fontWeight: 400, textTransform: 'capitalize', color: '#32497A' }}
+            onClick={user ? undefined : unauthenticatedUserAction}
           >
             Comment
           </Button>
