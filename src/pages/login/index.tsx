@@ -8,8 +8,6 @@ import {
   FormControl,
   Grid,
   IconButton,
-  InputLabel,
-  OutlinedInput,
   TextField,
   Typography,
   InputAdornment
@@ -157,38 +155,35 @@ const LoginPage = () => {
             backgroundPosition: '20% 45%'
           }}
         />
-
         <Grid
           item
           xs={12}
           md={6}
-          sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}
+          sx={{
+            display: 'flex',
+            position: 'relative',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center'
+          }}
         >
           <Box
+            component={Link}
+            href='/'
             sx={{
-              width: '100%',
-              mb: '20px',
+              position: 'absolute',
+              top: '32px',
+              left: '32px',
               display: 'flex',
               gap: '8px',
-              alignItems: 'center',
-              px: '32px',
-              cursor: 'pointer'
+              cursor: 'pointer',
+              alignItems: 'center'
             }}
-            onClick={() => router.push('/')}
           >
-            <Box
-              sx={{
-                padding: '8px',
-                background: 'rgba(231, 231, 231, 1)',
-                borderRadius: '50%',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center'
-              }}
-            >
+            <IconButton sx={{ backgroundColor: '#F0F0F0', '&:hover': { backgroundColor: '#E0E0E0' } }}>
               <Icon icon='mdi:arrow-left' fontSize={20} color='#404040' />
-            </Box>
-            <Typography sx={{ color: '#404040', fontWeight: 500, fontSize: 14 }}>Back to home</Typography>
+            </IconButton>
+            <Typography sx={{ color: '#404040', fontWeight: 400, fontSize: 12 }}>Back to home</Typography>
           </Box>
           <Box
             sx={{
@@ -254,13 +249,13 @@ const LoginPage = () => {
             </Box>
             <Box
               sx={{
-                height: '444px',
                 p: '24px',
                 backgroundColor: 'white',
                 borderRadius: '8px',
                 boxShadow: 3,
                 display: 'flex',
                 flexDirection: 'column',
+                gap: '32px',
                 justifyContent: 'space-between'
               }}
             >
@@ -279,59 +274,55 @@ const LoginPage = () => {
                       rules={{ required: true }}
                       render={({ field: { value, onChange, onBlur } }) => (
                         <TextField
+                          size='small'
                           autoFocus
                           label={t('input.email')}
                           value={value}
                           onBlur={onBlur}
                           onChange={onChange}
                           error={Boolean(errors.email)}
+                          helperText={errors.email?.message}
                           InputLabelProps={{ shrink: checkEmail || Boolean(getValues('email')) }}
                         />
                       )}
                     />
-                    {errors.email && (
-                      <Typography sx={{ color: 'error.main', m: '6px 4px 0', fontSize: 12 }}>
-                        {errors.email.message}
-                      </Typography>
-                    )}
                   </FormControl>
                   {checkEmail && (
                     <FormControl fullWidth>
-                      <InputLabel htmlFor='auth-login-v2-password' error={Boolean(errors.password)}>
-                        {t('input.password')}
-                      </InputLabel>
                       <Controller
                         name='password'
                         control={control}
                         rules={{ required: true }}
                         render={({ field: { value, onChange, onBlur } }) => (
-                          <OutlinedInput
+                          <TextField
+                            fullWidth
+                            size='small'
+                            type={showPassword ? 'text' : 'password'}
+                            label={t('input.password')}
                             value={value}
                             onBlur={onBlur}
-                            label={t('input.password')}
                             onChange={onChange}
-                            id='auth-login-v2-password'
                             error={Boolean(errors.password)}
-                            type={showPassword ? 'text' : 'password'}
-                            endAdornment={
-                              <InputAdornment position='end'>
-                                <IconButton
-                                  edge='end'
-                                  onMouseDown={e => e.preventDefault()}
-                                  onClick={() => setShowPassword(!showPassword)}
-                                >
-                                  <Icon icon={showPassword ? 'mdi:eye-outline' : 'mdi:eye-off-outline'} fontSize={20} />
-                                </IconButton>
-                              </InputAdornment>
-                            }
+                            helperText={errors.password?.message}
+                            InputProps={{
+                              endAdornment: (
+                                <InputAdornment position='end'>
+                                  <IconButton
+                                    edge='end'
+                                    onMouseDown={e => e.preventDefault()}
+                                    onClick={() => setShowPassword(!showPassword)}
+                                  >
+                                    <Icon
+                                      icon={showPassword ? 'mdi:eye-outline' : 'mdi:eye-off-outline'}
+                                      fontSize={20}
+                                    />
+                                  </IconButton>
+                                </InputAdornment>
+                              )
+                            }}
                           />
                         )}
                       />
-                      {errors.password && (
-                        <Typography sx={{ color: 'error.main', ml: '4px', fontSize: 12 }} id=''>
-                          {errors.password.message}
-                        </Typography>
-                      )}
                       <Typography
                         sx={{ display: 'flex', alignItems: 'center', justifyContent: 'left', marginTop: '2%' }}
                       >
@@ -342,14 +333,14 @@ const LoginPage = () => {
                     </FormControl>
                   )}
                   {checkEmail ? (
-                    <Button disabled={onLoading} fullWidth size='large' type='submit' variant='contained'>
+                    <Button disabled={onLoading} fullWidth size='medium' type='submit' variant='contained'>
                       {onLoading ? <CircularProgress color='primary' /> : t('input.login')}
                     </Button>
                   ) : (
                     <Button
                       fullWidth
                       disabled={onLoading}
-                      size='large'
+                      size='medium'
                       type='button'
                       variant='contained'
                       onClick={() => {
@@ -370,7 +361,7 @@ const LoginPage = () => {
                       </Divider>
                       <Button
                         fullWidth
-                        size='large'
+                        size='small'
                         variant='outlined'
                         component={Link}
                         href='https://apifix.profesea.id/auth/google'
@@ -381,7 +372,7 @@ const LoginPage = () => {
                       </Button>
                       <Button
                         fullWidth
-                        size='large'
+                        size='small'
                         variant='outlined'
                         component={Link}
                         href='https://apifix.profesea.id/auth/facebook'
