@@ -24,6 +24,7 @@ import { useAuth } from 'src/hooks/useAuth'
 import CommunityFeedAction from './CommunityFeedAction'
 import ButtonShare from '../social-feed/ButtonShare'
 import { useSearchParams } from 'next/navigation'
+import { usePublicData } from 'src/hooks/usePublicData'
 
 interface IPostCardCommunityProps {
   feed: ISocialFeed
@@ -44,6 +45,7 @@ const PostCardCommunity: React.FC<IPostCardCommunityProps> = ({ feed, isPage }) 
   const [isLike, setIsLike] = useState(Boolean(feed.liked_at))
   const params = useSearchParams()
   const insideDetail = params.get('id')
+  const [shareUrl, setShareUrl] = useState<string | null>(null)
 
   const [abilities, setAbilities] = useState<IActionAbilities>({
     canDelete: feed?.user?.id === user?.id || user?.role === 'admin' || user?.id === feed?.community?.user_id,
@@ -52,14 +54,20 @@ const PostCardCommunity: React.FC<IPostCardCommunityProps> = ({ feed, isPage }) 
     canEdit: feed?.user?.id === user?.id
   })
 
+  const { unauthenticatedUserAction } = usePublicData()
+
   useEffect(() => {
     setAbilities({
       canDelete: feed?.user?.id === user?.id || user?.role === 'admin' || user?.id === feed?.community?.user_id,
-      canReport: feed?.user?.id !== user?.id && user?.role !== 'admin',
+      canReport: user !== null && feed?.user?.id !== user?.id && user?.role !== 'admin',
       canPin: user?.role === 'admin' || user?.id === feed?.community?.user_id,
       canEdit: feed?.user?.id === user?.id
     })
   }, [])
+
+  useEffect(() => {
+    setShareUrl(getUrl(`/community/feed/${feed.id}`))
+  }, [feed.id])
 
   return (
     <Card
@@ -208,7 +216,6 @@ const PostCardCommunity: React.FC<IPostCardCommunityProps> = ({ feed, isPage }) 
       </Box>
 
       <Divider />
-
       <Box display='flex' justifyContent='space-between' mt={'8px'} px={'24px'} sx={{ alignItems: 'center' }}>
         <Box flex={1} textAlign='left'>
           <ButtonLike
@@ -224,6 +231,7 @@ const PostCardCommunity: React.FC<IPostCardCommunityProps> = ({ feed, isPage }) 
             }}
             likeableType='feed'
             isXs={isXs}
+            customAction={!user ? unauthenticatedUserAction : undefined}
           />
         </Box>
         <Box flex={1} textAlign='center'>
@@ -236,12 +244,12 @@ const PostCardCommunity: React.FC<IPostCardCommunityProps> = ({ feed, isPage }) 
           </Button>
         </Box>
         <Box flex={1} textAlign='right'>
-          <ButtonShare feedPage={getUrl(`/community/feed/${feed.id}`)} isXs={isXs} />
+          {shareUrl && <ButtonShare feedPage={shareUrl} isXs={isXs} />}
         </Box>
       </Box>
 
       {/* comment area */}
-      <Box px={'24px'} py={'16px'}>
+      <Box px={'24px'} py={user ? '16px' : '0px'}>
         <CommentAreaView item={feed} />
       </Box>
     </Card>
