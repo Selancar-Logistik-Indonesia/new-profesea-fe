@@ -427,11 +427,11 @@ const Candidate = () => {
                   cursor: 'pointer'
                 }}
               >
-                <Typography sx={{ fontSize: '12px', fontWeight: 400, color: '#2662EC' }}>Add sea experience</Typography>
+                <Typography sx={{ fontSize: '12px', fontWeight: 400, color: '#2662EC' }}>Add {settings?.is_hospitality ? 'work' : 'sea'} experience</Typography>
                 <Icon icon={'formkit:arrowright'} fontSize={'12px'} color='rgba(38, 98, 236, 1)' />
               </Box>
             )}
-            {userDetailPercentage?.recommendation_percentage == 0 && (
+            {(!settings?.is_hospitality && userDetailPercentage?.recommendation_percentage == 0)  && (
               <Box
                 component={'div'}
                 onClick={() => {
@@ -967,7 +967,7 @@ const Candidate = () => {
                               ) : undefined
                             }
                             iconPosition='end'
-                            label='Sea Experience'
+                            label={settings?.is_hospitality ? 'Work Experience' : 'Sea Experience'}
                             {...a11yProps(3)}
                           />
                         )}

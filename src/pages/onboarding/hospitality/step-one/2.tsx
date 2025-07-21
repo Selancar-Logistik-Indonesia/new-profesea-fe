@@ -3,10 +3,9 @@ import { Box, Grid, Typography } from '@mui/material'
 import BlankLayout from 'src/@core/layouts/BlankLayout'
 import { SeafarerProfileCard } from 'src/views/onboarding/ProfileCard'
 import ProgressBar from 'src/views/onboarding/ProgressBar'
-import SeafarerExperience from 'src/layouts/components/onboarding/SeafarerExperience'
+import BasicInformationTwo from 'src/layouts/components/onboarding/BasicInformationTwo'
 
 const Onboarding = () => {
-
   return (
     <Grid container sx={{ height: '100vh', overflow: 'hidden' }}>
       <Grid
@@ -27,18 +26,20 @@ const Onboarding = () => {
       >
         <Box sx={{ width: '480px', display: 'flex', flexDirection: 'column' }}>
           <Box component='img' src='/images/logoprofesea.png' sx={{ width: '143px', height: 'auto' }} />
-          <Box sx={{ my: '32px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
-            <ProgressBar current={6} total={6} />
+          <Box sx={{ mt: '32px', pb: '100px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
+            <ProgressBar current={1} total={6} />
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-              <Typography sx={{ color: '#404040', fontSize: 24, fontWeight: 700 }}>
-                Bagikan Pengalaman Terakhir Maritim Anda
-              </Typography>
+              <Typography sx={{ color: '#404040', fontSize: 24, fontWeight: 700 }}>Informasi Dasar (2/2)</Typography>
               <Typography sx={{ color: '#999', fontSize: 14, fontWeight: 400 }}>
-                Dengan menginformasikan pekerjaan terkini atau pengalaman terakhir Anda, kami akan membantu Anda
-                menemukan peluang yang disesuaikan dengan keterampilan dan keinginan Anda.
+                Lengkapi informasi dasar untuk membangun profil yang lebih lengkap dan profesional. Sertakan detail
+                penting agar profil Anda lebih mudah diakses oleh perusahaan, sehingga dapat meningkatkan visibilitas
+                dan mempermudah komunikasi.
               </Typography>
             </Box>
-            <SeafarerExperience beforeLink='/onboarding/seafarer/step-five' />
+            <BasicInformationTwo
+              beforeLink='/onboarding/hospitality/step-one/1'
+              nextLink='/onboarding/hospitality/step-two'
+            />
           </Box>
         </Box>
       </Grid>

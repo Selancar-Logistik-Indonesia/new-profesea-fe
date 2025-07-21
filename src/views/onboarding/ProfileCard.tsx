@@ -15,6 +15,7 @@ const EmptyData = () => {
 
 const SeafarerProfileCard = () => {
   const user = UserData()
+  const {settings} = useAuth()
 
   return (
     <Box sx={{ borderRadius: '8px', backgroundColor: '#FFFFFF', width: '435px', p: '24px' }}>
@@ -29,7 +30,7 @@ const SeafarerProfileCard = () => {
             <Typography sx={{ color: '#303030', fontSize: 20, fontWeight: 400 }}>
               {user?.name || 'My name is...'}
             </Typography>
-            <Typography sx={{ color: '#868686', fontSize: 16, fontWeight: 400 }}>Seafarer</Typography>
+            <Typography sx={{ color: '#868686', fontSize: 16, fontWeight: 400 }}>{settings?.is_hospitality ? 'Hospitality' : 'Seafarer'}</Typography>
           </Box>
         </Box>
         <Divider sx={{ border: '1px solid #F0F0F0' }} />
