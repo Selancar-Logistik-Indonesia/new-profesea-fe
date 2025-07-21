@@ -38,6 +38,7 @@ const DialogConfirmation = (props: DialogProps) => {
   const router = useRouter()
   const { user, refreshSession } = useAuth()
   const [onLoading, setOnLoading] = useState(false)
+  const isHospitality = props.employeeType === 'hospitality'
 
   const save = (data: { team_id: number; employee_type?: string }) => {
     const roleData = { ...data, next_step: 'step-one/1' }
@@ -54,7 +55,7 @@ const DialogConfirmation = (props: DialogProps) => {
         const tempUser = response.data.user
         toast.success('Successfully save role selection!')
         refreshSession()
-        router.push(`/onboarding/${getOnboardingLink(tempUser!)}/${tempUser!.last_step}`)
+        router.push(`/onboarding/${getOnboardingLink(tempUser!, isHospitality)}/${tempUser!.last_step}`)
       },
       error => {
         toast.error('Failed to save role selection: ' + error.response.data.message)
@@ -63,7 +64,7 @@ const DialogConfirmation = (props: DialogProps) => {
             router.push('/home')
           }
           if (user.last_step !== 'completed' && user.last_step !== 'role-selection') {
-            router.push(`/onboarding/${getOnboardingLink(user)}/${user.last_step}`)
+            router.push(`/onboarding/${getOnboardingLink(user, isHospitality)}/${user.last_step}`)
           }
           if (user.last_step === 'role-selection') {
             router.push(`/${user.last_step}`)

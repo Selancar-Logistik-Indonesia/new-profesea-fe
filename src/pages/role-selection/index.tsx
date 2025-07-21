@@ -70,8 +70,8 @@ const RoleSelection = () => {
                   </Box>
                   <Box onClick={() => handleChangeType('hospitality')} sx={{ cursor: 'pointer' }}>
                     <OptionBox
-                      icon='ph:briefcase'
-                      value='hospitality'
+                      icon='hugeicons:waiter'
+                      value='Cruise Hospitality'
                       active={employeeType === 'hospitality'}
                       description='Temukan kecocokan Anda dalam perhotelan kapal pesiar—peluang di bidang kebersihan, layanan kuliner, dan pengalaman pelanggan menanti.'
                     />
@@ -168,7 +168,7 @@ const RoleSelection = () => {
                   fontWeight: 700
                 }}
               >
-                Perhotelan Kapal Pesiar
+                Cruise Hospitality
               </Typography>
             </Box>
           </Grid>
