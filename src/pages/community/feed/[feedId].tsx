@@ -21,6 +21,7 @@ import PostCardCommunity from 'src/views/community/PostCardCommunity'
 import DynamicMetaTags from 'src/views/community/feed/seo/DynamicMetaTags'
 import { GetServerSidePropsContext } from 'next/types'
 import { Community } from 'src/contract/models/community'
+import { IUser } from 'src/contract/models/user'
 
 export type FeedStatus = 'loading' | 'success' | 'private' | 'error' | 'not-found'
 
@@ -126,6 +127,39 @@ export interface FeedDetailProps {
   isPrivate: boolean
 }
 
+interface FeedContentProps {
+  feed: ISocialFeed
+  user: IUser | null
+}
+
+const FeedSidebar = ({ feed }: FeedContentProps) => {
+  return (
+    <Grid item xs={4} sx={{ display: { xs: 'none', md: 'block' } }}>
+      <Box
+        sx={{
+          padding: '24px',
+          bgcolor: 'white',
+          borderRadius: '8px',
+          boxShadow: '0px 2px 10px 0px rgba(0, 0, 0, 0.08)'
+        }}
+      >
+        <LoginCard isBanner={false} defaultShowInputs={false} customHeader={customLoginCardHeader(feed)} />
+      </Box>
+    </Grid>
+  )
+}
+
+const FeedContent = ({ feed, user }: FeedContentProps) => {
+  return (
+    <Grid container spacing={6}>
+      <Grid item md={user ? 12 : 8} xs={12}>
+        <PostCardCommunity feed={feed} isPage={true} />
+      </Grid>
+      {!user && <FeedSidebar feed={feed} user={user} />}
+    </Grid>
+  )
+}
+
 const FeedDetail = ({ initialFeed, feedId, ssrSuccess, isPrivate }: FeedDetailProps) => {
   const router = useRouter()
   const { user } = useAuth()
@@ -209,40 +243,6 @@ const FeedDetail = ({ initialFeed, feedId, ssrSuccess, isPrivate }: FeedDetailPr
     )
   }
 
-  interface FeedContentProps {
-    feed: ISocialFeed
-  }
-
-  const FeedSidebar = ({ feed }: FeedContentProps) => {
-    return (
-      <Grid item xs={4} sx={{ display: { xs: 'none', md: 'block' } }}>
-        <Box
-          sx={{
-            padding: '24px',
-            bgcolor: 'white',
-            borderRadius: '8px',
-            boxShadow: '0px 2px 10px 0px rgba(0, 0, 0, 0.08)'
-          }}
-        >
-          <LoginCard isBanner={false} defaultShowInputs={false} customHeader={customLoginCardHeader(feed)} />
-        </Box>
-      </Grid>
-    )
-  }
-
-  const FeedContent = ({ feed }: FeedContentProps) => {
-    const { user } = useAuth()
-
-    return (
-      <Grid container spacing={6}>
-        <Grid item md={user ? 12 : 8} xs={12}>
-          <PostCardCommunity feed={feed} isPage={true} />
-        </Grid>
-        {!user && <FeedSidebar feed={feed} />}
-      </Grid>
-    )
-  }
-
   const renderFeedContent = () => {
     switch (status) {
       case 'loading':
@@ -258,7 +258,7 @@ const FeedDetail = ({ initialFeed, feedId, ssrSuccess, isPrivate }: FeedDetailPr
         return <FeedPrivateState community={privateFeedCommunity || undefined} />
 
       case 'success':
-        return feed ? <FeedContent feed={feed} /> : <FeedLoadingState />
+        return feed ? <FeedContent feed={feed} user={user} /> : <FeedLoadingState />
 
       default:
         return <FeedErrorState onRetry={getDetailFeed} />
