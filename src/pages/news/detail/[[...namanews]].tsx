@@ -223,13 +223,13 @@ const ThreadApp = () => {
         <meta name='title' content={`${newscache?.title}`} />
         <meta name='description' content={`${newscache?.content}`} />
         <meta name='keywords' content='profesea' />
-        <meta name='author' content='Profesea.id' />
+        <meta name='author' content={`${process.env.NEXT_PUBLIC_BASE_URL}`} />
         <meta name='viewport' content='width=device-width, initial-scale=1.0' />
         <meta name='robots' content='index, follow' />
-        <link rel='canonical' href={`https://profesea.id/news/detail/${newscache?.slug}`} />
+        <link rel='canonical' href={`${process.env.NEXT_PUBLIC_BASE_URL}/news/detail/${newscache?.slug}`} />
         <meta property='og:type' content='news' />
-        <meta property='og:url' content={`https://profesea.id/news/detail/${threadDetail?.slug}`} />
-        <meta property='og:site_name' content='Profesea.id' />
+        <meta property='og:url' content={`${process.env.NEXT_PUBLIC_BASE_URL}/news/detail/${threadDetail?.slug}`} />
+        <meta property='og:site_name' content={`${process.env.NEXT_PUBLIC_BASE_URL}`} />
         <meta property='og:locale' content='en_US' />
         <meta property='og:locale:alternate' content='id_ID' />
         <meta property='og:title' content={`${threadDetail?.title}`} />
