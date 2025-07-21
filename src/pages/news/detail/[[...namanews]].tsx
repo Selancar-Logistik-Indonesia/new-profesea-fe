@@ -286,7 +286,7 @@ const ThreadApp = () => {
               sx={{ maxWidth: { xs: '100%', md: '50%' }, px: { xs: 2, md: 4 }, zIndex: 2 }}
               textTransform={'capitalize'}
             >
-              {threadDetail?.category?.name} - DIMAS HERE
+              {threadDetail?.category?.name}
             </Typography>
             <Typography
               variant='h1'
