@@ -448,6 +448,7 @@ const SeafarerJobApp = () => {
                         <ToggleButton
                           value='hospitality'
                           sx={{
+                            position: 'relative',
                             width: '50%',
                             fontSize: 16,
                             fontWeight: 700,
@@ -456,6 +457,22 @@ const SeafarerJobApp = () => {
                           }}
                         >
                           Cruise Hospitality
+                          <span
+                            style={{
+                              position: 'absolute',
+                              top: 10,
+                              right: 5,
+                              fontSize: '12px',
+                              fontWeight: 500,
+                              background: 'red',
+                              color: 'white',
+                              borderRadius: '6px',
+                              padding: '4px',
+                              lineHeight: '10px'
+                            }}
+                          >
+                            NEW
+                          </span>
                         </ToggleButton>
                       </ToggleButtonGroup>
                     </Box>
