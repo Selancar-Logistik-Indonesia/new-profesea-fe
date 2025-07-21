@@ -120,13 +120,21 @@ const SeafarerJobApp = () => {
   const [employmentType, setEmplymentType] = useState<any>()
   const [workArrangement, setWorkArrangement] = useState<string | null>(null)
   const [sortBy, setSortBy] = useState('desc')
+  const [isHospitality, setIsHospitality] = useState(false)
 
   const link = `${user?.role === 'Seafarer' ? '/profile' : '/company'}/${toLinkCase(user?.username)}`
 
-  const handleEmployeeType = () => {
-    if (employeeType === 'onship') {
+  const handleEmployeeType = (value: any) => {
+    if (value === 'onship') {
+      setEmployeeType('onship')
+      setIsHospitality(false)
+    } else if (value === 'offship') {
       setEmployeeType('offship')
-    } else setEmployeeType('onship')
+      setIsHospitality(false)
+    } else {
+      setEmployeeType('hospitality')
+      setIsHospitality(true)
+    }
     setPage(1)
   }
 
@@ -198,7 +206,9 @@ const SeafarerJobApp = () => {
       }
       getRoleLevel(response.data.roleLevels.data)
     })
-    HttpClient.get(`/job-category?search=&page=1&take=250&employee_type=${employeeType}`).then(response => {
+    HttpClient.get(
+      `/job-category?search=&page=1&take=250&employee_type=${isHospitality ? 'onship' : employeeType}`
+    ).then(response => {
       if (response.status != 200) {
         throw response.data.message ?? 'Something went wrong!'
       }
@@ -238,16 +248,31 @@ const SeafarerJobApp = () => {
       country_id: 100,
       city_id: idcity,
       employment_type: employmentType,
-      employee_type: employeeType,
+      employee_type: isHospitality ? 'onship' : employeeType,
       username: company,
       work_arrangement: workArrangement,
-      sort: sortBy
+      sort: sortBy,
+      is_hospitality: isHospitality
     })
   }
 
   useEffect(() => {
     getdatapencarian()
-  }, [JC, RL, RT, idcity, idvessel, employmentType, employeeType, company, workArrangement, page, sortBy, tabs])
+  }, [
+    JC,
+    RL,
+    RT,
+    idcity,
+    idvessel,
+    employmentType,
+    employeeType,
+    company,
+    workArrangement,
+    page,
+    sortBy,
+    tabs,
+    isHospitality
+  ])
 
   return (
     <>
@@ -388,7 +413,9 @@ const SeafarerJobApp = () => {
                         color='primary'
                         value={employeeType}
                         exclusive
-                        onChange={handleEmployeeType}
+                        onChange={(_: any, value: any) => {
+                          handleEmployeeType(value)
+                        }}
                         aria-label='Platform'
                         sx={{ display: 'flex', justifyContent: 'center' }}
                       >
@@ -417,6 +444,18 @@ const SeafarerJobApp = () => {
                           }}
                         >
                           Professional
+                        </ToggleButton>
+                        <ToggleButton
+                          value='hospitality'
+                          sx={{
+                            width: '50%',
+                            fontSize: 16,
+                            fontWeight: 700,
+                            textTransform: 'capitalize',
+                            padding: '4px !important'
+                          }}
+                        >
+                          Cruise Hospitality
                         </ToggleButton>
                       </ToggleButtonGroup>
                     </Box>
@@ -506,7 +545,7 @@ const SeafarerJobApp = () => {
                                 }}
                               />
                             </Grid>
-                            {employeeType === 'onship' ? (
+                            {employeeType === 'onship' || employeeType === 'hospitality' ? (
                               <>
                                 <Grid item xs={12} md={3}>
                                   <Autocomplete
