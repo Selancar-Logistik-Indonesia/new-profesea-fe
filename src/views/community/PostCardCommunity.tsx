@@ -23,6 +23,8 @@ import CommentAreaView from '../social-feed/CommentAreaView'
 import { useAuth } from 'src/hooks/useAuth'
 import CommunityFeedAction from './CommunityFeedAction'
 import ButtonShare from '../social-feed/ButtonShare'
+import { useSearchParams } from 'next/navigation'
+import { usePublicData } from 'src/hooks/usePublicData'
 
 interface IPostCardCommunityProps {
   feed: ISocialFeed
@@ -36,11 +38,32 @@ export interface IActionAbilities {
   canEdit: boolean
 }
 
+const CustomLoginCardHeader = (feed: ISocialFeed | null) => (
+  <Box
+    sx={{
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 6,
+      alignItems: 'center',
+      justifyContent: 'center',
+      textAlign: 'center'
+    }}
+  >
+    <Avatar src={feed?.community.banner || '/images/logoprofesea.png'} sx={{ width: 120, height: 120 }} />
+    <Typography sx={{ fontWeight: 'bold', fontSize: 16 }}>
+      Sign in to Profesea to Join {feed?.community.name}
+    </Typography>
+  </Box>
+)
+
 const PostCardCommunity: React.FC<IPostCardCommunityProps> = ({ feed, isPage }) => {
   const { user } = useAuth()
   const theme = useTheme()
   const isXs = useMediaQuery(theme.breakpoints.down('md'))
   const [isLike, setIsLike] = useState(Boolean(feed.liked_at))
+  const params = useSearchParams()
+  const insideDetail = params.get('id')
+  const [shareUrl, setShareUrl] = useState<string | null>(null)
 
   const [abilities, setAbilities] = useState<IActionAbilities>({
     canDelete: feed?.user?.id === user?.id || user?.role === 'admin' || user?.id === feed?.community?.user_id,
@@ -49,14 +72,22 @@ const PostCardCommunity: React.FC<IPostCardCommunityProps> = ({ feed, isPage }) 
     canEdit: feed?.user?.id === user?.id
   })
 
+  const { unauthenticatedUserAction, setCustomLoginCardHeader } = usePublicData()
+
   useEffect(() => {
     setAbilities({
       canDelete: feed?.user?.id === user?.id || user?.role === 'admin' || user?.id === feed?.community?.user_id,
-      canReport: feed?.user?.id !== user?.id && user?.role !== 'admin',
+      canReport: user !== null && feed?.user?.id !== user?.id && user?.role !== 'admin',
       canPin: user?.role === 'admin' || user?.id === feed?.community?.user_id,
       canEdit: feed?.user?.id === user?.id
     })
+
+    setCustomLoginCardHeader(CustomLoginCardHeader(feed))
   }, [])
+
+  useEffect(() => {
+    setShareUrl(getUrl(`/community/feed/${feed.id}`))
+  }, [feed.id])
 
   return (
     <Card
@@ -70,46 +101,78 @@ const PostCardCommunity: React.FC<IPostCardCommunityProps> = ({ feed, isPage }) 
         padding: '0px 0px 8px 0px'
       }}
     >
-      <Box sx={{ display: feed?.settings?.is_pinned ? 'flex' : 'none', alignItems: 'center', gap: '4px', ml: 3, padding:'8px' }}>
+      <Box
+        sx={{
+          display: feed?.settings?.is_pinned ? 'flex' : 'none',
+          alignItems: 'center',
+          gap: '4px',
+          ml: 3,
+          padding: '8px'
+        }}
+      >
         <Icon icon='ph:push-pin-simple-fill' fontSize={18} />
         <Typography>Pinned Post</Typography>
       </Box>
       <CardHeader
-        sx={{ padding: feed?.settings?.is_pinned ?  '0px 16px 0px 16px !important' : '' }}
+        sx={{ padding: feed?.settings?.is_pinned ? '0px 16px 0px 16px !important' : '' }}
         avatar={<Avatar alt='profile-picture' src={getUserAvatar(feed.user)} sx={{ width: 36, height: 36 }} />}
         action={<CommunityFeedAction row={feed} abilities={abilities} />}
         title={
-          <Typography
-          component={Link}
-          href={`/community/${feed?.community?.id}`}
-            sx={{
-              fontSize: '16px',
-              fontWeight: 'bold',
-              color: '#2D3436',
-              cursor: 'pointer',
-              textDecoration: 'none'
-            }}
-            fontWeight='bold'
-          >
-            {feed?.community?.name}
-          </Typography>
-        }
-        subheader={
-          <Stack direction='row' spacing={1} alignItems='center'>
+          insideDetail ? (
             <Typography
               component={Link}
-              href={feed?.user?.team_id != 2  ? `/company/${feed?.user?.username}` : `/profile/${feed?.user?.username}`}
+              href={feed?.user?.team_id != 2 ? `/company/${feed?.user?.username}` : `/profile/${feed?.user?.username}`}
               sx={{
-                fontSize: '12px',
-                fontWeight: '400',
-                color: '#5E5E5E',
+                fontSize: '16px',
+                fontWeight: '700',
+                color: '#2D3436',
                 cursor: 'pointer',
                 textDecoration: 'none'
               }}
             >
               {toTitleCase(feed.user.name)}
             </Typography>
-            <span>•</span>
+          ) : (
+            <Typography
+              component={Link}
+              href={`/community/${feed?.community?.id}`}
+              sx={{
+                fontSize: '16px',
+                fontWeight: 'bold',
+                color: '#2D3436',
+                cursor: 'pointer',
+                textDecoration: 'none'
+              }}
+              fontWeight='bold'
+            >
+              {feed?.community?.name}
+            </Typography>
+          )
+        }
+        subheader={
+          <Stack direction='row' spacing={1} alignItems='center'>
+            {insideDetail ? (
+              ''
+            ) : (
+              <>
+                <Typography
+                  component={Link}
+                  href={
+                    feed?.user?.team_id != 2 ? `/company/${feed?.user?.username}` : `/profile/${feed?.user?.username}`
+                  }
+                  sx={{
+                    fontSize: '12px',
+                    fontWeight: '400',
+                    color: '#5E5E5E',
+                    cursor: 'pointer',
+                    textDecoration: 'none'
+                  }}
+                >
+                  {toTitleCase(feed.user.name)}
+                </Typography>
+                <span>•</span>
+              </>
+            )}
             <Typography
               sx={{
                 fontSize: '12px',
@@ -173,7 +236,6 @@ const PostCardCommunity: React.FC<IPostCardCommunityProps> = ({ feed, isPage }) 
       </Box>
 
       <Divider />
-
       <Box display='flex' justifyContent='space-between' mt={'8px'} px={'24px'} sx={{ alignItems: 'center' }}>
         <Box flex={1} textAlign='left'>
           <ButtonLike
@@ -189,6 +251,7 @@ const PostCardCommunity: React.FC<IPostCardCommunityProps> = ({ feed, isPage }) 
             }}
             likeableType='feed'
             isXs={isXs}
+            customAction={!user ? unauthenticatedUserAction : undefined}
           />
         </Box>
         <Box flex={1} textAlign='center'>
@@ -196,19 +259,20 @@ const PostCardCommunity: React.FC<IPostCardCommunityProps> = ({ feed, isPage }) 
             startIcon={<Icon icon={'majesticons:chat-line'} fontSize={16} />}
             size='small'
             sx={{ fontSize: '14px', fontWeight: 400, textTransform: 'capitalize', color: '#32497A' }}
+            onClick={user ? undefined : unauthenticatedUserAction}
           >
             Comment
           </Button>
         </Box>
         <Box flex={1} textAlign='right'>
-          <ButtonShare feedPage={getUrl(`/community/feed/${feed.id}`)} isXs={isXs} />
+          {shareUrl && <ButtonShare feedPage={shareUrl} isXs={isXs} />}
         </Box>
       </Box>
 
       {/* comment area */}
-        <Box px={'24px'} py={'16px'}>
-          <CommentAreaView item={feed} />
-        </Box>
+      <Box px={'24px'} py={user ? '16px' : '0px'}>
+        <CommentAreaView item={feed} />
+      </Box>
     </Card>
   )
 }

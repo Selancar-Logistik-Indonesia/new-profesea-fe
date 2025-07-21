@@ -47,8 +47,10 @@ const ReportDialog = ({
   }
 
   useEffect(() => {
-    HttpClient.get('/report/reasons').then(res => setReasons(res.data.reasons))
-  }, [])
+    if (open) {
+      HttpClient.get('/report/reasons').then(res => setReasons(res.data.reasons))
+    }
+  }, [open])
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth='xs' fullWidth>

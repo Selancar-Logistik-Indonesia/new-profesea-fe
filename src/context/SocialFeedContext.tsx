@@ -5,6 +5,7 @@ import FetchFeedPayload from 'src/contract/params/fetch_feed_payload'
 import UpdateStatusPayload from 'src/contract/params/update_status_payload'
 import CommentResponseType from 'src/contract/types/comment_response_type'
 import SocialFeedContextType from 'src/contract/types/social_feed_context_type'
+import { useAuth } from 'src/hooks/useAuth'
 import { HttpClient } from 'src/services'
 import { v4 } from 'uuid'
 
@@ -38,6 +39,7 @@ const SocialFeedProvider = (props: Props) => {
   const [commentSignature, setCommentSignature] = useState('')
   const [subCommentSignature, setSubCommentSignature] = useState('')
   const [totalFeed, setTotalFeed] = useState(0)
+  const { user } = useAuth()
 
   const updateStatus = async (payload: UpdateStatusPayload) => {
     const formData = new FormData()
@@ -105,7 +107,7 @@ const SocialFeedProvider = (props: Props) => {
     if (sPage == 1) setOnLoading(true)
 
     try {
-      const url = '/social-feed/feed/'
+      const url = user ? '/social-feed/feed/' : '/public/data/social-feed/feed/'
       const response = await HttpClient.get(url, {
         page: sPage,
         ...payload
@@ -280,7 +282,7 @@ const SocialFeedProvider = (props: Props) => {
   }
 
   const getComments = async (feedId: number, page: number, take: number, replyable_type: 'feed' | 'comment') => {
-    const response = await HttpClient.get(`/social-feed/comment/${feedId}`, {
+    const response = await HttpClient.get(`/public/data/social-feed/comment/${feedId}`, {
       page: page,
       take: take,
       replyable_type: replyable_type

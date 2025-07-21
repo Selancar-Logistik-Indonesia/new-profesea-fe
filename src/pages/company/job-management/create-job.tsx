@@ -2,6 +2,7 @@ import { Breadcrumbs, Grid, Link, Typography } from '@mui/material'
 import { useSearchParams } from 'next/navigation'
 import { useRouter } from 'next/router'
 import { MdNavigateNext } from 'react-icons/md'
+import HospitalityJob from 'src/views/job-management/form/HospitalityJob'
 import ProfessionalJob from 'src/views/job-management/form/ProfessionalJob'
 import SeafarerJob from 'src/views/job-management/form/SeafarerJob'
 
@@ -53,7 +54,8 @@ const CreateJob = () => {
           </Breadcrumbs>
         </Grid>
         <Grid item xs={12}>
-          {jobType === 'seafarer' ? <SeafarerJob type='create' /> : <ProfessionalJob type='create' />}
+          {}
+          {jobType === 'seafarer' ? <SeafarerJob type='create' /> : jobType === 'hospitality' ? <HospitalityJob type='create'/> : <ProfessionalJob type='create' />}
         </Grid>
       </Grid>
     </>

@@ -24,8 +24,8 @@ import Icon from 'src/@core/components/icon'
 
 // Dialog
 import Dialog from '@mui/material/Dialog'
-import { HttpClient } from 'src/services'
 import PostFeedDialog from './PostFeedDialog'
+import { HttpClient } from 'src/services'
 
 const Transition = forwardRef(function Transition(
   props: FadeProps & { children?: ReactElement<any, any> },
@@ -49,21 +49,21 @@ const Postfeed = () => {
     if (!isAgree) {
       setIsOpenDialog(true)
 
-      return
+      return false
     }
 
     setIsLoading(true)
     try {
-      await updateStatus({
-        content_type: content_type,
-        content: content,
-        attachments: attachments
-      })
+      await updateStatus({ content_type, content, attachments })
+
+      return true
     } catch (error) {
       alert(getCleanErrorMessage(error))
-    }
 
-    setIsLoading(false)
+      return false
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   const handleOnCloseDialog = () => {

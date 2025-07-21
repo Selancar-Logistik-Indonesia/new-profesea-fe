@@ -25,9 +25,6 @@ import TextField from '@mui/material/TextField'
 import { Grid } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import { HttpClient } from 'src/services'
-import secureLocalStorage from 'react-secure-storage'
-import localStorageKeys from 'src/configs/localstorage_keys'
-import { IUser } from 'src/contract/models/user'
 import { Icon } from '@iconify/react'
 import AllJobApplied from './applied'
 import JobCategory from 'src/contract/models/job_category'
@@ -49,6 +46,7 @@ import Image from 'next/image'
 import CustomPaginationItem from 'src/@core/components/pagination/item'
 import Link from 'next/link'
 import JobOffersSection from 'src/views/find-job/JobOffersSection'
+import { useAuth } from 'src/hooks/useAuth'
 
 interface TabPanelProps {
   children?: React.ReactNode
@@ -98,10 +96,9 @@ const SeafarerJobApp = () => {
   const tabs = params.get('tabs')
   const company = linkToTitleCase(params.get('company'))
 
-  const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
-  const jobOffers = secureLocalStorage.getItem(localStorageKeys.jobOffers) as any[]
+  const { user, jobOffers } = useAuth()
 
-  const isOnShip = user.employee_type === 'onship'
+  const isOnShip = user?.employee_type === 'onship'
   const theme = useTheme()
   const hidden = useMediaQuery(theme.breakpoints.down('md'))
 
@@ -123,13 +120,21 @@ const SeafarerJobApp = () => {
   const [employmentType, setEmplymentType] = useState<any>()
   const [workArrangement, setWorkArrangement] = useState<string | null>(null)
   const [sortBy, setSortBy] = useState('desc')
+  const [isHospitality, setIsHospitality] = useState(false)
 
   const link = `${user?.role === 'Seafarer' ? '/profile' : '/company'}/${toLinkCase(user?.username)}`
 
-  const handleEmployeeType = () => {
-    if (employeeType === 'onship') {
+  const handleEmployeeType = (value: any) => {
+    if (value === 'onship') {
+      setEmployeeType('onship')
+      setIsHospitality(false)
+    } else if (value === 'offship') {
       setEmployeeType('offship')
-    } else setEmployeeType('onship')
+      setIsHospitality(false)
+    } else {
+      setEmployeeType('hospitality')
+      setIsHospitality(true)
+    }
     setPage(1)
   }
 
@@ -201,7 +206,9 @@ const SeafarerJobApp = () => {
       }
       getRoleLevel(response.data.roleLevels.data)
     })
-    HttpClient.get(`/job-category?search=&page=1&take=250&employee_type=${employeeType}`).then(response => {
+    HttpClient.get(
+      `/job-category?search=&page=1&take=250&employee_type=${isHospitality ? 'onship' : employeeType}`
+    ).then(response => {
       if (response.status != 200) {
         throw response.data.message ?? 'Something went wrong!'
       }
@@ -241,16 +248,31 @@ const SeafarerJobApp = () => {
       country_id: 100,
       city_id: idcity,
       employment_type: employmentType,
-      employee_type: employeeType,
+      employee_type: isHospitality ? 'onship' : employeeType,
       username: company,
       work_arrangement: workArrangement,
-      sort: sortBy
+      sort: sortBy,
+      is_hospitality: isHospitality
     })
   }
 
   useEffect(() => {
     getdatapencarian()
-  }, [JC, RL, RT, idcity, idvessel, employmentType, employeeType, company, workArrangement, page, sortBy, tabs])
+  }, [
+    JC,
+    RL,
+    RT,
+    idcity,
+    idvessel,
+    employmentType,
+    employeeType,
+    company,
+    workArrangement,
+    page,
+    sortBy,
+    tabs,
+    isHospitality
+  ])
 
   return (
     <>
@@ -391,7 +413,9 @@ const SeafarerJobApp = () => {
                         color='primary'
                         value={employeeType}
                         exclusive
-                        onChange={handleEmployeeType}
+                        onChange={(_: any, value: any) => {
+                          handleEmployeeType(value)
+                        }}
                         aria-label='Platform'
                         sx={{ display: 'flex', justifyContent: 'center' }}
                       >
@@ -420,6 +444,35 @@ const SeafarerJobApp = () => {
                           }}
                         >
                           Professional
+                        </ToggleButton>
+                        <ToggleButton
+                          value='hospitality'
+                          sx={{
+                            position: 'relative',
+                            width: '50%',
+                            fontSize: 16,
+                            fontWeight: 700,
+                            textTransform: 'capitalize',
+                            padding: '4px !important'
+                          }}
+                        >
+                          Cruise Hospitality
+                          <span
+                            style={{
+                              position: 'absolute',
+                              top: 10,
+                              right: 5,
+                              fontSize: '12px',
+                              fontWeight: 500,
+                              background: 'red',
+                              color: 'white',
+                              borderRadius: '6px',
+                              padding: '4px',
+                              lineHeight: '10px'
+                            }}
+                          >
+                            NEW
+                          </span>
                         </ToggleButton>
                       </ToggleButtonGroup>
                     </Box>
@@ -509,7 +562,7 @@ const SeafarerJobApp = () => {
                                 }}
                               />
                             </Grid>
-                            {employeeType === 'onship' ? (
+                            {employeeType === 'onship' || employeeType === 'hospitality' ? (
                               <>
                                 <Grid item xs={12} md={3}>
                                   <Autocomplete
@@ -661,7 +714,7 @@ const SeafarerJobApp = () => {
                       </Typography>
                     </Link>{' '}
                     dan{' '}
-                    <Link href={`/candidate/?tabs=${user.employee_type === 'onship' ? '3' : '2'}`}>
+                    <Link href={`/candidate/?tabs=${user?.employee_type === 'onship' ? '3' : '2'}`}>
                       <Typography variant='body2' sx={{ fontWeight: '700', color: '#32497A', display: 'inline-block' }}>
                         pengalaman
                       </Typography>

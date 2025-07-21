@@ -99,8 +99,11 @@ function getUserRoleName(team?: ITeam) {
     return newValue ? newValue.value : teamName
 }
 
-function getOnboardingLink(user: IUser) {
+function getOnboardingLink(user: IUser, is_hospitality?: boolean) {
     if (user.team_id === 2) {
+        if(is_hospitality) {
+            return 'hospitality'
+        }
         if (user.employee_type === 'onship') {
             return 'seafarer'
         } else return 'professional'

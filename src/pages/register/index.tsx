@@ -8,8 +8,6 @@ import {
   FormControl,
   Grid,
   IconButton,
-  InputLabel,
-  OutlinedInput,
   TextField,
   Typography,
   InputAdornment,
@@ -80,6 +78,7 @@ const LoginPage = () => {
   const searchParams = useSearchParams()
   const email = searchParams.get('email')
   const checked = searchParams.get('checked')
+  const hospitality = searchParams.get('hospitality')
 
   const [showPassword, setShowPassword] = useState<boolean>(false)
   const [showPassword2, setShowPassword2] = useState<boolean>(false)
@@ -128,6 +127,7 @@ const LoginPage = () => {
         setOnLoading(false)
       },
       error => {
+        console.log(error)
         setOnLoading(false)
         toast.error('Registrastion Failed ' + error.response.data.message)
       }
@@ -152,7 +152,8 @@ const LoginPage = () => {
       post({
         email: lowerCaseEmail,
         password: password,
-        password_confirmation: password2
+        password_confirmation: password2,
+        hospitality: hospitality
       })
     } catch (e) {
       alert(e)
@@ -199,13 +200,42 @@ const LoginPage = () => {
           item
           md={6}
           sx={{
-            backgroundImage: `url(/images/bg-login.jpg)`,
+            backgroundImage: `url(/images/bg-login.webp)`,
             backgroundRepeat: 'no-repeat',
             backgroundSize: '100% auto',
             backgroundPosition: '20% 45%'
           }}
         />
-        <Grid item xs={12} md={6} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <Grid
+          item
+          xs={12}
+          md={6}
+          sx={{
+            display: 'flex',
+            position: 'relative',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center'
+          }}
+        >
+          <Box
+            component={Link}
+            href='/'
+            sx={{
+              position: 'absolute',
+              top: '32px',
+              left: '32px',
+              display: 'flex',
+              gap: '8px',
+              cursor: 'pointer',
+              alignItems: 'center'
+            }}
+          >
+            <IconButton sx={{ backgroundColor: '#F0F0F0', '&:hover': { backgroundColor: '#E0E0E0' } }}>
+              <Icon icon='mdi:arrow-left' fontSize={20} color='#404040' />
+            </IconButton>
+            <Typography sx={{ color: '#404040', fontWeight: 400, fontSize: 12 }}>Back to home</Typography>
+          </Box>
           <Box
             sx={{
               display: 'flex',
@@ -265,13 +295,13 @@ const LoginPage = () => {
             </Box>
             <Box
               sx={{
-                height: '444px',
                 p: '24px',
                 backgroundColor: 'white',
                 borderRadius: '8px',
                 boxShadow: 3,
                 display: 'flex',
                 flexDirection: 'column',
+                gap: '32px',
                 justifyContent: 'space-between'
               }}
             >
@@ -285,18 +315,15 @@ const LoginPage = () => {
                 >
                   <FormControl fullWidth>
                     <TextField
+                      size='small'
                       autoFocus
                       disabled={checkEmail}
                       label={t('input.email')}
                       {...register('email')}
                       error={Boolean(errors.email)}
+                      helperText={errors.email?.message}
                       InputLabelProps={{ shrink: checkEmail || Boolean(emailValue) }}
                     />
-                    {errors.email && (
-                      <Typography sx={{ color: 'error.main', m: '6px 4px 0', fontSize: 12 }}>
-                        {errors.email.message}
-                      </Typography>
-                    )}
                   </FormControl>
                   {checkEmail && (
                     <>
@@ -320,59 +347,84 @@ const LoginPage = () => {
                         }
                       >
                         <FormControl fullWidth>
-                          <InputLabel htmlFor='auth-login-v2-password' error={Boolean(errors.password)}>
-                            {t('input.password')}
-                          </InputLabel>
-                          <OutlinedInput
-                            {...register('password')}
-                            label={t('input.password')}
-                            error={Boolean(errors.password)}
-                            type={showPassword ? 'text' : 'password'}
-                            endAdornment={
-                              <InputAdornment position='end'>
-                                <IconButton
-                                  edge='end'
-                                  onMouseDown={e => e.preventDefault()}
-                                  onClick={() => setShowPassword(!showPassword)}
-                                >
-                                  <Icon icon={showPassword ? 'mdi:eye-outline' : 'mdi:eye-off-outline'} fontSize={20} />
-                                </IconButton>
-                              </InputAdornment>
-                            }
+                          <Controller
+                            name='password'
+                            control={control}
+                            rules={{
+                              required: true
+                            }}
+                            render={({ field: { value, onChange, onBlur } }) => (
+                              <TextField
+                                fullWidth
+                                size='small'
+                                type={showPassword ? 'text' : 'password'}
+                                label={t('input.password')}
+                                id='auth-login-v2-password'
+                                value={value}
+                                onChange={onChange}
+                                onBlur={onBlur}
+                                error={Boolean(errors.password)}
+                                helperText={errors.password?.message}
+                                InputProps={{
+                                  endAdornment: (
+                                    <InputAdornment position='end'>
+                                      <IconButton
+                                        edge='end'
+                                        onMouseDown={e => e.preventDefault()}
+                                        onClick={() => setShowPassword(!showPassword)}
+                                      >
+                                        <Icon
+                                          icon={showPassword ? 'mdi:eye-outline' : 'mdi:eye-off-outline'}
+                                          fontSize={20}
+                                        />
+                                      </IconButton>
+                                    </InputAdornment>
+                                  )
+                                }}
+                              />
+                            )}
                           />
-                          {errors.password && (
-                            <Typography sx={{ color: 'error.main', ml: '4px', fontSize: 12 }}>
-                              {errors.password.message}
-                            </Typography>
-                          )}
                         </FormControl>
                       </LightTooltip>
                       <FormControl fullWidth>
-                        <InputLabel htmlFor='auth-login-v2-password2' error={Boolean(errors.password2)}>
-                          {t('input.password_2')}
-                        </InputLabel>
-                        <OutlinedInput
-                          {...register('password2')}
-                          label={t('input.password_2')}
-                          error={Boolean(errors.password2)}
-                          type={showPassword2 ? 'text' : 'password'}
-                          endAdornment={
-                            <InputAdornment position='end'>
-                              <IconButton
-                                edge='end'
-                                onMouseDown={e => e.preventDefault()}
-                                onClick={() => setShowPassword2(!showPassword2)}
-                              >
-                                <Icon icon={showPassword2 ? 'mdi:eye-outline' : 'mdi:eye-off-outline'} fontSize={20} />
-                              </IconButton>
-                            </InputAdornment>
-                          }
+                        <Controller
+                          name='password2'
+                          control={control}
+                          rules={{
+                            required: 'Confirm password is required',
+                            validate: value => value === getValues('password') || 'Passwords do not match'
+                          }}
+                          render={({ field: { value, onChange, onBlur } }) => (
+                            <TextField
+                              fullWidth
+                              size='small'
+                              type={showPassword2 ? 'text' : 'password'}
+                              label={t('input.password_2')}
+                              id='auth-login-v2-password2'
+                              value={value}
+                              onChange={onChange}
+                              onBlur={onBlur}
+                              error={Boolean(errors.password2)}
+                              helperText={errors.password2?.message}
+                              InputProps={{
+                                endAdornment: (
+                                  <InputAdornment position='end'>
+                                    <IconButton
+                                      edge='end'
+                                      onMouseDown={e => e.preventDefault()}
+                                      onClick={() => setShowPassword2(!showPassword2)}
+                                    >
+                                      <Icon
+                                        icon={showPassword2 ? 'mdi:eye-outline' : 'mdi:eye-off-outline'}
+                                        fontSize={20}
+                                      />
+                                    </IconButton>
+                                  </InputAdornment>
+                                )
+                              }}
+                            />
+                          )}
                         />
-                        {errors.password2 && (
-                          <Typography sx={{ color: 'error.main', ml: '4px', fontSize: 12 }}>
-                            {errors.password2.message}
-                          </Typography>
-                        )}
                       </FormControl>
                       <Box
                         sx={{
@@ -386,7 +438,7 @@ const LoginPage = () => {
                         <Controller
                           name='tos'
                           control={control}
-                          render={({ field }) => <Checkbox {...field} {...register('tos')} />}
+                          render={({ field }) => <Checkbox size='small' {...field} {...register('tos')} />}
                         />
                         <Typography sx={{ color: '#404040', fontSize: 12, fontWeight: 400 }}>
                           {t('tos.tos_me')}
@@ -413,14 +465,14 @@ const LoginPage = () => {
                     </>
                   )}
                   {checkEmail ? (
-                    <Button disabled={auth.loading} fullWidth size='large' type='submit' variant='contained'>
+                    <Button disabled={auth.loading} fullWidth size='medium' type='submit' variant='contained'>
                       {auth.loading ? <CircularProgress color='primary' /> : t('input.register')}
                     </Button>
                   ) : (
                     <Button
                       fullWidth
                       disabled={onLoading}
-                      size='large'
+                      size='medium'
                       type='button'
                       variant='contained'
                       onClick={() => {
@@ -441,7 +493,7 @@ const LoginPage = () => {
                       </Divider>
                       <Button
                         fullWidth
-                        size='large'
+                        size='small'
                         variant='outlined'
                         component={Link}
                         href='https://apifix.profesea.id/auth/google'
@@ -452,7 +504,7 @@ const LoginPage = () => {
                       </Button>
                       <Button
                         fullWidth
-                        size='large'
+                        size='small'
                         variant='outlined'
                         component={Link}
                         href='https://apifix.profesea.id/auth/facebook'

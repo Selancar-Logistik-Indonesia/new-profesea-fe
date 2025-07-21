@@ -70,11 +70,14 @@ const CommunityApp = () => {
   const [loadingYourGroups, setLoadingYourGroups] = useState(false)
   const [selectedTab, setSelectedTab] = useState(searchParams.get('tab') ? searchParams.get('tab') : null)
   const [search, setSearch] = useState<string>('')
-  const isOnBoardingCommunity = flaggings?.community_onboarding !== null ? flaggings?.community_onboarding : false // This can be replaced with actual logic to determine if onboarding is needed
+  const [isOnBoardingCommunity, setIsOnBoardingCommunity] = useState<boolean>(
+    flaggings !== null ? flaggings?.community_onboarding : false
+  )
 
   const handleListItemClick = (index: number) => {
-
     setSelectedIndex(index)
+    // setSelectedCommunityId(null)
+    setIsOnBoardingCommunity(true)
     router.replace('/community/')
   }
 
@@ -166,13 +169,9 @@ const CommunityApp = () => {
           <Container maxWidth='xl' sx={{ py: 2 }}>
             <Grid container spacing={4}>
               {/* Left not admin */}
-              <Grid
-                item
-                xs={12}
-                md={3}
-                sx={{ display:'flex', flexDirection: 'column', gap: '16px' }}
-              >
+              <Grid item xs={12} md={3} sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                 <Paper
+                  className='groups-navigation'
                   sx={{
                     padding: '16px',
                     borderRadius: '12px !important',
@@ -253,6 +252,7 @@ const CommunityApp = () => {
                       }}
                     >
                       <ListItemText
+                        className='groups-joined-list'
                         primary='Your groups'
                         primaryTypographyProps={
                           selectedIndex === 2
@@ -283,7 +283,7 @@ const CommunityApp = () => {
                   </Button>
                 </Paper>
 
-                {!isOnBoardingCommunity && selectedIndex !== 2 && communities.length > 0 && (
+                {isOnBoardingCommunity && selectedIndex !== 2 && communities.length > 0 && (
                   <Paper
                     sx={{
                       padding: '16px',
@@ -366,11 +366,10 @@ const CommunityApp = () => {
                 )}
               </Grid>
 
-
-              {isOnBoardingCommunity ? (
+              {!isOnBoardingCommunity ? (
                 <>
                   <Grid item xs={12} md={9}>
-                    <OnBoardingSections />
+                    <OnBoardingSections setSelectedIndex={setSelectedIndex} />
                   </Grid>
                 </>
               ) : (
@@ -379,7 +378,7 @@ const CommunityApp = () => {
                   <Grid item xs={12} md={selectedIndex !== 0 ? 9 : 6}>
                     {selectedIndex === 0 && (
                       <>
-                        {selectedIndex === 0  && (
+                        {selectedIndex === 0 && (
                           <>
                             <Box sx={{ width: '100%', mb: '16px' }}>
                               <PostFeedCommunity />
@@ -392,7 +391,7 @@ const CommunityApp = () => {
                     {selectedIndex === 1 && (
                       <>
                         <DiscoverAndYourGroupsCommunity
-                          key={ 'discover'}
+                          key={'discover'}
                           isJoined={false}
                           setSelectedIndex={(id: any) => {
                             router.replace('/community/' + id)
@@ -405,8 +404,9 @@ const CommunityApp = () => {
                     {selectedIndex === 2 && (
                       <>
                         <DiscoverAndYourGroupsCommunity
-                          key={'joined' }
+                          key={'joined'}
                           isJoined={true}
+                          setIndex={setSelectedIndex}
                           setSelectedIndex={(id: any) => {
                             router.replace('/community/' + id)
                           }}

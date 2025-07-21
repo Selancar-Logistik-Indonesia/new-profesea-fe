@@ -12,6 +12,7 @@ import { Icon } from '@iconify/react'
 import EditGroupDialog from './EditGroupDialog'
 import { useRouter } from 'next/router'
 import CommunityDiscussionSection from './CommunityDiscussionSection'
+import { usePublicData } from 'src/hooks/usePublicData'
 
 interface ICreateBy {
   id: number
@@ -52,6 +53,7 @@ export const CommunityDetail: React.FC<ICommunityDetail> = ({ communityId, setIs
   const [loading, setLoading] = useState(true)
   const [community, setCommunity] = useState<null | IDetailCommunityData>(null)
   const [disabledTabs, setDisabledTabs] = useState(false)
+  const { unauthenticatedUserAction } = usePublicData()
 
   const [openEdit, setOpenEdit] = React.useState<boolean>(false)
   const handleCloseEditDialog = () => {
@@ -63,7 +65,9 @@ export const CommunityDetail: React.FC<ICommunityDetail> = ({ communityId, setIs
     setDisabledTabs(false)
     setLoading(true)
     try {
-      const response = await HttpClient.get(`/community/${communityId}`)
+      const response = await HttpClient.get(
+        user ? `/community/${communityId}` : `/public/data/community/${communityId}`
+      )
       setCommunity(response?.data?.data)
       setSelectedCommunity(response?.data?.data)
 
@@ -83,6 +87,12 @@ export const CommunityDetail: React.FC<ICommunityDetail> = ({ communityId, setIs
   }
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+    if (newValue === 2 && !user) {
+      unauthenticatedUserAction()
+
+      return
+    }
+
     setTabValue(newValue)
   }
 
@@ -144,20 +154,25 @@ export const CommunityDetail: React.FC<ICommunityDetail> = ({ communityId, setIs
 
   const handleLeave = () => {
     setLoading(true)
-    HttpClient.del(`/community/members?community_id=${community?.id}&user_id=${user?.id}`).then(() => {
-      toast.success('Successfully left the group!')
-      setTimeout(() => {
-        router.reload()
-      }, 500)
-    }).catch(err => {
-      console.log(err)
-    }).finally(() => {
-      setLoading(false)
-    })
+    HttpClient.del(`/community/members?community_id=${community?.id}&user_id=${user?.id}`)
+      .then(() => {
+        toast.success('Successfully left the group!')
+        setTimeout(() => {
+          router.reload()
+        }, 500)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+      .finally(() => {
+        setLoading(false)
+      })
   }
 
   useEffect(() => {
-    handleGetDetailCommunity()
+    if (communityId) {
+      handleGetDetailCommunity()
+    }
   }, [communityId])
 
   if (loading) {
@@ -185,14 +200,14 @@ export const CommunityDetail: React.FC<ICommunityDetail> = ({ communityId, setIs
           >
             <Box sx={{ width: '100%' }}>
               <Stack
-                direction='row'
+                direction={{ xs: 'column', md: 'row' }}
                 spacing={3}
                 alignItems='center'
-                justifyContent={'space-between'}
+                justifyContent='space-between'
                 sx={{ width: '100%' }}
               >
-                <Stack direction='column' spacing={0.5}>
-                  <Typography variant='h6' fontWeight={700} sx={{ textAlign: { xs: 'center', md: 'left' } }}>
+                <Stack direction='column' spacing={0.5} justifyContent='start' sx={{ width: '100%' }}>
+                  <Typography variant='h6' fontWeight={700} sx={{ textAlign: 'left' }}>
                     {community?.name}
                   </Typography>
 
@@ -233,12 +248,16 @@ export const CommunityDetail: React.FC<ICommunityDetail> = ({ communityId, setIs
                   </Stack>
                 </Stack>
 
-                <Stack direction={'column'} spacing={2} sx={{ display: user?.role === 'admin' ? 'none' : '' }}>
+                <Stack
+                  direction={{ xs: 'row', md: 'column' }}
+                  spacing={2}
+                  sx={{ display: user?.role === 'admin' ? 'none' : '', width: { xs: '100%', md: 'auto' } }}
+                >
                   {!community?.is_joined ? (
                     <Button
                       variant='contained'
-                      sx={{ borderRadius: 2, textTransform: 'capitalize', whiteSpace: 'nowrap' }}
-                      onClick={handleJoinGroup}
+                      sx={{ borderRadius: 2, textTransform: 'capitalize', whiteSpace: 'nowrap', width: { xs: '100%' } }}
+                      onClick={user ? handleJoinGroup : unauthenticatedUserAction}
                       disabled={community?.requested}
                     >
                       {community?.requested ? 'Requested' : 'Join group'}
@@ -252,7 +271,8 @@ export const CommunityDetail: React.FC<ICommunityDetail> = ({ communityId, setIs
                         borderRadius: 2,
                         textTransform: 'capitalize',
                         whiteSpace: 'nowrap',
-                        display: community?.created_by?.id === user?.id ? 'none' : ''
+                        display: community?.created_by?.id === user?.id ? 'none' : '',
+                        width: { xs: '100%' }
                       }}
                       onClick={handleLeave}
                     >
@@ -263,7 +283,7 @@ export const CommunityDetail: React.FC<ICommunityDetail> = ({ communityId, setIs
                     variant='outlined'
                     size='small'
                     startIcon={<ShareIcon />}
-                    sx={{ borderRadius: 2, textTransform: 'capitalize' }}
+                    sx={{ borderRadius: 2, textTransform: 'capitalize', width: { xs: '100%' } }}
                     onClick={handleCopyLink}
                   >
                     Share
@@ -307,9 +327,6 @@ export const CommunityDetail: React.FC<ICommunityDetail> = ({ communityId, setIs
           {tabValue === 0 && (
             <Box p={'24px'}>
               <Box sx={{ padding: '24px', border: '1px solid', borderColor: 'divider', borderRadius: '6px' }}>
-                <Typography fontSize={16} fontWeight={600} gutterBottom>
-                  About
-                </Typography>
                 <Typography variant='body2' color='text.secondary'>
                   {community?.description || 'No description available.'}
                 </Typography>
@@ -318,7 +335,9 @@ export const CommunityDetail: React.FC<ICommunityDetail> = ({ communityId, setIs
           )}
 
           {/* Placeholder for future tabs */}
-          {tabValue === 1 && <CommunityDiscussionSection is_joined={community?.is_joined} communityId={community?.id as number} />}
+          {tabValue === 1 && (
+            <CommunityDiscussionSection is_joined={community?.is_joined} communityId={community?.id as number} />
+          )}
           {tabValue === 2 && <CommunityMembersSection community={community} />}
         </CardContent>
       </Card>
