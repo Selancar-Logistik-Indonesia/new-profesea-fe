@@ -34,6 +34,8 @@ import Spinner from 'src/@core/components/spinner'
 import ShareModal from 'src/pages/news/ShareModal'
 // import './detail.css'
 
+const MY_BASE_URL = 'https://profesea.id'
+
 const detailContentWrapper: SxProps<Theme> = {
   display: 'flex',
   gap: {
@@ -223,13 +225,13 @@ const ThreadApp = () => {
         <meta name='title' content={`${newscache?.title}`} />
         <meta name='description' content={`${newscache?.content}`} />
         <meta name='keywords' content='profesea' />
-        <meta name='author' content={`${process.env.NEXT_PUBLIC_BASE_URL}`} />
+        <meta name='author' content={MY_BASE_URL} />
         <meta name='viewport' content='width=device-width, initial-scale=1.0' />
         <meta name='robots' content='index, follow' />
-        <link rel='canonical' href={`${process.env.NEXT_PUBLIC_BASE_URL}/news/detail/${newscache?.slug}`} />
+        <link rel='canonical' href={`${MY_BASE_URL}/news/detail/${newscache?.slug}`} />
         <meta property='og:type' content='news' />
-        <meta property='og:url' content={`${process.env.NEXT_PUBLIC_BASE_URL}/news/detail/${threadDetail?.slug}`} />
-        <meta property='og:site_name' content={`${process.env.NEXT_PUBLIC_BASE_URL}`} />
+        <meta property='og:url' content={`${MY_BASE_URL}/news/detail/${threadDetail?.slug}`} />
+        <meta property='og:site_name' content={`${MY_BASE_URL}`} />
         <meta property='og:locale' content='en_US' />
         <meta property='og:locale:alternate' content='id_ID' />
         <meta property='og:title' content={`${threadDetail?.title}`} />
