@@ -24,7 +24,7 @@ export default function BannerOnboarding() {
             p: { xs: 4, md: 6 }
           }}
         >
-          <Box sx={{ maxWidth: 500 }}>
+          <Box sx={{ maxWidth: 900 }}>
             <Typography
               sx={{
                 color: 'white',
