@@ -33,6 +33,7 @@ import DiscoverAndYourGroupsCommunity from 'src/views/community/DiscoverAndYourG
 import { CommunitiesProvider } from 'src/context/CommunitiesContext'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Icon } from '@iconify/react'
+import BannerOnboarding from 'src/views/community/BannerOnboarding'
 
 const Community = () => {
   return (
@@ -169,6 +170,16 @@ const CommunityApp = () => {
           <Container maxWidth='xl' sx={{ py: 2 }}>
             <Grid container spacing={4}>
               {/* Left not admin */}
+
+              {!isOnBoardingCommunity && (
+                <Grid item xs={12} sx={{ display: { xs: 'inline-block', lg: 'none' } }}>
+                  {/* Banner Section */}
+                  <Box className='banner-section' sx={{ mb: '24px' }}>
+                    <BannerOnboarding />
+                  </Box>
+                </Grid>
+              )}
+
               <Grid item xs={12} md={3} sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                 <Paper
                   className='groups-navigation'
@@ -199,17 +210,20 @@ const CommunityApp = () => {
                     }}
                   />
 
-                  <List dense sx={{ my: '4px' }}>
+                  <List dense sx={{ my: '4px', display: 'flex', flexDirection: { xs: 'row', lg: 'column' } }}>
                     <CustomListItemButton selected={selectedIndex === 0} onClick={() => handleListItemClick(0)}>
                       <ListItemText
                         primary='Group feed'
                         primaryTypographyProps={
                           selectedIndex === 0
                             ? {
+                                fontSize: { xs: '12px', lg: '14px' },
                                 fontWeight: 700,
                                 color: '#2654A2 !important' // primary color for selected item
                               }
-                            : {}
+                            : {
+                                fontSize: { xs: '12px', lg: '14px' }
+                              }
                         }
                       />
                     </CustomListItemButton>
@@ -231,10 +245,13 @@ const CommunityApp = () => {
                         primaryTypographyProps={
                           selectedIndex === 1
                             ? {
+                                fontSize: { xs: '12px', lg: '14px' },
                                 fontWeight: 700,
                                 color: '#2654A2 !important' // primary color for selected item
                               }
-                            : {}
+                            : {
+                                fontSize: { xs: '12px', lg: '14px' }
+                              }
                         }
                       />
                     </CustomListItemButton>
@@ -257,10 +274,13 @@ const CommunityApp = () => {
                         primaryTypographyProps={
                           selectedIndex === 2
                             ? {
+                                fontSize: { xs: '12px', lg: '14px' },
                                 fontWeight: 700,
                                 color: '#2654A2 !important' // primary color for selected item
                               }
-                            : {}
+                            : {
+                                fontSize: { xs: '12px', lg: '14px' }
+                              }
                         }
                       />
                     </CustomListItemButton>

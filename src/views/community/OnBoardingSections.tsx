@@ -174,7 +174,7 @@ const OnBoardingSections = ({ setSelectedIndex }: { setSelectedIndex: any }) => 
       />
 
       {/* Banner Section */}
-      <Box className='banner-section' sx={{ mb: '24px' }}>
+      <Box className='banner-section' sx={{ mb: '24px', display: { xs: 'none', lg: 'inline-block' } }}>
         <BannerOnboarding />
       </Box>
       <Box
@@ -234,7 +234,7 @@ const OnBoardingSections = ({ setSelectedIndex }: { setSelectedIndex: any }) => 
               onClick={() => setSelectedIndex(1)}
               sx={{
                 display: 'flex',
-                flexDirection: 'column',
+                flexDirection: { xs: 'row-reverse', lg: 'column' },
                 gap: '12px',
                 justifyContent: 'center',
                 alignItems: 'center'
