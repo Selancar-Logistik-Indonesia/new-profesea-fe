@@ -36,16 +36,26 @@ const DialogConfirmation = (props: DialogProps) => {
   const { employeeType, visible, onCloseClick } = props
 
   const router = useRouter()
-  const { user } = useAuth()
+  const { user, refreshSession } = useAuth()
   const [onLoading, setOnLoading] = useState(false)
+  const isHospitality = props.employeeType === 'hospitality'
 
   const save = (data: { team_id: number; employee_type?: string }) => {
     const roleData = { ...data, next_step: 'step-one/1' }
+
+    if(employeeType === 'hospitality') {
+      HttpClient.patch(AppConfig.baseUrl + '/user/settings/save', {
+        user_id: user?.id,
+        is_hospitality: '1'
+      })
+    }
+    
     HttpClient.patch(AppConfig.baseUrl + '/onboarding/role-selection', roleData).then(
       async response => {
         const tempUser = response.data.user
         toast.success('Successfully save role selection!')
-        router.push(`/onboarding/${getOnboardingLink(tempUser!)}/${tempUser!.last_step}`)
+        refreshSession()
+        router.push(`/onboarding/${getOnboardingLink(tempUser!, isHospitality)}/${tempUser!.last_step}`)
       },
       error => {
         toast.error('Failed to save role selection: ' + error.response.data.message)
@@ -54,7 +64,7 @@ const DialogConfirmation = (props: DialogProps) => {
             router.push('/home')
           }
           if (user.last_step !== 'completed' && user.last_step !== 'role-selection') {
-            router.push(`/onboarding/${getOnboardingLink(user)}/${user.last_step}`)
+            router.push(`/onboarding/${getOnboardingLink(user, isHospitality)}/${user.last_step}`)
           }
           if (user.last_step === 'role-selection') {
             router.push(`/${user.last_step}`)
@@ -77,6 +87,11 @@ const DialogConfirmation = (props: DialogProps) => {
       data = {
         team_id: 2,
         employee_type: 'offship'
+      }
+    } else if (employeeType === 'hospitality') {
+      data = {
+        team_id: 2,
+        employee_type: 'onship'
       }
     } else {
       toast.error('Employee type not found')

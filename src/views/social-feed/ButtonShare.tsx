@@ -99,7 +99,7 @@ const ButtonShare = (props: { feedPage: string; isXs?: boolean }) => {
           textTransform: 'none'
         }}
         color='primary'
-        startIcon={props.isXs ? undefined : <Icon icon='ph:paper-plane-tilt' fontSize={16} />}
+        startIcon={<Icon icon='ph:paper-plane-tilt' fontSize={16} />}
       >
         Share
       </Button>

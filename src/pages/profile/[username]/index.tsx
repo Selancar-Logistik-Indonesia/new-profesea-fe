@@ -25,6 +25,7 @@ import UsernameChange from 'src/layouts/components/UsernameChange'
 import SideAdProfile from 'src/views/banner-ad/sideAdProfile'
 import CompleteOnboarding from 'src/views/onboarding/CompleteOnboarding'
 import { useAuth } from 'src/hooks/useAuth'
+import HospitalityExperienceSection from 'src/views/profile/HospitalityExperienceSection'
 
 const ProfileCompany = () => {
   return (
@@ -37,7 +38,7 @@ const ProfileCompany = () => {
 const UserFeedApp = () => {
   const params = useSearchParams()
   const router = useRouter()
-  const { user } = useAuth()
+  const { user, settings } = useAuth()
 
   const onboarding = params.get('onboarding')
   const username = params.get('username')
@@ -129,7 +130,7 @@ const UserFeedApp = () => {
 
           {/* seafarer experience */}
           {selectedUser?.employee_type == 'onship' && (
-            <SeafarerExperience userId={selectedUser?.id} userName={selectedUser?.name} />
+            settings?.is_hospitality ? <HospitalityExperienceSection userId={selectedUser?.id} userName={selectedUser?.name} /> : <SeafarerExperience userId={selectedUser?.id} userName={selectedUser?.name} />
           )}
 
           {/* seafarer cop */}

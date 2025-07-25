@@ -11,6 +11,11 @@ interface RoleType {
     updated_at: string
 }
 
+export interface IJobPositions {
+    id: number, 
+    position: string
+}
+
 export interface RoleTypeAutocomplete {
     id: number
     category_id: number

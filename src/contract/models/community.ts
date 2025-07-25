@@ -3,7 +3,7 @@ export interface Community {
   user_id: number
   name: string
   description: string
-  banner_url: string
+  banner: string
   is_private: boolean
   created_at: string
   updated_at: string

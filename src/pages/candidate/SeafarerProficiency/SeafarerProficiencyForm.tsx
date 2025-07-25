@@ -8,14 +8,16 @@ import {
   Grid,
   Dialog,
   DialogContent,
-  DialogTitle,
   IconButton,
   Fade,
   FadeProps,
   Typography,
   DialogActions,
   TextField,
-  FormControlLabel
+  FormControlLabel,
+  InputLabel,
+  useTheme,
+  useMediaQuery
 } from '@mui/material'
 import { Icon } from '@iconify/react'
 import { HttpClient } from 'src/services'
@@ -31,6 +33,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 
 import moment from 'moment'
 import { useProfileCompletion } from 'src/hooks/useProfileCompletion'
+import { useAuth } from 'src/hooks/useAuth'
 
 const ProficiencySchema = Yup.object().shape({
   user_id: Yup.number().required('User Data is required'),
@@ -47,6 +50,8 @@ const ProficiencySchema = Yup.object().shape({
   filename: Yup.string().nullable()
 })
 
+const hospitalityLincese = ['BST', 'SAT', 'AFF', 'SDSD', 'SCRB', 'MFA', 'CCM']
+
 const Transition = forwardRef(function Transition(
   props: FadeProps & { children?: ReactElement<any, any> },
   ref: Ref<unknown>
@@ -55,7 +60,11 @@ const Transition = forwardRef(function Transition(
 })
 
 const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
+  const { settings } = useAuth()
   const { refetch, setRefetch } = useProfileCompletion()
+
+  const Theme = useTheme()
+  const isMobile = useMediaQuery(Theme.breakpoints.down('md'))
 
   const { type, seafarerProficiency, showModal, user_id, loadProficiency, handleModalForm } = props
   const id = seafarerProficiency?.id
@@ -132,12 +141,19 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
   const loadCertificateProficiencies = () => {
     HttpClient.get(AppConfig.baseUrl + '/licensi/all/')
       .then(response => {
-        const certificates = response.data.licensiescop.map((item: any) => {
+        let certificates = response.data.licensiescop.map((item: any) => {
           return {
             id: item.id,
-            title: item.title
+            title: item.title,
+            doctype: item.doctype
           }
         })
+
+        if (settings?.is_hospitality) {
+          certificates = certificates.filter((item: any) => {
+            return hospitalityLincese.includes(item.doctype)
+          })
+        }
 
         setProficiencies(certificates)
       })
@@ -248,7 +264,7 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
   }
 
   return (
-    <Dialog fullWidth open={showModal} maxWidth='sm' scroll='body' TransitionComponent={Transition}>
+    <Dialog fullWidth open={showModal} maxWidth='md' scroll='body' TransitionComponent={Transition}>
       <form
         noValidate
         onSubmit={formik.handleSubmit}
@@ -256,7 +272,7 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
           formik.resetForm()
         }}
       >
-        <DialogTitle>
+        {/* <DialogTitle>
           <IconButton
             size='small'
             sx={{ position: 'absolute', right: '1rem', top: '1rem' }}
@@ -266,74 +282,129 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
           </IconButton>
           <Box sx={{ mb: 2, textAlign: 'center' }}>
             <Typography variant='body2' color={'#32487A'} fontWeight='600' fontSize={18}>
-              {type == 'create' ? 'Add new ' : 'Update '} proficiency
+              {type == 'create' ? 'Add new ' : 'Update '} competency
             </Typography>
-            <Typography variant='body2'>Fulfill your Proficiency Info here</Typography>
+            <Typography variant='body2'>Fulfill your competency Info here</Typography>
           </Box>
-        </DialogTitle>
-        <DialogContent
-          dividers
-          sx={{
-            position: 'relative',
-            pb: theme => `${theme.spacing(5)} !important`,
-            px: theme => [`${theme.spacing(3)} !important`, `${theme.spacing(10)} !important`],
-            pt: theme => [`${theme.spacing(5)} !important`, `${theme.spacing(7.5)} !important`],
-            height: '500px'
-          }}
-        >
-          <Grid container md={12} xs={12}>
-            <Grid item md={12} xs={12} mb={5}>
+        </DialogTitle> */}
+        <DialogContent>
+          {!isMobile && (
+            <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+              <Box>
+                <Typography color={'#32487A'} fontWeight='700' fontSize={18}>
+                  {type == 'create' ? 'Add Certificate' : 'Edit Certificate'}
+                </Typography>
+              </Box>
+              <IconButton
+                size='small'
+                onClick={() => {
+                  props.handleModalForm(type, undefined)
+                  resetState()
+                }}
+              >
+                <Icon icon='mdi:close' fontSize={'16px'} />
+              </IconButton>
+            </Box>
+          )}
+          <Grid container spacing={6} py={'24px'}>
+            <Grid item md={12} xs={12}>
+              <InputLabel
+                required
+                sx={{
+                  fontFamily: 'Figtree',
+                  fontSize: '12px',
+                  fontWeight: 700,
+                  mb: '12px',
+                  '& .MuiFormLabel-asterisk': {
+                    color: 'red'
+                  }
+                }}
+              >
+                Certificate of competency
+              </InputLabel>
               <Autocomplete
-                id='autocomplete-proficiency'
+                id='autocomplete-competency'
                 disablePortal
                 options={proficiencies}
                 getOptionLabel={(option: any) => option.title || ''}
                 defaultValue={cop?.id ? cop : ''}
+                value={cop?.id ? cop : ''}
                 renderInput={params => (
-                  <TextField
-                    {...params}
-                    error={formik.errors.cop_id ? true : false}
-                    label='Certificate of Proficiency * '
-                    variant='standard'
-                  />
+                  <TextField {...params} error={formik.errors.cop_id ? true : false} variant='outlined' />
                 )}
                 onChange={(event: any, newValue: any) => (newValue?.id ? setCop(newValue) : setCop(''))}
               />
             </Grid>
-            <Grid item md={12} xs={12} mb={5}>
+            <Grid item md={12} xs={12}>
+              <InputLabel
+                required
+                sx={{
+                  fontFamily: 'Figtree',
+                  fontSize: '12px',
+                  fontWeight: 700,
+                  mb: '12px',
+                  '& .MuiFormLabel-asterisk': {
+                    color: 'red'
+                  }
+                }}
+              >
+                Country of Issue
+              </InputLabel>
               <Autocomplete
                 disablePortal
-                id='combo-box-countries'
+                id='combo-box-countries-competency'
                 options={countries}
                 defaultValue={countryOfIssue?.id ? countryOfIssue : ''}
                 getOptionLabel={option => option.name || ''}
                 renderInput={(params: any) => (
-                  <TextField
-                    {...params}
-                    error={formik.errors.country_id ? true : false}
-                    label='Country of Issue * '
-                    variant='standard'
-                  />
+                  <TextField {...params} error={formik.errors.country_id ? true : false} variant='outlined' />
                 )}
                 onChange={(event: any, newValue: string | null) =>
                   newValue ? setCountryOfIssue(newValue) : setCountryOfIssue('')
                 }
               />
             </Grid>
-            <Grid item md={12} xs={12} mb={5}>
+            <Grid item md={12} xs={12}>
+              <InputLabel
+                required
+                sx={{
+                  fontFamily: 'Figtree',
+                  fontSize: '12px',
+                  fontWeight: 700,
+                  mb: '12px',
+                  '& .MuiFormLabel-asterisk': {
+                    color: 'red'
+                  }
+                }}
+              >
+                Certificate Number
+              </InputLabel>
               <TextField
-                error={formik.errors.certificate_number ? true : false}
                 value={formik.values.certificate_number}
                 defaultValue={type == 'edit' ? seafarerProficiency?.certificate_number : ''}
                 id='certificateNumber'
                 name={'certificate_number'}
-                label='Certificate Number * '
-                variant='standard'
+                variant='outlined'
                 onChange={formik.handleChange}
                 fullWidth
+                error={formik.errors.certificate_number ? true : false}
               />
             </Grid>
-            <Grid item md={12} xs={12} mb={5}>
+            <Grid item md={12} xs={12}>
+              <InputLabel
+                required
+                sx={{
+                  fontFamily: 'Figtree',
+                  fontSize: '12px',
+                  fontWeight: 700,
+                  mb: '12px',
+                  '& .MuiFormLabel-asterisk': {
+                    color: 'red'
+                  }
+                }}
+              >
+                Valid Date
+              </InputLabel>
               <LocalizationProvider dateAdapter={AdapterMoment}>
                 <DatePicker
                   disabled={formik.values.is_lifetime ? true : false}
@@ -342,16 +413,15 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
                   format='DD/MM/YYYY'
                   className='valid_date'
                   name='valid_date'
-                  label={'Valid Date'}
                   onChange={date => setValidDateState(date)}
                   value={validDateState ? moment(validDateState) : null}
                   slotProps={{
-                    textField: { variant: 'standard', fullWidth: true, id: 'basic-input', 'aria-readonly': true }
+                    textField: { variant: 'outlined', fullWidth: true, id: 'basic-input', 'aria-readonly': true }
                   }}
                 />
               </LocalizationProvider>
             </Grid>
-            <Grid item md={12} xs={12} mb={5}>
+            <Grid item md={12} xs={12}>
               <FormControlLabel
                 sx={{ width: '100%' }}
                 control={
@@ -365,11 +435,13 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
                 }
                 label='Lifetime'
               />
+              {formik.errors.is_lifetime && (
+                <span style={{ color: 'red', textAlign: 'left' }}>{JSON.stringify(formik.errors.is_lifetime)}</span>
+              )}
             </Grid>
-
             <Grid item md={12} xs={12} mt={2}>
               <Grid item xs={12} md={12} container justifyContent={'left'}>
-                <Grid xs={4}>
+                <Grid sx={{ marginRight: '20px' }}>
                   <label htmlFor='x'>
                     {preview?.split('.').pop() == 'pdf' ? (
                       <>
@@ -426,27 +498,12 @@ const SeafarerProficiencyForm = (props: ISeafarerProficiencyForm) => {
         </DialogContent>
         <DialogActions>
           <Button
-            type='reset'
-            variant='contained'
-            style={{ margin: '10px 10px', backgroundColor: 'grey' }}
-            size='small'
-          >
-            Reset
-          </Button>
-          <Button
             disabled={Object.keys(formik.errors).length > 0 ? true : false}
             type='submit'
             variant='contained'
-            style={{ margin: '10px 0' }}
-            size='small'
+            style={{ textTransform: 'capitalize' }}
           >
-            <Icon
-              fontSize='small'
-              icon={'solar:add-circle-bold-duotone'}
-              color={'success'}
-              style={{ fontSize: '18px' }}
-            />
-            <div> {type == 'edit' ? 'Update ' : 'Create '} Proficiency</div>
+            <div> {type == 'edit' ? 'Save Changes' : 'Save'}</div>
           </Button>
         </DialogActions>
       </form>

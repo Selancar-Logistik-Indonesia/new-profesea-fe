@@ -43,6 +43,7 @@ import { useAuth } from 'src/hooks/useAuth'
 // import ModalUnlockPlusCandidate from 'src/@core/components/subscription/ModalUnlockPlusCandidate'
 import BoostCandidateAlert from 'src/views/candidate/BoostCandidateAlert'
 import dynamic from 'next/dynamic'
+import HospitalityExperienceTab from 'src/views/candidate/hospitality/HospitalityExperience'
 
 const ModalUnlockPlusCandidate = dynamic(() => import('src/@core/components/subscription/ModalUnlockPlusCandidate'), {
   ssr: false
@@ -160,8 +161,7 @@ function CircularProgressWithLabel(props: CircularProgressProps & { value: numbe
 }
 
 const Candidate = () => {
-  const { abilities } = useAuth()
-  console.log(abilities)
+  const { abilities, settings } = useAuth()
   const Theme = useTheme()
   const isMobile = useMediaQuery(Theme.breakpoints.down('md'))
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
@@ -427,11 +427,11 @@ const Candidate = () => {
                   cursor: 'pointer'
                 }}
               >
-                <Typography sx={{ fontSize: '12px', fontWeight: 400, color: '#2662EC' }}>Add sea experience</Typography>
+                <Typography sx={{ fontSize: '12px', fontWeight: 400, color: '#2662EC' }}>Add {settings?.is_hospitality ? 'work' : 'sea'} experience</Typography>
                 <Icon icon={'formkit:arrowright'} fontSize={'12px'} color='rgba(38, 98, 236, 1)' />
               </Box>
             )}
-            {userDetailPercentage?.recommendation_percentage == 0 && (
+            {(!settings?.is_hospitality && userDetailPercentage?.recommendation_percentage == 0)  && (
               <Box
                 component={'div'}
                 onClick={() => {
@@ -967,7 +967,7 @@ const Candidate = () => {
                               ) : undefined
                             }
                             iconPosition='end'
-                            label='Sea Experience'
+                            label={settings?.is_hospitality ? 'Work Experience' : 'Sea Experience'}
                             {...a11yProps(3)}
                           />
                         )}
@@ -1014,7 +1014,7 @@ const Candidate = () => {
                       </TabPanel>
                       {selectedUser?.employee_type == 'onship' && (
                         <TabPanel value={tabsValue} index={3}>
-                          <SeaExperienceTab defaultValue={defaultValue} />
+                         {settings?.is_hospitality ? <HospitalityExperienceTab dataUser={selectedUser}/> : <SeaExperienceTab defaultValue={defaultValue} />}
                         </TabPanel>
                       )}
                       <TabPanel value={tabsValue} index={selectedUser?.employee_type == 'onship' ? 4 : 3}>

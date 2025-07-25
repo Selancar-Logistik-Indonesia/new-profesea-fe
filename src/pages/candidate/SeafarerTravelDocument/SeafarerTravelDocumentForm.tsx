@@ -37,6 +37,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 
 import moment from 'moment'
 import { useProfileCompletion } from 'src/hooks/useProfileCompletion'
+import { useAuth } from 'src/hooks/useAuth'
 
 const Transition = forwardRef(function Transition(
   props: FadeProps & { children?: ReactElement<any, any> },
@@ -60,6 +61,7 @@ const TravelDocumentSchema = Yup.object().shape({
 })
 
 const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
+  const { settings } = useAuth()
   const { refetch, setRefetch } = useProfileCompletion()
   const { type, user_id, seafarerTravelDocument, showModal, handleModalForm, loadTravelDocument } = props
   const id = seafarerTravelDocument?.id
@@ -84,12 +86,26 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
   const [dateOfIssue, setDateOfIssue] = useState<any>()
   const [attachment, setAttachment] = useState<any>()
 
-  const requiredDocumentType = [
-    { id: 'passport', name: 'Passport' },
+  // const requiredDocumentType = [
+  //   { id: 'passport', name: 'Passport' },
+  //   { id: 'seaman_book', name: 'Seaman Book' },
+  //   { id: 'usa_visa', name: 'Usa Visa' },
+  //   { id: 'schengen_visa', name: 'Schengen Visa' }
+  // ]
+
+  const hospitalityOptions = [
     { id: 'seaman_book', name: 'Seaman Book' },
-    { id: 'usa_visa', name: 'Usa Visa' },
-    { id: 'schengen_visa', name: 'Schengen Visa' }
+    { id: 'passport', name: 'Passport' },
   ]
+
+  const nonHospitalityOptions = [
+    { id: 'seaman_book', name: 'Seaman Book' },
+    { id: 'usa_visa', name: 'USA Visa' },
+    { id: 'schengen_visa', name: 'Schengen Visa' },
+    { id: 'passport', name: 'Passport' },
+  ]
+
+  const documentOptions = settings?.is_hospitality ? hospitalityOptions : nonHospitalityOptions
 
   let initialValues = {
     document: '' as string | undefined,
@@ -241,7 +257,7 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
     let documentName: string | undefined = 'Please Input document'
 
     if (e.target.value != 'other') {
-      documentName = requiredDocumentType.find(item => item.id == e.target.value)?.name
+      documentName = documentOptions.find(item => item.id == e.target.value)?.name
     } else {
       documentName = 'Please Input document'
     }
@@ -369,14 +385,17 @@ const SeafarerTravelDocumentForm = (props: ISeafarerTravelDocumentForm) => {
                 id={'required_document'}
                 variant={'outlined'}
               >
-                <MenuItem value={'seaman_book'}>Seaman Book</MenuItem>
-                <MenuItem value={'usa_visa'}>USA Visa</MenuItem>
-                <MenuItem value={'schengen_visa'}>Schengen Visa</MenuItem>
-                <MenuItem value={'passport'}>Passport</MenuItem>
-                <MenuItem value={'other'}>Other</MenuItem>
+                {documentOptions.map(option => (
+                  <MenuItem key={option.id} value={option.id}>
+                    {option.name}
+                  </MenuItem>
+                ))}
+                <MenuItem value={'other'}>
+                  Other
+                </MenuItem>
               </Select>
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={6} sx={{display: formik.values.required_document != 'other' ? 'none' : ''}}>
               <InputLabel
                 sx={{
                   fontFamily: 'Figtree',

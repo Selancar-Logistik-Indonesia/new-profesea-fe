@@ -182,7 +182,10 @@ const JobDetailSection = ({ jobDetail, isMobile }: { jobDetail: Job | null; isMo
                 <Typography sx={{ fontSize: '14px', fontWeight: 600, color: '#404040' }}>Salary</Typography>
               </Grid>
               <Grid item xs={6}>
-                : {jobDetail?.hide_salary ? 'Undisclosed' :renderSalary(jobDetail?.salary_start, jobDetail?.salary_end, jobDetail?.currency as string)}
+                :{' '}
+                {jobDetail?.hide_salary
+                  ? 'Undisclosed'
+                  : renderSalary(jobDetail?.salary_start, jobDetail?.salary_end, jobDetail?.currency as string)}
               </Grid>
             </>
           ) : (
@@ -192,7 +195,10 @@ const JobDetailSection = ({ jobDetail, isMobile }: { jobDetail: Job | null; isMo
                 <Typography sx={{ fontSize: '14px', fontWeight: 600, color: '#404040' }}>Salary</Typography>
               </Grid>
               <Grid item xs={6}>
-                : {jobDetail?.hide_salary ? 'Undisclosed' : renderSalary(jobDetail?.salary_start, jobDetail?.salary_end, jobDetail?.currency as string)}
+                :{' '}
+                {jobDetail?.hide_salary
+                  ? 'Undisclosed'
+                  : renderSalary(jobDetail?.salary_start, jobDetail?.salary_end, jobDetail?.currency as string)}
               </Grid>
               <Grid
                 item
@@ -245,7 +251,7 @@ const JobDetailSection = ({ jobDetail, isMobile }: { jobDetail: Job | null; isMo
         {/* Certificate */}
         {jobDetail?.category?.employee_type == 'onship' && (
           <>
-            <Box sx={{ display: jobDetail?.license?.length > 0 ? 'flex' : 'none' }}>
+            <Box sx={{ display: jobDetail?.license?.length > 0 ? 'flex' : 'none', flexDirection: 'column' }}>
               <Typography
                 sx={{
                   fontSize: '16px',
@@ -270,7 +276,7 @@ const JobDetailSection = ({ jobDetail, isMobile }: { jobDetail: Job | null; isMo
                   </ol>
                 </Box>
 
-                <Box sx={{display: jobDetail?.license[0] ? '' : 'none'}}>
+                <Box sx={{ display: jobDetail?.license[0] ? '' : 'none' }}>
                   <Typography sx={{ fontSize: '14px', fontWeight: 700, color: '#303030' }}>
                     Certificate of Proficiency
                   </Typography>

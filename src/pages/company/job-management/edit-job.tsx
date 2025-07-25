@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 import { MdNavigateNext } from 'react-icons/md'
 import Job from 'src/contract/models/job'
 import { HttpClient } from 'src/services'
+import HospitalityJob from 'src/views/job-management/form/HospitalityJob'
 import ProfessionalJob from 'src/views/job-management/form/ProfessionalJob'
 import SeafarerJob from 'src/views/job-management/form/SeafarerJob'
 
@@ -13,12 +14,16 @@ const EditJob = () => {
   const id = searchParams.get('id')
   const router = useRouter()
   const [job, setJob] = useState<Job | null>(null)
+  const [isHospitality, setIsHospitality] = useState<boolean>(false)
 
   const firstLoad = () => {
     HttpClient.get('/job/' + id).then(response => {
       const data = response.data.job
       if (!data) return router.back()
       setJob(data)
+      if(data.category.name === 'Cruise Hospitality') {
+        setIsHospitality(true)
+      }
     })
   }
 
@@ -69,7 +74,7 @@ const EditJob = () => {
           </Breadcrumbs>
         </Grid>
         <Grid item xs={12}>
-          {job === null ? null : job.category.employee_type === 'onship' ? (
+          {job === null ? null : isHospitality ? <HospitalityJob job={job} type='edit'/> : job.category.employee_type === 'onship' ? (
             <SeafarerJob job={job} type='edit' />
           ) : (
             <ProfessionalJob job={job} type='edit' />

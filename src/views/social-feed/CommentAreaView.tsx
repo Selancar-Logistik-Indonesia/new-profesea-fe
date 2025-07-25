@@ -15,13 +15,21 @@ import localStorageKeys from 'src/configs/localstorage_keys'
 import { IUser } from 'src/contract/models/user'
 import ButtonDelete from './ButtonDelete'
 import { Icon } from '@iconify/react'
+import { useAuth } from 'src/hooks/useAuth'
+import { usePublicData } from 'src/hooks/usePublicData'
 
-const CommentCard = (props: { comment: ISocialFeedComment; feedId: number }) => {
+interface CommentCardProps {
+  comment: ISocialFeedComment
+  feedId: number
+}
+
+const CommentCard = (props: CommentCardProps) => {
   const { comment, feedId } = props
   const [openReply, setOpenReply] = useState(false)
   const [isLiked, setIsLiked] = useState(Boolean(comment.liked_at))
   const [countLikes, setCountLikes] = useState(comment.count_likes)
   const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
+  const { unauthenticatedUserAction } = usePublicData()
 
   return (
     <Box
@@ -56,7 +64,7 @@ const CommentCard = (props: { comment: ISocialFeedComment; feedId: number }) => 
           <Typography sx={{ color: '#949EA2', py: '9px', fontSize: 12, fontWeight: 400 }}>
             {timeCreated(comment.created_at, 'feed')}
           </Typography>
-          {user.team_id !== 1 && (
+          {user?.team_id !== 1 && (
             <ButtonLike
               variant='no-icon'
               item={{
@@ -68,10 +76,11 @@ const CommentCard = (props: { comment: ISocialFeedComment; feedId: number }) => 
                 setIsLiked: setIsLiked
               }}
               likeableType='comment'
+              customAction={user ? undefined : unauthenticatedUserAction}
             />
           )}
           <Button
-            onClick={() => setOpenReply(!openReply)}
+            onClick={user ? () => setOpenReply(!openReply) : unauthenticatedUserAction}
             sx={{
               color: '#949EA2',
               fontSize: '12px',
@@ -83,7 +92,7 @@ const CommentCard = (props: { comment: ISocialFeedComment; feedId: number }) => 
           >
             {comment.count_replies > 0 && comment.count_replies} Reply
           </Button>
-          {(user.team_id === 1 || user.id === comment.user_id) && (
+          {(user?.team_id === 1 || user?.id === comment.user_id) && (
             <Box className='delete-button' sx={{ display: 'none' }}>
               <ButtonDelete
                 item={{ id: comment.id, feedId, count_likes: countLikes, deleteComment: true }}
@@ -97,7 +106,7 @@ const CommentCard = (props: { comment: ISocialFeedComment; feedId: number }) => 
           <Typography sx={{ color: '#32497A', fontSize: 14 }}>{countLikes}</Typography>
         </Box>
       </Box>
-      {comment.count_replies !== 0 && (
+      {comment.count_replies !== 0 && user && (
         <Grid container>
           <Box
             sx={{ display: 'flex', alignItems: 'center', gap: 1, cursor: 'pointer' }}
@@ -115,16 +124,22 @@ const CommentCard = (props: { comment: ISocialFeedComment; feedId: number }) => 
   )
 }
 
-const CommentAreaView = (props: { item: ISocialFeed; placement?: 'popup' }) => {
+interface CommentAreaViewProps {
+  item: ISocialFeed
+  placement?: 'popup'
+}
+
+const CommentAreaView = (props: CommentAreaViewProps) => {
   const { item, placement } = props
   const [onLoading, setOnLoading] = useState(true)
   const [commentObj, setCommentObj] = useState<CommentResponseType>()
   const { getComments, commentSignature } = useSocialFeed()
-  // const user = secureLocalStorage.getItem(localStorageKeys.userData) as IUser
+  const { user } = useAuth()
+  const { unauthenticatedUserAction } = usePublicData()
 
   const loadComments = async () => {
     setOnLoading(true)
-    const obj = await getComments(item.id, 1, 1000, 'feed')
+    const obj = await getComments(item.id, 1, user ? 1000 : 3, 'feed')
     setCommentObj(obj)
     setOnLoading(false)
   }
@@ -133,7 +148,7 @@ const CommentAreaView = (props: { item: ISocialFeed; placement?: 'popup' }) => {
     loadComments()
   }, [commentSignature])
 
-  const [visibleComments, setVisibleComments] = useState(2)
+  const [visibleComments, setVisibleComments] = useState(3)
 
   const handleLoadMore = () => {
     if (commentObj) {
@@ -167,15 +182,26 @@ const CommentAreaView = (props: { item: ISocialFeed; placement?: 'popup' }) => {
           <CircularProgress />
         </Box>
       )}
-       <CommentForm feedId={item.id} replyable_type='feed' main_feed_id={item.id} />
+      {user && <CommentForm feedId={item.id} replyable_type='feed' main_feed_id={item.id} />}
       {!onLoading && commentObj?.data && commentObj?.data.length > 0 && (
         <Stack spacing='16px' sx={{ pt: '16px' }}>
           {commentObj?.data.slice(0, visibleComments).map(comment => (
             <CommentCard key={comment.id} comment={comment} feedId={item.id} />
           ))}
-          {commentObj?.data.length > visibleComments && (
+          {user ? (
+            commentObj?.data.length > visibleComments && (
+              <Button
+                onClick={handleLoadMore}
+                variant='text'
+                size='small'
+                sx={{ alignSelf: 'start', fontWeight: 500, textTransform: 'none' }}
+              >
+                Load more comments
+              </Button>
+            )
+          ) : (
             <Button
-              onClick={handleLoadMore}
+              onClick={unauthenticatedUserAction}
               variant='text'
               size='small'
               sx={{ alignSelf: 'start', fontWeight: 500, textTransform: 'none' }}

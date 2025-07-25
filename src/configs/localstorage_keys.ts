@@ -4,7 +4,8 @@ const localStorageKeys = {
     abilities: 'abilities',
     news: 'news',
     jobOffers: 'jobOffers',
-    flaggings: 'flaggings'
+    flaggings: 'flaggings',
+    settings: 'settings'
 }
 
 export default localStorageKeys

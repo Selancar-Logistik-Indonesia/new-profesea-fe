@@ -434,6 +434,30 @@
       "contact_dialog_description": "We’re here to help you find the right solution and pricing that truly fits your business.",
       "contact_dialog_title_right": "Product and Account Support",
       "contact_dialog_description_right": "Our help center’s full of useful info and ready when you need it. Can’t find what you’re looking for? Just give us a shout. We’re happy to help!"
+    },
+    "hospitality_landing_page" : {
+      "title" : "Work While Traveling the World? <span style=\"background: linear-gradient(90deg, #6494FA 32%, #FF9600 90.84%); color: transparent; background-clip: text;\">Yes, You Can!</span>",
+      "description": "Time for a new adventure and step into the world of cruise ship hospitality. Enjoy high salaries, unforgettable experiences, and the chance to explore many countries.",
+      "button" : "Apply Now"
+    },
+    "default_error_page": {
+      "title": "We're Docking for a Quick Fix",
+      "description_1": "Our crew is working hard to keep Profesea sailing smoothly. We'll be back shortly!",
+      "description_2": "Need urgent help? Contact our support crew at"
+    },
+    "community_page": {
+      "onboarding": {
+        "next_button": "Next",
+        "lets_go_button": "Let's Go!",
+        "welcome_title": "Welcome to the Profesea Community",
+        "welcome_content": "You haven't joined any groups yet — but that's about to change! Join groups to stay updated, share insights, and connect with fellow maritime professionals.",
+        "join_groups_title": "Discover and Join Groups",
+        "join_groups_content": "Scroll through recommended groups and topics. Click “Join group” to become a member and dive into discussions right away.",
+        "create_group_title": "Create Your Own Group",
+        "create_group_content": "Start a group for your team, training cohort, or niche interest. Just click + Create new group and set your own topic and rules.",
+        "access_joined_group_title": "Access All Your Groups Easily",
+        "access_joined_group_content": "Everything you join or manage shows up right here. Use this sidebar to quickly switch between groups and stay organized."
+      }
     }
   }
 }

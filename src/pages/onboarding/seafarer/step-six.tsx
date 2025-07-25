@@ -6,6 +6,7 @@ import ProgressBar from 'src/views/onboarding/ProgressBar'
 import SeafarerExperience from 'src/layouts/components/onboarding/SeafarerExperience'
 
 const Onboarding = () => {
+
   return (
     <Grid container sx={{ height: '100vh', overflow: 'hidden' }}>
       <Grid
