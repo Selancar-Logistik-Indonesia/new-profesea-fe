@@ -141,7 +141,7 @@ const PostCardCommunity: React.FC<IPostCardCommunityProps> = ({ feed, isPage }) 
                 fontWeight: 'bold',
                 color: '#2D3436',
                 cursor: 'pointer',
-                textDecoration: 'none'
+                textDecoration: 'none',
               }}
               fontWeight='bold'
             >
@@ -150,47 +150,57 @@ const PostCardCommunity: React.FC<IPostCardCommunityProps> = ({ feed, isPage }) 
           )
         }
         subheader={
-          <Stack direction='row' spacing={1} alignItems='center'>
-            {insideDetail ? (
-              ''
-            ) : (
-              <>
-                <Typography
-                  component={Link}
-                  href={
-                    feed?.user?.team_id != 2 ? `/company/${feed?.user?.username}` : `/profile/${feed?.user?.username}`
-                  }
-                  sx={{
-                    fontSize: '12px',
-                    fontWeight: '400',
-                    color: '#5E5E5E',
-                    cursor: 'pointer',
-                    textDecoration: 'none'
-                  }}
-                >
-                  {toTitleCase(feed.user.name)}
-                </Typography>
-                <span>•</span>
-              </>
-            )}
-            <Typography
-              sx={{
-                fontSize: '12px',
-                fontWeight: '400',
-                color: '#5E5E5E'
-              }}
+          <Stack direction={isXs && !insideDetail ? 'column' : 'row'} spacing={1} alignItems='center' flexWrap='wrap'>
+            <Stack
+              direction='row'
+              spacing={1}
+              alignItems='center'
+              alignSelf={'flex-start'}
+              flexWrap='nowrap'
             >
-              {moment(feed.created_at).fromNow()}
-            </Typography>
-            <span>•</span>
+              {!insideDetail && (
+                <>
+                  <Typography
+                    component={Link}
+                    href={
+                      feed?.user?.team_id != 2 ? `/company/${feed?.user?.username}` : `/profile/${feed?.user?.username}`
+                    }
+                    sx={{
+                      fontSize: '12px',
+                      fontWeight: '400',
+                      color: '#5E5E5E',
+                      cursor: 'pointer',
+                      textDecoration: 'none',
+                      whiteSpace: 'nowrap'
+                    }}
+                  >
+                    {toTitleCase(feed.user.name)}
+                  </Typography>
+                  <span>•</span>
+                </>
+              )}
+              <Typography
+                sx={{
+                  fontSize: '12px',
+                  fontWeight: '400',
+                  color: '#5E5E5E',
+                  whiteSpace: 'nowrap'
+                }}
+              >
+                {moment(feed.created_at).fromNow()}
+              </Typography>
+              <span style={{ display: isXs && !insideDetail ? 'none' : '' }}>•</span>
+            </Stack>
             <Typography
               sx={{
                 display: 'flex',
                 alignItems: 'center',
+                alignSelf: isXs ? 'flex-start' : 'auto',
                 fontSize: '12px',
                 fontWeight: '400',
                 color: '#5E5E5E',
-                gap: '4px'
+                gap: '4px',
+                mt: { xs: 1, sm: 0 },
               }}
             >
               <Icon icon={feed?.community?.is_private ? 'ph:lock-key' : 'ph:globe-hemisphere-west'} fontSize={'14px'} />
@@ -208,7 +218,9 @@ const PostCardCommunity: React.FC<IPostCardCommunityProps> = ({ feed, isPage }) 
             lineHeight: '1.5',
             textAlign: 'justify',
             whiteSpace: 'pre-line',
-            mb: feed?.content_type !== 'text' ? '8px' : '0px'
+            mb: feed?.content_type !== 'text' ? '8px' : '0px',
+            wordBreak: 'break-word',
+            overflowWrap: 'anywhere'
           }}
         >
           {feed?.content}
