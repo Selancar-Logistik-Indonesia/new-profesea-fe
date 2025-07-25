@@ -22,7 +22,7 @@ type Props = {
 }
 
 const ButtonLike = (props: Props) => {
-  const { item, likeableType, variant, isXs, customAction } = props
+  const { item, likeableType, variant, customAction } = props
   const { likeUnlikeFeed } = useSocialFeed()
   const [onLoading, setOnLoading] = useState(false)
   const [likedAt, setLikedAt] = useState(item.liked_at)
@@ -51,7 +51,7 @@ const ButtonLike = (props: Props) => {
       }}
       onClick={customAction ? customAction : handleClick}
       startIcon={
-        variant === 'no-icon' || isXs ? undefined : (
+        variant === 'no-icon' ? undefined : (
           <Icon icon={!likedAt ? 'ph:thumbs-up' : 'ph:thumbs-up-fill'} fontSize={16} />
         )
       }
